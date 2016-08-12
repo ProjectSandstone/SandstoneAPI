@@ -1,0 +1,99 @@
+// Shared gradle config
+
+allprojects {
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: 'java'
+    apply plugin: 'license'
+    apply plugin: 'com.github.johnrengelman.shadow'
+
+    license {
+        header rootProject.file("LICENSE_HEADER")
+    }
+}
+
+
+sourceCompatibility = 1.8
+
+// Tasks
+allprojects {
+    jar {
+        from "$rootProject.rootDir/LICENSE"
+
+        manifest {
+            attributes 'Implementation-Title': baseName,
+                    'Implementation-Version': version
+        }
+    }
+}
+
+allprojects {
+    task sourcesJar(type: Jar, dependsOn: classes) {
+        classifier = 'sources'
+        from sourceSets.main.allSource
+    }
+
+    task javadocJar(type: Jar, dependsOn: javadoc) {
+        classifier = 'javadoc'
+        from javadoc.destinationDir
+    }
+
+    artifacts {
+        archives sourcesJar
+        archives javadocJar
+    }
+}
+
+allprojects{
+    dependencies {
+        compile 'com.github.JonathanxD:JwIUtils:2.4.0'
+        compile group: 'com.google.code.findbugs', name: 'jsr305', version: '3.0.0'
+        testCompile group: 'junit', name:'junit', version: '4.11'
+    }
+}
+
+allprojects{
+    repositories {
+        mavenCentral()
+        maven { url "https://jitpack.io" }
+    }
+}
+
+allprojects {
+    test {
+        useJUnit()
+    }
+}
+
+
+shadowJar {
+    classifier = 'shaded'
+}
+
+artifacts {
+    archives shadowJar
+}
+
+license {
+    ext.name = project.name
+    ext.description = project.description
+    ext.organization = project.organization
+    ext.url = project.url
+
+    exclude "**/*.info"
+    exclude "**/*.md"
+    exclude "res/**"
+    exclude "src/main/resources/**"
+    exclude "src/test/resources/**"
+    
+    header rootProject.file('LICENSE_HEADER')
+    
+    sourceSets = project.sourceSets
+    
+    ignoreFailures false
+    strictCheck true
+    
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+}
