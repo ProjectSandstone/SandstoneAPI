@@ -1,10 +1,25 @@
+buildscript {
+
+    ext.kotlin_version = '1.0.3'
+    ext.dokka_version = '0.9.8'
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
+    }
+
+}
+
 plugins {
     id 'com.github.hierynomus.license' version '0.11.0'
     id 'com.github.johnrengelman.shadow' version '1.2.3'
 }
 
-group 'com.github.projectsandstone.api'
+group 'com.github.projectsandstone'
 version '1.0-SNAPSHOT'
 
-//ext.api = project
 apply from: 'gradle/sandstone.gradle'
