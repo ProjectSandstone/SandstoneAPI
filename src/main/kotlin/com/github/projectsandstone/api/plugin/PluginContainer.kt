@@ -1,9 +1,9 @@
 /**
- *      SandstoneAPI - ${description}
+ *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) ${year} Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,6 +27,7 @@
  */
 package com.github.projectsandstone.api.plugin
 
+import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.logging.Logger
 import java.nio.file.Path
 

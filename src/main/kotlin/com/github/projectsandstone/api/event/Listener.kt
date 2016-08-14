@@ -25,21 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.event
+
+import com.github.jonathanxd.iutils.annotations.Named
+import com.github.projectsandstone.api.Platform
+import com.github.projectsandstone.api.event.info.Info
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * Annotated methods that handle events.
+ *
+ * The method MUST specify the [Event] in the first parameter, other parameters will be filled with
+ * objects of [Info] instance, if has no object that matches the parameter type, the method will
+ * not be invoked.
+ *
+ * You can use [Named] annotation to provide a name to be searched in [Info].
  */
-class IncompatibleDependencyException : DependencyException {
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FUNCTION)
+annotation class Listener(
+        /**
+         * Ignore this listener if event is cancelled
+         */
+        val ignoreCancelled: Boolean = false,
 
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
+        /**
+         * Priority of this listener
+         */
+        val priority: EventPriority = EventPriority.NORMAL,
 
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
-
-}
+        /**
+         * Run before modifications (this property has no effect in [Platform]s that doesn't support
+         * modifications).
+         */
+        val beforeModifications: Boolean = false
+)

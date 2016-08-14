@@ -25,21 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.util.extensions.event
+
+import com.github.jonathanxd.iutils.`object`.ConcreteTypeInfo
+import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.event.EventListener
+import com.github.projectsandstone.api.event.EventManager
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * Created by jonathan on 14/08/16.
  */
-class IncompatibleDependencyException : DependencyException {
+inline fun <reified T: Event> EventManager.registerListener(plugin: Any, eventListener: EventListener<T>) {
+    val typeInfo: TypeInfo<T> = object: ConcreteTypeInfo<T>(){}
 
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
-
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
-
+    this.registerListener(plugin, typeInfo, eventListener)
 }

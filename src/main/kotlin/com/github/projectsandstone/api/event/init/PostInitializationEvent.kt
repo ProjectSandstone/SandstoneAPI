@@ -25,21 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.event.init
+
+import com.github.projectsandstone.api.event.Event
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * All plugins is initialized, plugins API may be ready to be used.
+ *
+ * In this phase is recommended to:
+ *
+ * - Register services
+ * - Make necessary communication between plugins.
+ *
+ * Features available:
+ * - All features that is available in [InitializationEvent].
+ * - Plugin basic features.
  */
-class IncompatibleDependencyException : DependencyException {
-
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
-
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
-
+interface PostInitializationEvent : Event {
 }

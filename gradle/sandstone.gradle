@@ -56,7 +56,12 @@ allprojects {
 
 allprojects{
     dependencies {
-        compile 'com.github.JonathanxD:JwIUtils:2.4.0'
+
+        // Dependency injection
+        compile 'com.google.inject:guice:4.1.0'
+
+        // Utilities
+        compile 'com.github.JonathanxD:JwIUtils:2.5.0'
         
         // Kotlin
         compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -97,6 +102,7 @@ license {
     ext.description = project.description
     ext.organization = project.organization
     ext.url = project.url
+    ext.year = Calendar.getInstance().get(Calendar.YEAR)
 
     exclude "**/*.info"
     exclude "**/*.md"

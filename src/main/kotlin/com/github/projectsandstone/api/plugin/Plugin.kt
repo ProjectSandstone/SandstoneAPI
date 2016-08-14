@@ -1,9 +1,9 @@
 /**
- *      SandstoneAPI - ${description}
+ *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) ${year} Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -30,7 +30,7 @@ package com.github.projectsandstone.api.plugin
 /**
  * Plugin definition annotation.
  */
-@Target(AnnotationTarget.TYPE)
+@Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Plugin(
         /**

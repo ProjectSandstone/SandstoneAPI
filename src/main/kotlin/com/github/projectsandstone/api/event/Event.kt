@@ -25,21 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.event
+
+import com.github.projectsandstone.api.event.info.Info
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * Created by jonathan on 13/08/16.
  */
-class IncompatibleDependencyException : DependencyException {
+/**
+ * [Event] implementation must provide a [Info] containing all elements related to event.
+ *
+ * Example [PlayerDeathEvent] must provide: [Player], [World], [DeathCause], etc...
+ */
+interface Event {
 
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
-
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
-
+    /**
+     * Get the [Event] [Info]
+     */
+    fun getInfo(): Info
 }

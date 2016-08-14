@@ -25,21 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.event.init
+
+import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.logging.Logger
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * Pre initialization of server, in this state no worlds is available and
+ * the server is not full functional.
+ *
+ * *Attention:* is not recommended to do any operation with another plugins, or
+ * use classes of another plugins in this phase, probably the plugin is not loaded yet, in this
+ * phase all plugins being loaded async, *you must only do thread-safe operations*.
+ *
+ * In this phase is recommended to:
+ *
+ * - Manage configurations
+ * - Check for updates
+ *
+ * And available features is:
+ *
+ * - [Logger]
  */
-class IncompatibleDependencyException : DependencyException {
-
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
-
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
+interface PreInitializationEvent : Event {
 
 }

@@ -1,9 +1,9 @@
 /**
- *      SandstoneAPI - ${description}
+ *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) ${year} Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,8 +27,9 @@
  */
 package com.github.projectsandstone.api
 
-import com.github.jonathanxd.iutils.service.ServiceManager
+import com.github.projectsandstone.api.event.EventManager
 import com.github.projectsandstone.api.plugin.PluginManager
+import com.github.projectsandstone.api.service.ServiceManager
 import java.nio.file.Path
 
 /**
@@ -49,6 +50,11 @@ interface Game {
      * *Sandstone* service manager.
      */
     val serviceManager: ServiceManager
+
+    /**
+     * *Sandstone* event manager.
+     */
+    val eventManager: EventManager
 
     /**
      * Root Game Path

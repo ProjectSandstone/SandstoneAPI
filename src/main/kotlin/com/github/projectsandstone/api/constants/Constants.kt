@@ -25,21 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.constants
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * *Sandstone* constants
  */
-class IncompatibleDependencyException : DependencyException {
+object Constants {
+    @JvmStatic
+    val SANDSTONE_PLUGIN_ID = "sandstone"
 
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
+    @JvmStatic
+    val SANDSTONE_PLUGIN_VERSION = "1.0"
 
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
+    @JvmStatic
+    val SANDSTONE_PLUGIN_DESCRIPTION = "Minecraft Server Modding API."
 
+    @JvmStatic
+    val AUTHORS = arrayOf("ProjectSandstone team.")
 }

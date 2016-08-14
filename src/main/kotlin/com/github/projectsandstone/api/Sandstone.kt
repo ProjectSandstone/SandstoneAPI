@@ -1,9 +1,9 @@
 /**
- *      SandstoneAPI - ${description}
+ *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) ${year} Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,14 +27,33 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.projectsandstone.api.logging.Logger
+
 /**
  * Created by jonathan on 12/08/16.
  */
+
 object Sandstone {
 
     private lateinit var game_: Game
+    private lateinit var logger_: Logger
 
+    /**
+     * *[Game]*
+     */
+    @JvmStatic
     val game: Game
         get() = game_
+
+    /**
+     * *Sandstone* global logger.
+     *
+     * Is not recommended to use *Sandstone* logger.
+     *
+     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     */
+    @JvmStatic
+    val logger: Logger
+        get() = logger_
 
 }

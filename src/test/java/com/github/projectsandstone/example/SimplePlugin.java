@@ -25,21 +25,36 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.example;
+
+import com.google.inject.Inject;
+
+import com.github.projectsandstone.api.Game;
+import com.github.projectsandstone.api.event.Listener;
+import com.github.projectsandstone.api.event.init.InitializationEvent;
+import com.github.projectsandstone.api.logging.Logger;
+import com.github.projectsandstone.api.plugin.Plugin;
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * Created by jonathan on 13/08/16.
  */
-class IncompatibleDependencyException : DependencyException {
+@Plugin(id = "com.github.projectsandstone.example", version = "1.0")
+public class SimplePlugin {
 
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
+    private final Game game;
+    private final Logger logger;
 
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
+    @Inject
+    public SimplePlugin(Game game, Logger logger) {
+        this.game = game;
+        this.logger = logger;
+    }
+
+    @Listener
+    public void onInit(InitializationEvent initializationEvent) {
+        logger.info("Simple plugin initialized!");
+
+        game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
+    }
 
 }

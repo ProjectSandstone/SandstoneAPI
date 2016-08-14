@@ -1,9 +1,9 @@
 /**
- *      SandstoneAPI - ${description}
+ *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) ${year} Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -102,6 +102,29 @@ interface PluginManager {
      * @return The [PluginContainer] of plugin, or null if plugin isn't loaded.
      */
     fun getPlugin(id: String): PluginContainer?
+
+    /**
+     * Gets the [PluginContainer] from the instance.
+     *
+     * @param instance Plugin instance
+     * @return [PluginContainer] if found, null otherwise
+     */
+    fun getPlugin(instance: Any): PluginContainer? {
+        return this.getPlugins().find { it.instance != null && it.instance == instance }
+    }
+
+    /**
+     * Gets a required [PluginContainer] from the instance.
+     *
+     * @param instance Plugin Instance
+     * @throws IllegalArgumentException If the [instance] is not a plugin instance
+     * @return [PluginContainer] of the plugin instance
+     */
+    fun getRequirePlugin(instance: Any): PluginContainer {
+        val plugin = this.getPlugin(instance = instance) ?: throw IllegalArgumentException("The provided instance is not a plugin!")
+
+        return plugin
+    }
 
     /**
      * Get first plugin matching [predicate].

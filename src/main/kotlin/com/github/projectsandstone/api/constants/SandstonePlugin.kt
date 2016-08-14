@@ -25,21 +25,51 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.constants
+
+import com.github.projectsandstone.api.Sandstone
+import com.github.projectsandstone.api.logging.Logger
+import com.github.projectsandstone.api.plugin.DependencyContainer
+import com.github.projectsandstone.api.plugin.PluginContainer
+import com.github.projectsandstone.api.plugin.PluginState
+import java.nio.file.Path
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * Represents the SandstonePlugin
  */
-class IncompatibleDependencyException : DependencyException {
+object SandstonePlugin: PluginContainer {
 
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
+    override val id: String
+        get() = Constants.SANDSTONE_PLUGIN_ID
 
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
+    override val version: String
+        get() = Constants.SANDSTONE_PLUGIN_VERSION
+
+    override val description: String?
+        get() = Constants.SANDSTONE_PLUGIN_DESCRIPTION
+
+    override val authors: Array<String>?
+        get() = Constants.AUTHORS
+
+    override val dependencies: Array<DependencyContainer>?
+        get() = arrayOf()
+
+    override val usePlatformInternals: Boolean
+        get() = true
+
+    override val file: Path?
+        get() = null
+
+    override val instance: Any?
+        get() = Sandstone
+
+    override val name: String
+        get() = super.name
+
+    override val state: PluginState
+        get() = PluginState.LOADED
+
+    override val logger: Logger
+        get() = Sandstone.logger
 
 }

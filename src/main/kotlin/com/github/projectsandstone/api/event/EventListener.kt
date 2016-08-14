@@ -25,21 +25,39 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.exception
+package com.github.projectsandstone.api.event
+
+import com.github.projectsandstone.api.plugin.PluginContainer
+
 
 /**
- * Indicates a incompatible plugin version, this exception MUST only be logged, cannot be thrown,
- * *Sandstone* allow to you use incompatible plugins together, but it is not good,
- * it may corrupt game saves.
+ * Listen for an [Event].
+ *
+ * When [Event] is dispatched in [EventManager], [EventListener.onEvent] is called in its order .
+ * (see [EventPriority]).
  */
-class IncompatibleDependencyException : DependencyException {
+interface EventListener<in T : Event> : Comparable<EventListener<*>> {
 
-    constructor() : super()
-    constructor(message: String) : super(message)
-    constructor(message: String, cause: Throwable) : super(message, cause)
-    constructor(cause: Throwable) : super(cause)
+    /**
+     * Called when the [event] is dispatched in [EventManager].
+     *
+     * @param event Event
+     * @param pluginContainer Plugin that dispatched [Event] in [EventManager].
+     */
+    fun onEvent(event: T, pluginContainer: PluginContainer)
 
-    constructor(message: String, cause: Throwable,
-                enableSuppression: Boolean, writableStackTrace: Boolean) : super(message, cause, enableSuppression, writableStackTrace)
+    /**
+     * If true, this [EventListener] will be called after Modifications Event Listener (like Forge
+     * modifications).
+     */
+    fun isBeforeModifications() = false
 
+    /**
+     * Priority of event, this priority will be used to sort [EventListener] in list.
+     */
+    fun getPriority() = EventPriority.NORMAL
+
+    override fun compareTo(other: EventListener<*>): Int {
+        return this.getPriority().compareTo(other.getPriority())
+    }
 }
