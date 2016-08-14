@@ -72,7 +72,7 @@ interface EventManager {
      * Listener methods must be annotated with [Listener]
      *
      * @param plugin Plugin of the [listener]
-     * @param listener Listener instance to be used to create a [ClassEventListener].
+     * @param listener Listener instance to be used to create a [MethodEventListener].
      */
     fun registerListeners(plugin: Any, listener: Any)
 

@@ -27,20 +27,29 @@
  */
 package com.github.projectsandstone.api.event
 
+import com.github.jonathanxd.iutils.`object`.TypeInfo
 import com.github.projectsandstone.api.event.info.Info
+import java.lang.invoke.MethodHandle
 
 /**
- * Created by jonathan on 13/08/16.
+ * Method event listener. This Listener holds a method that will be invoked if the [Info] objects
+ * satisfies the expected objects (specified in [parameters]).
  */
-/**
- * [Event] implementation must provide a [Info] containing all elements related to event.
- *
- * Example PlayerDeathEvent must provide: Player, Location, World, DeathCause, etc...
- */
-interface Event {
+interface MethodEventListener : EventListener<Event> {
 
     /**
-     * Get the [Event] [Info]
+     * Method to invoke
      */
-    fun getInfo(): Info
+    val method: MethodHandle
+
+    /**
+     * Parameters (describe required [Info])
+     */
+    val parameters: Array<TypeInfo<*>>
+
+    /**
+     * Type of event (first parameter of [method])
+     */
+    val eventType: Class<Event>
+
 }

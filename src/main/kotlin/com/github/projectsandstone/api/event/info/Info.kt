@@ -29,12 +29,13 @@ package com.github.projectsandstone.api.event.info
 
 import com.github.jonathanxd.iutils.`object`.Named
 import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.projectsandstone.api.event.MethodEventListener
 import java.util.*
 
 /**
- * Hold information about event, [Info] is used by [ClassEventListener] to apply arguments.
+ * Hold information about event, [Info] is used by [MethodEventListener] to apply arguments.
  *
- * For example, if event is [PlayerDeathEvent], player and cause will be provided as info, more
+ * For example, if event is PlayerDeathEvent, player and cause will be provided as info, more
  * complex operations like filtering will be possible.
  */
 open class Info(parent: List<Info>) {
