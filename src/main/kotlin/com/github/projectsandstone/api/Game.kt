@@ -42,6 +42,16 @@ interface Game {
     // Server and Platform
 
     /**
+     * Implementing platform
+     */
+    val platform: Platform
+
+    /**
+     * Game Server
+     */
+    val server: Server
+
+    /**
      * *Sandstone* plugin manager.
      */
     val pluginManager: PluginManager
