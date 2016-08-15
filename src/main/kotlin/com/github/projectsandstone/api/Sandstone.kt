@@ -35,7 +35,10 @@ import com.github.projectsandstone.api.logging.Logger
 
 object Sandstone {
 
+    @JvmStatic
     private lateinit var game_: Game
+
+    @JvmStatic
     private lateinit var logger_: Logger
 
     /**
