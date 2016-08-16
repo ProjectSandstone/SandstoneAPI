@@ -55,4 +55,9 @@ interface Platform {
      * Minecraft version, not necessarily numeric representation.
      */
     val minecraftVersion: String
+
+    /**
+     * Return true if is a platform internal class
+     */
+    fun isInternalClass(name: String?): Boolean
 }

@@ -149,7 +149,7 @@ interface PluginManager {
     /**
      * Get all loaded plugins.
      *
-     * @return List containing all loaded plugins.
+     * @return [Set] containing all loaded plugins.
      */
-    fun getPlugins(): List<PluginContainer>
+    fun getPlugins(): Set<PluginContainer>
 }
