@@ -93,7 +93,7 @@ interface EventManager {
      * @param pluginContainer Plugin that created this event.
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer)
+    fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
 
     /**
      * Gets listeners of a specific event.
@@ -101,10 +101,10 @@ interface EventManager {
      * @param eventType Type of event.
      * @return Listeners of event ([eventType])
      */
-    fun <T : Event> getListeners(eventType: TypeInfo<T>): Set<EventListener<T>>
+    fun <T : Event> getListeners(eventType: TypeInfo<T>): Set<Pair<TypeInfo<T>, EventListener<T>>>
 
     /**
      * Gets all listeners of events
      */
-    fun getListeners(): Set<EventListener<*>>
+    fun getListeners(): Set<Pair<TypeInfo<*>, EventListener<*>>>
 }
