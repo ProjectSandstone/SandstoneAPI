@@ -43,6 +43,11 @@ interface MethodEventListener : EventListener<Event> {
     val method: MethodHandle
 
     /**
+     * Instance to call method.
+     */
+    val instance: Any?
+
+    /**
      * Parameters (describe required [Info])
      */
     val parameters: Array<TypeInfo<*>>
@@ -50,6 +55,6 @@ interface MethodEventListener : EventListener<Event> {
     /**
      * Type of event (first parameter of [method])
      */
-    val eventType: Class<Event>
+    val eventType: TypeInfo<Event>
 
 }
