@@ -27,37 +27,12 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.projectsandstone.api.plugin.PluginContainer
+class IntEventPriority(val priority: Int) : EventPriority {
+    override fun compareTo(other: EventPriority): Int {
+        if(other is IntEventPriority)
+            return Integer.compare(this.priority, other.priority)
 
-
-/**
- * Listen for an [Event].
- *
- * When [Event] is dispatched in [EventManager], [EventListener.onEvent] is called in its order.
- * (see [EventPriority]).
- */
-interface EventListener<in T : Event> : Comparable<EventListener<*>> {
-
-    /**
-     * Called when the [event] is dispatched in [EventManager].
-     *
-     * @param event Event
-     * @param pluginContainer Plugin that dispatched [Event] in [EventManager].
-     */
-    fun onEvent(event: T, pluginContainer: PluginContainer)
-
-    /**
-     * If true, this [EventListener] will be called after Modifications Event Listener (like Forge
-     * modifications).
-     */
-    fun isBeforeModifications() = false
-
-    /**
-     * Priority of event, this priority will be used to sort [EventListener] in list.
-     */
-    fun getPriority() = EventPriorities.NORMAL
-
-    override fun compareTo(other: EventListener<*>): Int {
-        return this.getPriority().compareTo(other.getPriority())
+        return -1
     }
+
 }

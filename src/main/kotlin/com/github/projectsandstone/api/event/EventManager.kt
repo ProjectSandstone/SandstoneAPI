@@ -29,6 +29,7 @@ package com.github.projectsandstone.api.event
 
 import com.github.jonathanxd.iutils.`object`.TypeInfo
 import com.github.projectsandstone.api.plugin.PluginContainer
+import java.lang.reflect.Method
 
 /**
  * Created by jonathan on 13/08/16.
@@ -75,6 +76,15 @@ interface EventManager {
      * @param listener Listener instance to be used to create a [MethodEventListener].
      */
     fun registerListeners(plugin: Any, listener: Any)
+
+    /**
+     * Register [method] as [EventListener] with priority: [eventPriority]
+     *
+     * @param plugin Plugin of the [method]
+     * @param method Method to register
+     * @param eventPriority Priority of [EventListener]
+     */
+    fun registerMethodListener(plugin: Any, method: Method, eventPriority: EventPriority)
 
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
