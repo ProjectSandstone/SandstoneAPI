@@ -81,12 +81,18 @@ interface EventManager {
      * Register [method] as [EventListener] with priority: [eventPriority]
      *
      * @param plugin Plugin of the [method]
+     * @param instance Instance used to invoke method.
      * @param method Method to register
      * @param eventPriority Priority of [EventListener]
      * @param ignoreCancelled True if this listener will be ignored if event is cancelled.
      * @param isBeforeModifications True if this listener runs before game modifications.
      */
-    fun registerMethodListener(plugin: Any, method: Method, eventPriority: EventPriority, ignoreCancelled: Boolean, isBeforeModifications: Boolean = false)
+    fun registerMethodListener(plugin: Any,
+                               instance: Any?,
+                               method: Method,
+                               eventPriority: EventPriority = EventPriority.NORMAL,
+                               ignoreCancelled: Boolean = false,
+                               isBeforeModifications: Boolean = false)
 
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
