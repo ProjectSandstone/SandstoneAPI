@@ -73,25 +73,23 @@ interface PluginManager {
     /**
      * Load plugin from file specified in [file]
      *
-     * @return Loaded [PluginContainer], or null if cannot load plugin file. (Errors will be logged to console).
+     * Exceptions is not necessarily throw-ed, this exceptions can be logged.
+     *
+     * @return Loaded [PluginContainer]s, a plugin file can contains multiple [Plugin] annotations.
      */
     @Throws(SecurityException::class, IOException::class, OutOfMemoryError::class,
             MissingDependencyException::class, CircularDependencyException::class)
-    fun loadPlugin(file: Path): PluginContainer?
+    fun loadPlugin(file: Path): List<PluginContainer>
 
     /**
      * Load all plugins in [directory].
      *
      * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
      */
-    @Throws(SecurityException::class, IOException::class, NotDirectoryException::class)
+    @Throws(SecurityException::class, IOException::class, NotDirectoryException::class, DependencyException::class)
     fun loadPlugins(directory: Path): List<PluginContainer> {
-        return Files.newDirectoryStream(directory).map {
-            try {
-                this.loadPlugin(it)
-            } catch (exception: DependencyException) {
-                null
-            }
+        return Files.newDirectoryStream(directory).flatMap {
+            this.loadPlugin(it)
         }.filterNotNull()
     }
 
