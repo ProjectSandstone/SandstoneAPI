@@ -30,9 +30,11 @@ package com.github.projectsandstone.api.constants
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.plugin.DependencyContainer
+import com.github.projectsandstone.api.plugin.PluginClassLoader
 import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.plugin.PluginState
 import java.nio.file.Path
+import java.nio.file.Paths
 
 /**
  * Represents the SandstonePlugin
@@ -58,7 +60,7 @@ object SandstonePlugin: PluginContainer {
         get() = true
 
     override val file: Path?
-        get() = null
+        get() = try { Paths.get(this.javaClass.protectionDomain.codeSource.location.toURI()) } catch (throwable: Throwable) { null }
 
     override val instance: Any?
         get() = Sandstone
@@ -72,4 +74,23 @@ object SandstonePlugin: PluginContainer {
     override val logger: Logger
         get() = Sandstone.logger
 
+    override val classLoader: PluginClassLoader = SandstonePluginClassLoader
+
+
+    private object SandstonePluginClassLoader : PluginClassLoader {
+        override val file: Path?
+            get() = SandstonePlugin.file
+
+        override val useInternal: Boolean
+            get() = true
+
+        override val classes: List<String>
+            get() = emptyList()
+
+        override val isInitialized: Boolean
+            get() = true
+
+        override val pluginContainers: List<PluginContainer> = listOf(SandstonePlugin)
+
+    }
 }

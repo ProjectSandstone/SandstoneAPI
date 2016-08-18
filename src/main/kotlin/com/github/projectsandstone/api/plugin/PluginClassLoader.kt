@@ -37,7 +37,7 @@ interface PluginClassLoader {
     /**
      * File that was loaded by [PluginClassLoader]
      */
-    val file: Path
+    val file: Path?
 
     /**
      * True if plugin informed about internals/platform dependent API usage
