@@ -83,8 +83,10 @@ interface EventManager {
      * @param plugin Plugin of the [method]
      * @param method Method to register
      * @param eventPriority Priority of [EventListener]
+     * @param ignoreCancelled True if this listener will be ignored if event is cancelled.
+     * @param isBeforeModifications True if this listener runs before game modifications.
      */
-    fun registerMethodListener(plugin: Any, method: Method, eventPriority: EventPriority)
+    fun registerMethodListener(plugin: Any, method: Method, eventPriority: EventPriority, ignoreCancelled: Boolean, isBeforeModifications: Boolean = false)
 
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
@@ -93,7 +95,7 @@ interface EventManager {
      * @param pluginContainer Plugin that created this event.
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
+    fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean = false)
 
     /**
      * Gets listeners of a specific event.
