@@ -29,10 +29,16 @@ package com.github.projectsandstone.api.event
 
 class IntEventPriority(val priority: Int) : EventPriority {
     override fun compareTo(other: EventPriority): Int {
-        if(other is IntEventPriority)
-            return Integer.compare(this.priority, other.priority)
+        if(other is IntEventPriority) {
+            val compare = Integer.compare(this.priority, other.priority)
 
-        return -1
+            if(compare == 0)
+                return -1
+
+            return compare
+        }
+
+        return -other.compareTo(this)
     }
 
 }
