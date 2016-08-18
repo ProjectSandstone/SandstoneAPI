@@ -27,82 +27,36 @@
  */
 package com.github.projectsandstone.api.plugin
 
-import com.github.projectsandstone.api.Sandstone
-import com.github.projectsandstone.api.logging.Logger
 import java.nio.file.Path
 
 /**
- * Plugin information: Instance, Id, Name, Version, Description, etc.
+ * Created by jonathan on 17/08/16.
  */
-interface PluginContainer {
+interface PluginClassLoader {
 
     /**
-     * Plugin unique id.
-     *
-     * *Recommended:* Recommended plugin id pattern is: 'groupId.artifactId', example:
-     * `com.mydomain.simpleplugin`, `com.github.myuser.simpleplugin`
+     * File that was loaded by [PluginClassLoader]
      */
-    val id: String
+    val file: Path
 
     /**
-     * Plugin Name.
-     *
-     * This name will be used to log messages.
+     * True if plugin informed about internals/platform dependent API usage
      */
-    val name: String
-        get() = id
+    val useInternal: Boolean
 
     /**
-     * Plugin version.
-     *
-     * There is no rule for version definition.
+     * String of classes that have [Plugin] annotation.
      */
-    val version: String
+    val classes: List<String>
 
     /**
-     * Plugin description.
-     *
-     * Short description explaining plugin functionality.
+     * True if this plugin classes was initialized (loaded, not instantiated)
      */
-    val description: String?
+    val isInitialized: Boolean
 
     /**
-     * Authors of plugin
+     * Plugin containers loaded by this [PluginClassLoader]
      */
-    val authors: Array<String>?
+    val pluginContainers: List<PluginContainer>
 
-    /**
-     * Plugin dependencies.
-     */
-    val dependencies: Array<DependencyContainer>?
-
-    /**
-     * True if this plugin uses platform dependant functions.
-     */
-    val usePlatformInternals: Boolean
-
-    /**
-     * Plugin file if present, null otherwise.
-     */
-    val file: Path?
-
-    /**
-     * Plugin instance if present, null otherwise.
-     */
-    val instance: Any?
-
-    /**
-     * Plugin logger.
-     */
-    val logger: Logger
-
-    /**
-     * Plugin state.
-     */
-    val state: PluginState
-
-    /**
-     * Plugin class loader.
-     */
-    val classLoader: PluginClassLoader
 }
