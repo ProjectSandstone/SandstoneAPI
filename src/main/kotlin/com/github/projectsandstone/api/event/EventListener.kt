@@ -55,7 +55,7 @@ interface EventListener<in T : Event> : Comparable<EventListener<*>> {
     /**
      * Priority of event, this priority will be used to sort [EventListener] in list.
      */
-    fun getPriority() = EventPriorities.NORMAL
+    fun getPriority() = EventPriority.NORMAL
 
     override fun compareTo(other: EventListener<*>): Int {
         return this.getPriority().compareTo(other.getPriority())

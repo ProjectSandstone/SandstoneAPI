@@ -30,6 +30,13 @@ package com.github.projectsandstone.api.event
 /**
  * Order [EventListener]s, implementation MUST compare two [EventPriority] instances.
  */
-interface EventPriority : Comparable<EventPriority> {
+enum class EventPriority {
+    FIRST,
+    LOWEST,
+    LOW,
+    NORMAL,
+    HIGH,
+    HIGHEST,
+    LAST;
 
 }
