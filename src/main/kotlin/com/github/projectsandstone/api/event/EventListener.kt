@@ -57,6 +57,11 @@ interface EventListener<in T : Event> : Comparable<EventListener<*>> {
      */
     fun getPriority() = EventPriority.NORMAL
 
+    /**
+     * Ignore if event is cancelled.
+     */
+    fun ignoreCancelled() = false
+
     override fun compareTo(other: EventListener<*>): Int {
         val compare = this.getPriority().compareTo(other.getPriority())
 
