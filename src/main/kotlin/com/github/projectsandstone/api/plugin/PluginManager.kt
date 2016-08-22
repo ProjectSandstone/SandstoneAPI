@@ -62,13 +62,21 @@ interface PluginManager {
     val pluginLoader: PluginLoader
 
     /**
-     * Load a [PluginContainer].
+     * Add a [PluginContainer] to pluginSet.
      *
      * @throws MissingDependencyException
      * @return True if [pluginContainer] was loaded successfully, else otherwise. (Errors will be logged to console).
      */
-    @Throws(MissingDependencyException::class, CircularDependencyException::class)
     fun loadPlugin(pluginContainer: PluginContainer): Boolean
+
+    /**
+     * Load uninitialized plugins from pluginSet.
+     *
+     * @throws MissingDependencyException
+     * @throws CircularDependencyException
+     */
+    @Throws(MissingDependencyException::class, CircularDependencyException::class)
+    fun loadPlugins()
 
     /**
      * Load plugin from file specified in [file]
@@ -118,7 +126,7 @@ interface PluginManager {
      * @throws IllegalArgumentException If the [instance] is not a plugin instance
      * @return [PluginContainer] of the plugin instance
      */
-    fun getRequirePlugin(instance: Any): PluginContainer {
+    fun getRequiredPlugin(instance: Any): PluginContainer {
         val plugin = this.getPlugin(instance = instance) ?: throw IllegalArgumentException("The provided instance is not a plugin!")
 
         return plugin
