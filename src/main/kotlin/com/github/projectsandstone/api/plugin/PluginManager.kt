@@ -71,6 +71,15 @@ interface PluginManager {
     fun loadPlugin(pluginContainer: PluginContainer): Boolean
 
     /**
+     * Load all plugins that aren't loaded.
+     *
+     * @throws MissingDependencyException
+     * @return True if any plugin was loaded successfully.
+     */
+    @Throws(MissingDependencyException::class, CircularDependencyException::class)
+    fun loadAllPlugins(): Boolean
+
+    /**
      * Load plugin from file specified in [file]
      *
      * Exceptions is not necessarily throw-ed, this exceptions can be logged.
