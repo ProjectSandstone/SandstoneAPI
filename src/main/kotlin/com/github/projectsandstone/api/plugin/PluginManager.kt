@@ -62,21 +62,13 @@ interface PluginManager {
     val pluginLoader: PluginLoader
 
     /**
-     * Add a [PluginContainer] to pluginSet.
+     * Load a [PluginContainer].
      *
      * @throws MissingDependencyException
      * @return True if [pluginContainer] was loaded successfully, else otherwise. (Errors will be logged to console).
      */
-    fun loadPlugin(pluginContainer: PluginContainer): Boolean
-
-    /**
-     * Load uninitialized plugins from pluginSet.
-     *
-     * @throws MissingDependencyException
-     * @throws CircularDependencyException
-     */
     @Throws(MissingDependencyException::class, CircularDependencyException::class)
-    fun loadPlugins()
+    fun loadPlugin(pluginContainer: PluginContainer): Boolean
 
     /**
      * Load plugin from file specified in [file]

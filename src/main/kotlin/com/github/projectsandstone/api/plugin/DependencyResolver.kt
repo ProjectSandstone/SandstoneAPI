@@ -44,7 +44,7 @@ interface DependencyResolver {
      *
      * @return A [Set] that order [PluginContainer]s by dependency hierarchy.
      */
-    fun createDependencySet(): Set<PluginContainer>
+    fun createDependencySet(): MutableSet<PluginContainer>
 
     /**
      * Resolve dependencies of [pluginContainer].
