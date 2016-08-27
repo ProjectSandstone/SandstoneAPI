@@ -25,39 +25,54 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.example;
+package com.github.projectsandstone.api.scheduler
 
-import com.google.inject.Inject;
-
-import com.github.projectsandstone.api.Game;
-import com.github.projectsandstone.api.event.Listener;
-import com.github.projectsandstone.api.event.init.InitializationEvent;
-import com.github.projectsandstone.api.logging.Logger;
-import com.github.projectsandstone.api.plugin.Plugin;
-
-import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
+import java.time.Duration
 
 /**
- * Created by jonathan on 13/08/16.
+ * Created by jonathan on 27/08/16.
  */
-@Plugin(id = "com.github.projectsandstone.example", version = "1.0")
-public class SimplePlugin {
+/**
+ * Represents submitted task
+ */
+interface SubmittedTask {
+    /**
+     * Submitted task
+     */
+    val task: Task
 
-    private final Game game;
-    private final Logger logger;
+    /**
+     * Cancel task, the task will be not cancelled immediately if [isRunning] or is not [isSubmitted].
+     */
+    fun cancel()
 
-    @Inject
-    public SimplePlugin(Game game, Logger logger) {
-        this.game = game;
-        this.logger = logger;
-    }
+    /**
+     * True if is task is currently running, false otherwise.
+     * @return True if is task is currently running, false otherwise.
+     */
+    fun isRunning(): Boolean
 
-    @Listener
-    public void onInit(InitializationEvent initializationEvent) {
-        logger.info("Simple plugin initialized!");
+    /**
+     * True if the task is in task list (submitted), false otherwise.
+     *
+     * If this task is [isRunning], this method will return false.
+     *
+     * @return True if the task is in task list (submitted), false otherwise.
+     */
+    fun isSubmitted(): Boolean
 
-        game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
-    }
+    /**
+     * True if submitted task is alive (running, or submitted).
+     * @return True if submitted task is alive (running, or submitted).
+     */
+    fun isAlive(): Boolean = this.isRunning() || this.isSubmitted()
 
+    /**
+     * Wait the task finish.
+     *
+     * Tasks is marked as finished after all executions.
+     *
+     * If this task is a repeating task, this method may sleep infinitely.
+     */
+    fun waitFinish()
 }

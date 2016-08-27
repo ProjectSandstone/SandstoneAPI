@@ -29,6 +29,7 @@ package com.github.projectsandstone.api
 
 import com.github.projectsandstone.api.event.EventManager
 import com.github.projectsandstone.api.plugin.PluginManager
+import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import java.nio.file.Path
 
@@ -65,6 +66,11 @@ interface Game {
      * *Sandstone* event manager.
      */
     val eventManager: EventManager
+
+    /**
+     * *Sandstone* Scheduler
+     */
+    val scheduler: Scheduler
 
     /**
      * Root Game Path

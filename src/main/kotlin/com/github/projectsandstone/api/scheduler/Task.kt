@@ -25,39 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.example;
+package com.github.projectsandstone.api.scheduler
 
-import com.google.inject.Inject;
-
-import com.github.projectsandstone.api.Game;
-import com.github.projectsandstone.api.event.Listener;
-import com.github.projectsandstone.api.event.init.InitializationEvent;
-import com.github.projectsandstone.api.logging.Logger;
-import com.github.projectsandstone.api.plugin.Plugin;
-
-import java.time.Duration;
-import java.util.concurrent.CompletableFuture;
+import java.time.Duration
+import java.util.concurrent.Callable
 
 /**
- * Created by jonathan on 13/08/16.
+ * Created by jonathan on 27/08/16.
  */
-@Plugin(id = "com.github.projectsandstone.example", version = "1.0")
-public class SimplePlugin {
+interface Task {
 
-    private final Game game;
-    private final Logger logger;
+    /**
+     * Name of task
+     */
+    val name: String?
 
-    @Inject
-    public SimplePlugin(Game game, Logger logger) {
-        this.game = game;
-        this.logger = logger;
-    }
+    /**
+     * Time to pass before the task start
+     */
+    val delay: Duration
 
-    @Listener
-    public void onInit(InitializationEvent initializationEvent) {
-        logger.info("Simple plugin initialized!");
+    /**
+     * Interval of task repetition. If [Duration.ZERO], this task will not repeat.
+     */
+    val interval: Duration
 
-        game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
-    }
+    /**
+     * True if the task run asynchronous, false otherwise.
+     */
+    val isAsync: Boolean
 
+    /**
+     * [Runnable] to be invoked.
+     */
+    val runnable: Runnable
 }
