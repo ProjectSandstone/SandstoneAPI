@@ -27,17 +27,14 @@
  */
 package com.github.projectsandstone.api.util.version
 
-import com.github.projectsandstone.api.util.exception.InitializationException
-
 /**
  * Created by jonathan on 27/08/16.
  */
-object SemVerScheme : VersionScheme {
-    override fun isCompatible(version1: Version, version2: Version): Boolean {
-        throw InitializationException("SemVerScheme not initialized")
-    }
+object Schemes {
+    @JvmStatic
+    internal lateinit var semVerScheme_ : VersionScheme
 
-    override fun compare(o1: Version?, o2: Version?): Int {
-        throw InitializationException("SemVerScheme not initialized")
-    }
+    @JvmStatic
+    val semVerScheme: VersionScheme
+    get() = this.semVerScheme_
 }

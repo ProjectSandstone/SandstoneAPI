@@ -40,7 +40,7 @@ import com.github.projectsandstone.api.util.updater.Searchers;
 import com.github.projectsandstone.api.util.updater.Updater;
 import com.github.projectsandstone.api.util.updater.github.GitHubRelease;
 import com.github.projectsandstone.api.util.updater.github.GitHubSearcher;
-import com.github.projectsandstone.api.util.version.SemVerScheme;
+import com.github.projectsandstone.api.util.version.Schemes;
 
 /**
  * Created by jonathan on 13/08/16.
@@ -50,14 +50,12 @@ public class SimplePlugin {
 
     private final Game game;
     private final Logger logger;
-    private final PluginDefinition pluginDefinition;
 
     @Inject
     public SimplePlugin(Game game, Logger logger, PluginDefinition pluginDefinition) {
         this.game = game;
         this.logger = logger;
-        this.pluginDefinition = pluginDefinition;
-        this.pluginDefinition.applyVersion(version -> version.changeScheme(SemVerScheme.INSTANCE));
+        pluginDefinition.applyVersion(version -> version.changeScheme(Schemes.getSemVerScheme()));
     }
 
     @Listener
