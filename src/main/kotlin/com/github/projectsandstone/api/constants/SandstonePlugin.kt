@@ -33,6 +33,7 @@ import com.github.projectsandstone.api.plugin.DependencyContainer
 import com.github.projectsandstone.api.plugin.PluginClassLoader
 import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.plugin.PluginState
+import com.github.projectsandstone.api.util.version.Version
 import java.nio.file.Path
 import java.nio.file.Paths
 
@@ -44,7 +45,7 @@ object SandstonePlugin: PluginContainer {
     override val id: String
         get() = Constants.SANDSTONE_PLUGIN_ID
 
-    override val version: String
+    override val version: Version
         get() = Constants.SANDSTONE_PLUGIN_VERSION
 
     override val description: String?

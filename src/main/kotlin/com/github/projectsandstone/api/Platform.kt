@@ -27,6 +27,8 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.projectsandstone.api.util.version.Version
+
 /**
  * Created by jonathan on 12/08/16.
  */
@@ -44,7 +46,7 @@ interface Platform {
      *
      * *Note:* property value represents *PLATFORM VERSION* not *MINECRAFT VERSION*
      */
-    val platformVersion: String
+    val platformVersion: Version
 
     /**
      * Platform full name representation.
@@ -54,7 +56,7 @@ interface Platform {
     /**
      * Minecraft version, not necessarily numeric representation.
      */
-    val minecraftVersion: String
+    val minecraftVersion: Version
 
     /**
      * Return true if is a platform internal class

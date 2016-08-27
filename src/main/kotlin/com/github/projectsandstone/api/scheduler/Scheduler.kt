@@ -35,6 +35,7 @@ import java.time.Duration
 interface Scheduler {
     /**
      * Create a [Task]
+     *
      * @param name Name of the task
      * @param delay Time to pass before the task start
      * @param interval Interval of task repetition. If [Duration.ZERO], this task will not repeat.
@@ -50,13 +51,34 @@ interface Scheduler {
 
     /**
      * Submit the task
+     *
      * @param plugin Plugin
      * @param task Task to submit
      * @return Representation of a submitted task.
      */
     fun submit(plugin: Any, task: Task): SubmittedTask
 
+    /**
+     * Create Async [SandstoneExecutorService]
+     *
+     * @return Async [SandstoneExecutorService]
+     */
+    fun createAsyncExecutor(): SandstoneExecutorService
+
+    /**
+     * Create Sync [SandstoneExecutorService]
+     *
+     * @return Sync [SandstoneExecutorService]
+     */
+    fun createSyncExecutor(): SandstoneExecutorService
+
     companion object {
         val DEFAULT_DURATION = Duration.ZERO
     }
 }
+
+/*
+
+Updater.create(PARSER, URL)
+
+ */

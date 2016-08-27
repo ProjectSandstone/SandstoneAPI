@@ -25,84 +25,49 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.plugin
+package com.github.projectsandstone.api.util.updater
 
-import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.util.version.Version
-import java.nio.file.Path
+import java.net.URL
 
 /**
- * Plugin information: Instance, Id, Name, Version, Description, etc.
+ * [Release] searcher
  */
-interface PluginContainer {
+interface Searcher<out R : Release<*>> {
 
     /**
-     * Plugin unique id.
+     * Project [Release]s API Url.
+     */
+    val url: URL
+
+    /**
+     * Find latest [Release] compatible with current minecraft and api version.
+     * @return [UpdateQueryResult.success] holding latest compatible [Release],
+     * [UpdateQueryResult.failed] if cannot contact server, or [UpdateQueryResult.upToDate] if
+     * latest version is equals to current version.
+     */
+    fun findLatest(currentVersion: Version): UpdateQueryResult<R>
+
+    /**
+     * Find latest unstable (pre-release) [Release] compatible with current minecraft and api version.
      *
-     * *Recommended:* Recommended plugin id pattern is: 'groupId.artifactId', example:
-     * `com.mydomain.simpleplugin`, `com.github.myuser.simpleplugin`
+     * @return [UpdateQueryResult.success] holding latest unstable compatible [Release],
+     * [UpdateQueryResult.failed] if cannot contact server, or [UpdateQueryResult.upToDate] if
+     * latest version is equals to current version.
      */
-    val id: String
+    fun findLatestUnstable(currentVersion: Version): UpdateQueryResult<R>
 
     /**
-     * Plugin Name.
+     * Find all [Release]s
+     * @return Query holding all [Release]s, or [UpdateQueryResult.failed] if cannot contact servers.
+     */
+    fun findAll(): UpdateQueryResult<List<R>>
+
+    /**
+     * Find specific [Release] by name.
      *
-     * This name will be used to log messages.
+     * @return Query holding specific [Release], or [UpdateQueryResult.failed] if cannot contact
+     * servers or [UpdateQueryResult.success] holding null [R] if cannot find version.
      */
-    val name: String
-        get() = id
-
-    /**
-     * Plugin version.
-     *
-     * There is no rule for version definition.
-     */
-    val version: Version
-
-    /**
-     * Plugin description.
-     *
-     * Short description explaining plugin functionality.
-     */
-    val description: String?
-
-    /**
-     * Authors of plugin
-     */
-    val authors: Array<String>?
-
-    /**
-     * Plugin dependencies.
-     */
-    val dependencies: Array<DependencyContainer>?
-
-    /**
-     * True if this plugin uses platform dependant functions.
-     */
-    val usePlatformInternals: Boolean
-
-    /**
-     * Plugin file if present, null otherwise.
-     */
-    val file: Path?
-
-    /**
-     * Plugin instance if present, null otherwise.
-     */
-    val instance: Any?
-
-    /**
-     * Plugin logger.
-     */
-    val logger: Logger
-
-    /**
-     * Plugin state.
-     */
-    val state: PluginState
-
-    /**
-     * Plugin class loader.
-     */
-    val classLoader: PluginClassLoader
+    fun find(name: String): UpdateQueryResult<R>
 }

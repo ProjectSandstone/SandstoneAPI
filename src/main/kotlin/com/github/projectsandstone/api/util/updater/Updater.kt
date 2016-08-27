@@ -25,84 +25,64 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.plugin
+package com.github.projectsandstone.api.util.updater
 
-import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.util.version.Version
 import java.nio.file.Path
+import java.util.function.Consumer
 
 /**
- * Plugin information: Instance, Id, Name, Version, Description, etc.
+ * Created by jonathan on 27/08/16.
  */
-interface PluginContainer {
+interface Updater<R : Release<*>, out S : Searcher<R>> {
+    /**
+     * File to update
+     */
+    val file: Path
 
     /**
-     * Plugin unique id.
+     * Current version
+     */
+    val currentVersion: Version
+
+    /**
+     * [Searcher] to be used to lookup for [Release]s.
+     */
+    val searcher: S
+
+    /**
+     * [UpdateApplier] class
+     */
+    val updateApplier: Class<UpdateApplier>
+
+    /**
+     * Check version updates (async)
+     * @param c Consumer of update result.
+     */
+    fun checkUpdates(c: Consumer<UpdateQueryResult<R>>)
+
+    /**
+     * [checkUpdates] and download updates async (if available). These updates will be stored at updates directory.
+     * When Sandstone start the initialization process, it will copy current version to a backup directory,
+     * and then apply new updates. To delete backup versions, call [updateSuccess]. To rollback to
+     * older version, call [updateFailed].
+     */
+    fun update()
+
+    /**
+     * Mark update as successfully.
      *
-     * *Recommended:* Recommended plugin id pattern is: 'groupId.artifactId', example:
-     * `com.mydomain.simpleplugin`, `com.github.myuser.simpleplugin`
+     * Delete current backup updates (and downloaded files).
      */
-    val id: String
+    fun updateSuccess()
 
     /**
-     * Plugin Name.
+     * Mark update as failed.
      *
-     * This name will be used to log messages.
-     */
-    val name: String
-        get() = id
-
-    /**
-     * Plugin version.
+     * A warning message will be shown in console.
      *
-     * There is no rule for version definition.
+     * In the next *Sandstone* initialization, current version will be deleted and older version will
+     * be restored from backup directory.
      */
-    val version: Version
-
-    /**
-     * Plugin description.
-     *
-     * Short description explaining plugin functionality.
-     */
-    val description: String?
-
-    /**
-     * Authors of plugin
-     */
-    val authors: Array<String>?
-
-    /**
-     * Plugin dependencies.
-     */
-    val dependencies: Array<DependencyContainer>?
-
-    /**
-     * True if this plugin uses platform dependant functions.
-     */
-    val usePlatformInternals: Boolean
-
-    /**
-     * Plugin file if present, null otherwise.
-     */
-    val file: Path?
-
-    /**
-     * Plugin instance if present, null otherwise.
-     */
-    val instance: Any?
-
-    /**
-     * Plugin logger.
-     */
-    val logger: Logger
-
-    /**
-     * Plugin state.
-     */
-    val state: PluginState
-
-    /**
-     * Plugin class loader.
-     */
-    val classLoader: PluginClassLoader
+    fun updateFailed()
 }

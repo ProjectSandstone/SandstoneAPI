@@ -27,6 +27,9 @@
  */
 package com.github.projectsandstone.api.constants
 
+import com.github.projectsandstone.api.util.version.SemVerScheme
+import com.github.projectsandstone.api.util.version.Version
+
 /**
  * *Sandstone* constants
  */
@@ -35,7 +38,7 @@ object Constants {
     val SANDSTONE_PLUGIN_ID = "sandstone"
 
     @JvmStatic
-    val SANDSTONE_PLUGIN_VERSION = "1.0"
+    val SANDSTONE_PLUGIN_VERSION = Version("0.0.0", SemVerScheme)
 
     @JvmStatic
     val SANDSTONE_PLUGIN_DESCRIPTION = "Minecraft Server Modding API."

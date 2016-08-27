@@ -25,65 +25,55 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.util.updater.github
 
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+import com.github.projectsandstone.api.util.updater.Release
+import java.net.URL
 
 /**
- * Created by jonathan on 12/08/16.
+ * Created by jonathan on 27/08/16.
  */
-
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
+/**
+ * GitHub release
+ */
+interface GitHubRelease : Release<Long> {
 
     /**
-     * *[Game]*
+     * URL of all assets
      */
-    @JvmStatic
-    val game: Game
-        get() = game_
+    val assetsUrl: URL
 
     /**
-     * *Sandstone* global logger.
-     *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     * Upload Url of release
      */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
+    val uploadUrl: URL
 
     /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
+     * Release tarball
      */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
+    val tarBallUrl: URL
 
     /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
+     * Release zipball
      */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
+    val zipBallUrl: URL
+
+    /**
+     * Tag name of Release
+     */
+    val tagName: String
+
+    /**
+     * Target Branch/Commit of asset
+     */
+    val targetCommitish: String
+
+    /**
+     * Is Draft
+     */
+    val isDraft: Boolean
+
+    override val assets: List<GitHubAsset>
+    override val author: GitHubUploader
 
 }

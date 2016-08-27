@@ -25,65 +25,23 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.scheduler
 
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+import java.util.concurrent.Callable
+import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.TimeUnit
 
 /**
- * Created by jonathan on 12/08/16.
+ * Created by jonathan on 27/08/16.
  */
+interface SandstoneExecutorService : ScheduledExecutorService {
 
-object Sandstone {
+    override fun <V : Any?> schedule(callable: Callable<V>, delay: Long, unit: TimeUnit): ScheduledFutureTask<V>
 
-    @JvmStatic
-    private lateinit var game_: Game
+    override fun schedule(command: Runnable, delay: Long, unit: TimeUnit): ScheduledFutureTask<*>
 
-    @JvmStatic
-    private lateinit var logger_: Logger
+    override fun scheduleAtFixedRate(command: Runnable, initialDelay: Long, period: Long, unit: TimeUnit): ScheduledFutureTask<*>
 
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
-
-    /**
-     * *[Game]*
-     */
-    @JvmStatic
-    val game: Game
-        get() = game_
-
-    /**
-     * *Sandstone* global logger.
-     *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
-     */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
-
-    /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
-     */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
-
-    /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
-     */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
+    override fun scheduleWithFixedDelay(command: Runnable, initialDelay: Long, delay: Long, unit: TimeUnit): ScheduledFutureTask<*>
 
 }

@@ -25,65 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.util.version
 
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+import com.github.projectsandstone.api.util.exception.InitializationException
 
 /**
- * Created by jonathan on 12/08/16.
+ * Created by jonathan on 27/08/16.
  */
+object SemVerScheme : VersionScheme {
+    override fun isCompatible(version1: Version, version2: Version): Boolean {
+        throw InitializationException("SemVerScheme not initialized")
+    }
 
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
-
-    /**
-     * *[Game]*
-     */
-    @JvmStatic
-    val game: Game
-        get() = game_
-
-    /**
-     * *Sandstone* global logger.
-     *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
-     */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
-
-    /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
-     */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
-
-    /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
-     */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
-
+    override fun compare(o1: Version?, o2: Version?): Int {
+        throw InitializationException("SemVerScheme not initialized")
+    }
 }

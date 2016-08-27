@@ -25,65 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.util.updater
 
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+import java.nio.file.Path
 
 /**
- * Created by jonathan on 12/08/16.
+ * Default update applier create backup and replace files.
  */
-
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
+interface UpdateApplier {
 
     /**
-     * *[Game]*
+     * Apply update from [oldFile] to [newFile]
+     *
+     * @param oldFile Old version file
+     * @param newFile New version file
+     * @param updatesDir Path to update directory
+     * @param backupDir Path to backup directory
+     * @return Backup file
      */
-    @JvmStatic
-    val game: Game
-        get() = game_
+    fun apply(oldFile: Path, newFile: Path, updatesDir: Path, backupDir: Path): Path
 
     /**
-     * *Sandstone* global logger.
+     * Revert update from [newFile] to [oldFile]
      *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     * @param newFile File to revert update
+     * @param oldFile File to old version file
+     * @param updatesDir Path to update directory
+     * @param backupDir Path to backup directory
      */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
-
-    /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
-     */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
-
-    /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
-     */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
+    fun revert(newFile: Path, oldFile: Path, updatesDir: Path, backupDir: Path)
 
 }

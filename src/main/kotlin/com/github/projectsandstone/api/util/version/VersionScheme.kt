@@ -25,65 +25,20 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.util.version
 
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+import java.util.*
 
 /**
- * Created by jonathan on 12/08/16.
+ * Created by jonathan on 27/08/16.
  */
-
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
-
+interface VersionScheme : Comparator<Version> {
     /**
-     * *[Game]*
-     */
-    @JvmStatic
-    val game: Game
-        get() = game_
-
-    /**
-     * *Sandstone* global logger.
+     * Returns true if this [version1] is compatible with [version2]
      *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     * @param version1 Version 1
+     * @param version2 Version 2
+     * @return True if this [version1] is compatible with [version2]
      */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
-
-    /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
-     */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
-
-    /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
-     */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
-
+    fun isCompatible(version1: Version, version2: Version): Boolean
 }

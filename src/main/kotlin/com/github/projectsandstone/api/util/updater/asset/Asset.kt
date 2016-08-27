@@ -25,65 +25,75 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.util.updater.asset
 
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+import com.github.projectsandstone.api.util.updater.Uploader
+import com.github.projectsandstone.api.util.updater.Release
+import java.net.URL
+import java.time.LocalDateTime
 
 /**
- * Created by jonathan on 12/08/16.
+ * Representation of an Asset of a [Release].
  */
-
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
+interface Asset<out ID> {
 
     /**
-     * *[Game]*
+     * Asset URL (Asset Web Page)
      */
-    @JvmStatic
-    val game: Game
-        get() = game_
+    val url: URL
 
     /**
-     * *Sandstone* global logger.
-     *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     * Asset download url (direct link)
      */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
+    val downloadUrl: URL
 
     /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
+     * Asset ID
      */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
+    val id: ID
 
     /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
+     * Asset name (Version)
      */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
+    val name: String
 
+    /**
+     * Asset label (description)
+     */
+    val label: String?
+
+    /**
+     * Asset state
+     */
+    val state: AssetState
+
+    /**
+     * Content-type (application/zip for example)
+     */
+    val contentType: String
+
+    /**
+     * Size of Asset
+     */
+    val size: Long
+
+    /**
+     * Downloads of asset
+     */
+    val downloads: Long
+
+    /**
+     * Date of asset creation
+     */
+    val creationDate: LocalDateTime
+
+    /**
+     * Date of asset update
+     */
+    val updatedDate: LocalDateTime
+
+    /**
+     * Uploader of asset
+     */
+    val uploader: Uploader<*>
 }

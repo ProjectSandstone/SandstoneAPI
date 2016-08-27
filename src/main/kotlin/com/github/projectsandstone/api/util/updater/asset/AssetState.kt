@@ -25,65 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
-
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+package com.github.projectsandstone.api.util.updater.asset
 
 /**
- * Created by jonathan on 12/08/16.
+ * State of asset
  */
-
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
+enum class AssetState {
+    /**
+     * New asset
+     */
+    NEW,
 
     /**
-     * *[Game]*
+     * Uploaded asset (file available)
      */
-    @JvmStatic
-    val game: Game
-        get() = game_
+    UPLOADED,
 
     /**
-     * *Sandstone* global logger.
-     *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     * Unknown Asset state
      */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
-
-    /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
-     */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
-
-    /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
-     */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
-
+    UNKNOWN
 }

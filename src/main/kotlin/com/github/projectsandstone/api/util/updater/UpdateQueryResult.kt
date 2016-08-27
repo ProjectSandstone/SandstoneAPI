@@ -25,65 +25,50 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
-
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+package com.github.projectsandstone.api.util.updater
 
 /**
- * Created by jonathan on 12/08/16.
+ * Created by jonathan on 27/08/16.
  */
-
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
+interface UpdateQueryResult<out R> {
 
     /**
-     * *[Game]*
+     * Query result or null if query failed.
      */
-    @JvmStatic
-    val game: Game
-        get() = game_
+    val result: R?
 
     /**
-     * *Sandstone* global logger.
-     *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     * True if successfully contacted servers.
      */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
+    val isSuccess: Boolean
 
     /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
+     * True if is up-to-date.
      */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
+    val isUpdated: Boolean
 
-    /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
-     */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
 
+    companion object {
+        /**
+         * Failed query
+         */
+        fun failed(): UpdateQueryResult<*> = Simple(null, false, false)
+
+        /**
+         * Up-to-date
+         */
+        fun upToDate(): UpdateQueryResult<*> = Simple(null, true, true)
+
+        /**
+         * Up-to-date
+         */
+        fun <R> upToDate(result: R): UpdateQueryResult<R> = Simple(result, true, true)
+
+        /**
+         * Success query (not up-to-date)
+         */
+        fun <R> success(result: R): UpdateQueryResult<R> = Simple(result, true, false)
+    }
+
+    private class Simple<out R>(override val result: R?, override val isSuccess: Boolean, override val isUpdated: Boolean) : UpdateQueryResult<R>
 }

@@ -25,65 +25,84 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.util.updater
 
-import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
+import com.github.projectsandstone.api.util.updater.asset.Asset
+import com.github.projectsandstone.api.util.version.Version
+import java.net.URL
+import java.time.LocalDateTime
 
 /**
- * Created by jonathan on 12/08/16.
+ * Release representation
  */
-
-object Sandstone {
-
-    @JvmStatic
-    private lateinit var game_: Game
-
-    @JvmStatic
-    private lateinit var logger_: Logger
-
-    @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
+interface Release<out ID> : Comparable<Release<*>> {
 
     /**
-     * *[Game]*
+     * URL of [Release]
      */
-    @JvmStatic
-    val game: Game
-        get() = game_
+    val url: URL
 
     /**
-     * *Sandstone* global logger.
-     *
-     * Is not recommended to use *Sandstone* logger.
-     *
-     * if you wan't to log messages use dependency injection to get [Logger] instance.
+     * URL of [Release] web page
      */
-    @JvmStatic
-    val logger: Logger
-        get() = logger_
+    val pageUrl: URL
 
     /**
-     * *Sandstone* plugin [Logger] factory.
-     *
-     * This factory is used to create [Logger] for plugins.
+     * Id of [Release]
      */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = loggerFactory_
+    val id: ID
 
     /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
+     * Name of [Release]
      */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
+    val name: String
 
+    /**
+     * Release version
+     */
+    val version: Version
+
+    /**
+     * List of *Sandstone API* compatible versions
+     */
+    val apiCompatibleVersions: List<Version>
+
+    /**
+     * List of *Minecraft* compatible versions
+     */
+    val mcCompatibleVersions: List<Version>
+
+    /**
+     * Description of this [Release]
+     */
+    val description: String
+
+    /**
+     * Is Pre Release (Alpha/Beta releases)
+     */
+    val isPreRelease: Boolean
+
+    /**
+     * Date of [Release] creation
+     */
+    val createdAt: LocalDateTime
+
+    /**
+     * Date of [Release] publication.
+     */
+    val publishedAt: LocalDateTime
+
+    /**
+     * Author/[Uploader] of [Release]
+     */
+    val author: Uploader<*>
+
+    /**
+     * [Release] [Asset]s
+     */
+    val assets: List<Asset<*>>
+
+    override fun compareTo(other: Release<*>): Int {
+        return this.publishedAt.compareTo(other.publishedAt)
+    }
 }

@@ -29,57 +29,65 @@ package com.github.projectsandstone.api.plugin
 
 import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.util.version.Version
+import com.google.inject.Injector
 import java.nio.file.Path
 
 /**
- * Plugin information: Instance, Id, Name, Version, Description, etc.
+ * Mutable [PluginContainer], changes of this instance will be reflected in [PluginContainer],
+ *
+ * These changes is only reflected during instance definition ([Injector.getInstance]).
  */
-interface PluginContainer {
-
+interface PluginDefinition {
     /**
      * Plugin unique id.
      *
      * *Recommended:* Recommended plugin id pattern is: 'groupId.artifactId', example:
      * `com.mydomain.simpleplugin`, `com.github.myuser.simpleplugin`
      */
-    val id: String
+    var id: String
 
     /**
      * Plugin Name.
      *
      * This name will be used to log messages.
      */
-    val name: String
-        get() = id
+    var name: String
 
     /**
      * Plugin version.
      *
      * There is no rule for version definition.
      */
-    val version: Version
+    var version: Version
+
+    /**
+     * Apply version changes
+     */
+    fun applyVersion(f: (Version) -> Version) {
+        this.version = f(this.version)
+    }
 
     /**
      * Plugin description.
      *
      * Short description explaining plugin functionality.
      */
-    val description: String?
+    var description: String?
 
     /**
      * Authors of plugin
      */
-    val authors: Array<String>?
+    var authors: Array<String>?
 
     /**
      * Plugin dependencies.
      */
-    val dependencies: Array<DependencyContainer>?
+    var dependencies: Array<DependencyContainer>?
 
     /**
      * True if this plugin uses platform dependant functions.
      */
-    val usePlatformInternals: Boolean
+    var usePlatformInternals: Boolean
 
     /**
      * Plugin file if present, null otherwise.
@@ -94,7 +102,7 @@ interface PluginContainer {
     /**
      * Plugin logger.
      */
-    val logger: Logger
+    var logger: Logger
 
     /**
      * Plugin state.
