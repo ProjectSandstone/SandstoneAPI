@@ -29,8 +29,6 @@ package com.github.projectsandstone.api
 
 import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.logging.LoggerFactory
-import com.github.projectsandstone.api.util.updater.Updater
-import com.github.projectsandstone.api.util.updater.UpdaterFactory
 
 /**
  * Created by jonathan on 12/08/16.
@@ -46,9 +44,6 @@ object Sandstone {
 
     @JvmStatic
     private lateinit var loggerFactory_: LoggerFactory
-
-    @JvmStatic
-    private lateinit var updaterFactory_: UpdaterFactory
 
     /**
      * *[Game]*
@@ -76,14 +71,5 @@ object Sandstone {
     @JvmStatic
     val loggerFactory: LoggerFactory
         get() = loggerFactory_
-
-    /**
-     * *Sandstone* [UpdaterFactory].
-     *
-     * This factory is used to create [Updater]s.
-     */
-    @JvmStatic
-    val updaterFactory: UpdaterFactory
-        get() = updaterFactory_
 
 }

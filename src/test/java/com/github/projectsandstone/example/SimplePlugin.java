@@ -30,16 +30,11 @@ package com.github.projectsandstone.example;
 import com.google.inject.Inject;
 
 import com.github.projectsandstone.api.Game;
-import com.github.projectsandstone.api.Sandstone;
 import com.github.projectsandstone.api.event.Listener;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
 import com.github.projectsandstone.api.logging.Logger;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.api.plugin.PluginDefinition;
-import com.github.projectsandstone.api.util.updater.Searchers;
-import com.github.projectsandstone.api.util.updater.Updater;
-import com.github.projectsandstone.api.util.updater.github.GitHubRelease;
-import com.github.projectsandstone.api.util.updater.github.GitHubSearcher;
 import com.github.projectsandstone.api.util.version.Schemes;
 
 /**
@@ -63,17 +58,6 @@ public class SimplePlugin {
         logger.info("Simple plugin initialized!");
 
         game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
-
-        Updater<GitHubRelease, GitHubSearcher> updater = Sandstone.getUpdaterFactory().createUpdater(this, Searchers.getGitHubSearcher());
-
-        if(updater != null) {
-
-            updater.checkUpdates(updateQueryResult -> {
-                if(updateQueryResult.isSuccess() && !updateQueryResult.isUpdated()) {
-                    updater.update();
-                }
-            });
-        }
     }
 
 }
