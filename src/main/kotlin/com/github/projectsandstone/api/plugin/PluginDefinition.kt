@@ -82,7 +82,7 @@ interface PluginDefinition {
     /**
      * Plugin dependencies.
      */
-    var dependencies: Array<DependencyContainer>?
+    val dependencies: Array<DependencyContainer>?
 
     /**
      * True if this plugin uses platform dependant functions.
@@ -102,7 +102,7 @@ interface PluginDefinition {
     /**
      * Plugin logger.
      */
-    var logger: Logger
+    val logger: Logger
 
     /**
      * Plugin state.
