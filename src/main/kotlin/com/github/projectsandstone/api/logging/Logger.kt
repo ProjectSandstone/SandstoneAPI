@@ -88,7 +88,7 @@ interface Logger {
      * @see [log]
      */
     fun debug(format: String, vararg objects: Any) {
-        this.log(level = LogLevel.DEBUG, format = format, objects = objects)
+        this.log(level = LogLevel.DEBUG, format = format, objects = *objects)
     }
 
     /**
@@ -139,7 +139,7 @@ interface Logger {
      * @see [log]
      */
     fun debug(exception: Exception, format: String, vararg objects: Any) {
-        this.log(level = LogLevel.DEBUG, exception = exception, format = format, objects = objects)
+        this.log(level = LogLevel.DEBUG, exception = exception, format = format, objects = *objects)
     }
 
     //
@@ -154,7 +154,7 @@ interface Logger {
      * @see [log]
      */
     fun info(format: String, vararg objects: Any) {
-        this.log(level = LogLevel.INFO, format = format, objects = objects)
+        this.log(level = LogLevel.INFO, format = format, objects = *objects)
     }
 
     /**
@@ -205,7 +205,7 @@ interface Logger {
      * @see [log]
      */
     fun info(exception: Exception, format: String, vararg objects: Any) {
-        this.log(level = LogLevel.INFO, exception = exception, format = format, objects = objects)
+        this.log(level = LogLevel.INFO, exception = exception, format = format, objects = *objects)
     }
 
 
@@ -221,7 +221,7 @@ interface Logger {
      * @see [log]
      */
     fun warn(format: String, vararg objects: Any) {
-        this.log(level = LogLevel.WARN, format = format, objects = objects)
+        this.log(level = LogLevel.WARN, format = format, objects = *objects)
     }
 
     /**
@@ -272,7 +272,7 @@ interface Logger {
      * @see [log]
      */
     fun warn(exception: Exception, format: String, vararg objects: Any) {
-        this.log(level = LogLevel.WARN, exception = exception, format = format, objects = objects)
+        this.log(level = LogLevel.WARN, exception = exception, format = format, objects = *objects)
     }
 
     //
@@ -287,7 +287,7 @@ interface Logger {
      * @see [log]
      */
     fun error(format: String, vararg objects: Any) {
-        this.log(level = LogLevel.ERROR, format = format, objects = objects)
+        this.log(level = LogLevel.ERROR, format = format, objects = *objects)
     }
 
     /**
@@ -339,7 +339,7 @@ interface Logger {
      * @see [log]
      */
     fun error(exception: Exception, format: String, vararg objects: Any) {
-        this.log(level = LogLevel.ERROR, exception = exception, format = format, objects = objects)
+        this.log(level = LogLevel.ERROR, exception = exception, format = format, objects = *objects)
     }
 
     //
@@ -354,7 +354,7 @@ interface Logger {
      * @see [log]
      */
     fun exception(format: String, vararg objects: Any) {
-        this.log(level = LogLevel.EXCEPTION, format = format, objects = objects)
+        this.log(level = LogLevel.EXCEPTION, format = format, objects = *objects)
     }
 
     /**
@@ -405,6 +405,6 @@ interface Logger {
      * @see [log]
      */
     fun exception(exception: Exception, format: String, vararg objects: Any) {
-        this.log(level = LogLevel.EXCEPTION, exception = exception, format = format, objects = objects)
+        this.log(level = LogLevel.EXCEPTION, exception = exception, format = format, objects = *objects)
     }
 }
