@@ -36,6 +36,7 @@ interface Scheduler {
     /**
      * Create a [Task]
      *
+     * @param plugin Plugin that created the task
      * @param name Name of the task
      * @param delay Time to pass before the task start
      * @param interval Interval of task repetition. If [Duration.ZERO], this task will not repeat.
@@ -43,7 +44,8 @@ interface Scheduler {
      * @param runnable [Runnable] to be invoked.
      * @return Configured [Task]
      */
-    fun createTask(name: String? = null,
+    fun createTask(plugin: Any,
+                   name: String? = null,
                    delay: Duration,
                    interval: Duration = DEFAULT_DURATION,
                    isAsync: Boolean = false,
@@ -66,17 +68,16 @@ interface Scheduler {
                         interval: Duration = DEFAULT_DURATION,
                         isAsync: Boolean = false,
                         runnable: Runnable): SubmittedTask {
-        return this.submit(plugin, this.createTask(name, delay, interval, isAsync, runnable))
+        return this.submit(this.createTask(plugin, name, delay, interval, isAsync, runnable))
     }
 
     /**
      * Submit the task
      *
-     * @param plugin Plugin
      * @param task Task to submit
      * @return Representation of a submitted task.
      */
-    fun submit(plugin: Any, task: Task): SubmittedTask
+    fun submit(task: Task): SubmittedTask
 
     /**
      * Create Async [SandstoneExecutorService]
@@ -96,9 +97,3 @@ interface Scheduler {
         val DEFAULT_DURATION = Duration.ZERO
     }
 }
-
-/*
-
-Updater.create(PARSER, URL)
-
- */

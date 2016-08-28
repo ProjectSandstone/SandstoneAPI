@@ -36,6 +36,11 @@ import java.util.concurrent.Callable
 interface Task {
 
     /**
+     * Plugin that created the task.
+     */
+    val plugin: Any
+
+    /**
      * Name of task
      */
     val name: String?
