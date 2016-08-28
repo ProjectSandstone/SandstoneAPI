@@ -35,8 +35,7 @@ import com.github.projectsandstone.api.logging.Logger
  * the server is not full functional.
  *
  * *Attention:* is not recommended to do any operation with another plugins, or
- * use classes of another plugins in this phase, probably the plugin is not loaded yet, in this
- * phase all plugins being loaded async, *you must only do thread-safe operations*.
+ * use classes of another plugins in this phase, probably these plugins is not loaded yet.
  *
  * In this phase is recommended to:
  *

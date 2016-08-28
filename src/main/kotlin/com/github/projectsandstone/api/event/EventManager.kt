@@ -165,10 +165,7 @@ interface EventManager {
      */
     @Throws(Throwable::class)
     fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        val scheduler = Sandstone.game.scheduler
-        scheduler.submit(SandstonePlugin, scheduler.createTask(name = "Async Dispatcher", delay = Duration.ofMillis(10), runnable = java.lang.Runnable {
-            this.dispatch(event, pluginContainer, isBeforeModifications)
-        }))
+        this.dispatchAsync(event, TypeInfo.aEnd(event.javaClass), pluginContainer, isBeforeModifications)
     }
 
     /**

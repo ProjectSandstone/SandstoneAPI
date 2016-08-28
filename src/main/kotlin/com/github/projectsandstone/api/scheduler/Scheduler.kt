@@ -50,6 +50,26 @@ interface Scheduler {
                    runnable: Runnable): Task
 
     /**
+     * Create a [Task] and [submit]
+     *
+     * @param plugin Plugin
+     * @param name Name of the task
+     * @param delay Time to pass before the task start
+     * @param interval Interval of task repetition. If [Duration.ZERO], this task will not repeat.
+     * @param isAsync True if the task run asynchronous, false otherwise.
+     * @param runnable [Runnable] to be invoked.
+     * @return [SubmittedTask]
+     */
+    fun createAndSubmit(plugin: Any,
+                        name: String? = null,
+                        delay: Duration,
+                        interval: Duration = DEFAULT_DURATION,
+                        isAsync: Boolean = false,
+                        runnable: Runnable): SubmittedTask {
+        return this.submit(plugin, this.createTask(name, delay, interval, isAsync, runnable))
+    }
+
+    /**
      * Submit the task
      *
      * @param plugin Plugin
