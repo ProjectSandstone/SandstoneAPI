@@ -27,8 +27,31 @@
  */
 package com.github.projectsandstone.api
 
-/**
- * Created by jonathan on 12/08/16.
- */
+
 interface Server {
+    /**
+     * Server bound ip, or empty if not specified
+     */
+    val ip: String
+
+    /**
+     * Port of server
+     */
+    val port: Int
+
+    /**
+     * Name of server
+     */
+    val serverName: String
+
+    /**
+     * Server motd
+     */
+    val motd: String
+
+    /**
+     * Max players allowed in [Server]
+     */
+    val maxPlayers: Int
+
 }

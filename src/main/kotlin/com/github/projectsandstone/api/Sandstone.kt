@@ -27,8 +27,12 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.projectsandstone.api.event.EventManager
 import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.logging.LoggerFactory
+import com.github.projectsandstone.api.plugin.PluginManager
+import com.github.projectsandstone.api.scheduler.Scheduler
+import com.github.projectsandstone.api.service.ServiceManager
 
 /**
  * Created by jonathan on 12/08/16.
@@ -72,4 +76,46 @@ object Sandstone {
     val loggerFactory: LoggerFactory
         get() = loggerFactory_
 
+
+    /**
+     * *Sandstone* [PluginManager]
+     */
+    @JvmStatic
+    val pluginManager: PluginManager
+        get() = this.game.pluginManager
+
+    /**
+     * *Sandstone* [Scheduler]
+     */
+    @JvmStatic
+    val scheduler: Scheduler
+        get() = this.game.scheduler
+
+    /**
+     * *Sandstone* [Platform]
+     */
+    @JvmStatic
+    val platform: Platform
+        get() = this.game.platform
+
+    /**
+     * *Sandstone* [EventManager]
+     */
+    @JvmStatic
+    val eventManager: EventManager
+        get() = this.game.eventManager
+
+    /**
+     * *Sandstone* [EventManager]
+     */
+    @JvmStatic
+    val serviceManager: ServiceManager
+        get() = this.game.serviceManager
+
+    /**
+     * *Sandstone* [Server]
+     */
+    @JvmStatic
+    val server: Server
+        get() = this.game.server
 }
