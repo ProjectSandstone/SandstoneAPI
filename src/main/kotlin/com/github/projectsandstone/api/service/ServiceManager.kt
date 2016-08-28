@@ -28,14 +28,16 @@
 package com.github.projectsandstone.api.service
 
 /**
- * Manage all [RegisteredProvider]s, services must be registered only during the initialization.
+ * Manage all [RegisteredProvider]s, services must be registered only during the post-initialization.
  *
  * You can get a service using method [provide] or [watch]
  */
 interface ServiceManager {
 
     /**
-     * Set provider of [service], is highly recommended to register services during initialization.
+     * Set provider of [service], is highly recommended to register services during post-initialization.
+     *
+     * This provider will be defined in *Sandstone Service Manager* and *Platform Service Manager*.
      *
      * @param plugin Plugin that provide this service
      * @param service Service class
@@ -45,6 +47,8 @@ interface ServiceManager {
 
     /**
      * Gets provider for service class [service].
+     *
+     * This method lookup for provider in *Sandstone Service Manager* and in *Platform Service manager*
      *
      * @param service Service class
      * @return provider for service class [service], if not found, return null.
@@ -69,6 +73,8 @@ interface ServiceManager {
 
     /**
      * Gets the [RegisteredProvider] of the [service].
+     *
+     * This method get only providers of *Sandstone Service Manager*.
      *
      * @param service Service class of provider.
      * @return [RegisteredProvider], or null if service is not registered
