@@ -63,14 +63,14 @@ interface Scheduler {
      *
      * @return Async [SandstoneExecutorService]
      */
-    fun createAsyncExecutor(): SandstoneExecutorService
+    fun createAsyncExecutor(plugin: Any): SandstoneExecutorService
 
     /**
      * Create Sync [SandstoneExecutorService]
      *
      * @return Sync [SandstoneExecutorService]
      */
-    fun createSyncExecutor(): SandstoneExecutorService
+    fun createSyncExecutor(plugin: Any): SandstoneExecutorService
 
     companion object {
         val DEFAULT_DURATION = Duration.ZERO

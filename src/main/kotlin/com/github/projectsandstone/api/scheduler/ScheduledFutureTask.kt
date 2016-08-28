@@ -34,4 +34,6 @@ import java.util.concurrent.RunnableScheduledFuture
  */
 interface ScheduledFutureTask<V> : RunnableScheduledFuture<V> {
     val task: Task
+
+    val submittedTask: SubmittedTask
 }
