@@ -27,24 +27,10 @@
  */
 package com.github.projectsandstone.api.world
 
-import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.Identifiable
 import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
 
 /**
- * World
+ * A [Chunk] of the [World].
  */
-interface World : MessageReceiver, Identifiable, Extent {
-
-    /**
-     * Name of the world
-     */
-    val name: String
-
-    /**
-     * World root directory
-     */
-    val directory: Path
+interface Chunk : Extent {
 }

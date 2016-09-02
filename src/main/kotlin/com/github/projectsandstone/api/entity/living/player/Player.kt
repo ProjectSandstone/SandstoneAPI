@@ -25,26 +25,26 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.world
+package com.github.projectsandstone.api.entity.living.player
 
+import com.github.projectsandstone.api.entity.living.Human
+import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.Identifiable
-import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
 
 /**
- * World
+ * A Minecraft Player
  */
-interface World : MessageReceiver, Identifiable, Extent {
+interface Player : Human, MessageReceiver, User {
 
     /**
-     * Name of the world
+     * Kick the player
      */
-    val name: String
+    fun kick()
 
     /**
-     * World root directory
+     * Kick the player
+     *
+     * @param reason Reason of the kick
      */
-    val directory: Path
+    fun kick(reason: Text)
 }

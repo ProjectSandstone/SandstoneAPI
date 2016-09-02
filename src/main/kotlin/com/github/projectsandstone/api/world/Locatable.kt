@@ -27,24 +27,9 @@
  */
 package com.github.projectsandstone.api.world
 
-import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.Identifiable
-import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
+interface Locatable {
 
-/**
- * World
- */
-interface World : MessageReceiver, Identifiable, Extent {
+    val location: Location<World>
 
-    /**
-     * Name of the world
-     */
-    val name: String
-
-    /**
-     * World root directory
-     */
-    val directory: Path
+    fun teleport(location: Location<*>)
 }

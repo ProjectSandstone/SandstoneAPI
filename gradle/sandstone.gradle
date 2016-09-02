@@ -42,6 +42,7 @@ dependencies {
     compile 'com.google.inject:guice:4.1.0'
 
     // Utilities
+    compile 'com.flowpowered:flow-math:1.0.3'
     compile 'com.github.JonathanxD:JwIUtils:2.5.0'
 
     // Kotlin

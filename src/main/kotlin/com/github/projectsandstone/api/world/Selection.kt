@@ -27,24 +27,22 @@
  */
 package com.github.projectsandstone.api.world
 
-import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.Identifiable
+import com.flowpowered.math.vector.Vector3d
 import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
 
 /**
- * World
+ * 3D Selection of two positions
  */
-interface World : MessageReceiver, Identifiable, Extent {
+interface Selection : Extent {
 
     /**
-     * Name of the world
+     * From position
      */
-    val name: String
+    val from: Vector3d
 
     /**
-     * World root directory
+     * To position
      */
-    val directory: Path
+    val to: Vector3d
+
 }

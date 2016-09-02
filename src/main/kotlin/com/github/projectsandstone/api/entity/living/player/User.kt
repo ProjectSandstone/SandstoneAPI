@@ -25,26 +25,28 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.world
+package com.github.projectsandstone.api.entity.living.player
 
-import com.github.projectsandstone.api.text.channel.MessageReceiver
 import com.github.projectsandstone.api.util.Identifiable
-import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
 
 /**
- * World
+ * Persistent Data associated to [Player].
  */
-interface World : MessageReceiver, Identifiable, Extent {
+interface User : Identifiable {
 
     /**
-     * Name of the world
+     * Name of [User]
      */
     val name: String
 
     /**
-     * World root directory
+     * Is user actually online.
      */
-    val directory: Path
+    val isOnline: Boolean
+
+    /**
+     * Related [Player].
+     */
+    val player: Player?
+
 }

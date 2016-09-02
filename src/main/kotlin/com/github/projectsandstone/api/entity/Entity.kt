@@ -25,26 +25,15 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.world
+package com.github.projectsandstone.api.entity
 
-import com.github.projectsandstone.api.text.channel.MessageReceiver
 import com.github.projectsandstone.api.util.Identifiable
-import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
 
 /**
- * World
+ * Minecraft entity.
  */
-interface World : MessageReceiver, Identifiable, Extent {
+interface Entity : Identifiable {
 
-    /**
-     * Name of the world
-     */
-    val name: String
 
-    /**
-     * World root directory
-     */
-    val directory: Path
+
 }

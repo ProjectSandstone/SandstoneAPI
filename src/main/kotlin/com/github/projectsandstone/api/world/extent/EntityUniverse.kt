@@ -25,26 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.world
+package com.github.projectsandstone.api.world.extent
 
-import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.Identifiable
-import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
+import com.github.projectsandstone.api.entity.Entity
 
 /**
- * World
+ * Container of entities instance.
  */
-interface World : MessageReceiver, Identifiable, Extent {
+interface EntityUniverse {
 
     /**
-     * Name of the world
+     * Entities
      */
-    val name: String
+    val entities: Collection<Entity>
 
-    /**
-     * World root directory
-     */
-    val directory: Path
 }

@@ -25,26 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.world
+package com.github.projectsandstone.api.util
 
-import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.Identifiable
-import com.github.projectsandstone.api.world.extent.Extent
-import java.nio.file.Path
-import java.util.*
+import java.util.UUID
 
 /**
- * World
+ * Identifiable object.
  */
-interface World : MessageReceiver, Identifiable, Extent {
+interface Identifiable {
 
     /**
-     * Name of the world
+     * Unique Id of this identifiable object.
      */
-    val name: String
-
-    /**
-     * World root directory
-     */
-    val directory: Path
+    val uniqueId: UUID
 }
