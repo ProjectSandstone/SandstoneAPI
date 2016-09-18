@@ -28,16 +28,18 @@
 package com.github.projectsandstone.api.text
 
 import com.github.projectsandstone.api.text.style.TextColor
+import com.github.projectsandstone.api.text.style.TextColors
 import com.github.projectsandstone.api.text.style.TextFormat
+import com.github.projectsandstone.api.text.style.TextFormats
 import java.util.*
 
 /**
- * Created by jonathan on 28/08/16.
- */
-/**
  * Immutable Text representation
  */
-data class Text(val color: TextColor, val format: TextFormat, val parent: Array<Text>?) {
+data class Text @JvmOverloads constructor(val color: TextColor = TextColors.RESET,
+                                          val format: TextFormat = TextFormats.NORMAL,
+                                          val content: String,
+                                          val parent: Array<Text>?) {
 
     /**
      * Add a Text to [parent] text array
@@ -56,7 +58,7 @@ data class Text(val color: TextColor, val format: TextFormat, val parent: Array<
      * @return This if [text] is not in [parent] array, or a New [Text] without [text] in [parent]
      */
     operator fun minus(text: Text): Text {
-        if(this.parent == null)
+        if (this.parent == null)
             return this
 
         return this.copy(parent = this.parent.filter { it != text }.toTypedArray())
@@ -66,6 +68,7 @@ data class Text(val color: TextColor, val format: TextFormat, val parent: Array<
         if (other is Text) {
             return this.color.equals(other.color)
                     && this.format.equals(other.format)
+                    && this.content == other.content
                     && (this.parent == other.parent || Arrays.deepEquals(this.parent, other.parent))
 
         }
@@ -79,6 +82,7 @@ data class Text(val color: TextColor, val format: TextFormat, val parent: Array<
 
         result = 31 * result + this.color.hashCode()
         result = 31 * result + this.format.hashCode()
+        result = 31 * result + this.content.hashCode()
 
         if (this.parent != null) {
             result = 31 * result + Arrays.deepHashCode(parent)

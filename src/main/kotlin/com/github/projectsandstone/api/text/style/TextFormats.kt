@@ -32,6 +32,7 @@ package com.github.projectsandstone.api.text.style
  */
 object TextFormats {
 
+    val NORMAL = TextFormat()
     val BOLD = TextFormat(bold = true)
     val ITALIC = TextFormat(italic = true)
     val UNDERLINE = TextFormat(underline = true)
