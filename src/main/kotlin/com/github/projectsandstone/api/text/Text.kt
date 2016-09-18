@@ -39,7 +39,7 @@ import java.util.*
 data class Text @JvmOverloads constructor(val color: TextColor = TextColors.RESET,
                                           val format: TextFormat = TextFormats.NORMAL,
                                           val content: String,
-                                          val parent: Array<Text>?) {
+                                          val parent: Array<Text>? = emptyArray()) {
 
     /**
      * Add a Text to [parent] text array
@@ -89,5 +89,81 @@ data class Text @JvmOverloads constructor(val color: TextColor = TextColors.RESE
         }
 
         return result
+    }
+
+    companion object {
+
+        /**
+         * Create a [Text] with specified format, color and content.
+         *
+         * @param textColor Color of text
+         * @param textFormat Format of text
+         * @param content Content of text
+         * @return [Text] instance
+         */
+        @JvmStatic
+        @JvmOverloads
+        fun of(textFormat: TextFormat = TextFormats.NORMAL, textColor: TextColor = TextColors.NORMAL, content: String, vararg parent: Text) = Text(color = textColor, format = textFormat, content = content, parent = arrayOf(*parent))
+
+        /**
+         * Create a new identical instance of [Text] from another [Text].
+         *
+         * @param text Text instance
+         * @return [Text] instance
+         */
+        @JvmStatic
+        fun of(text: Text) = Text(text.color, text.format, text.content, text.parent)
+
+        /**
+         * Create a Text with specified color, format, content and parent texts.
+         *
+         * @param any Array with all elements, example:
+         *            Text.of(TextColors.RED, "Hello", " ", TextColors.GREEN, "World"),
+         *            acceptable types is: [TextColor], [TextFormat], [String] and [Text]
+         * @return new [Text]
+         */
+        @JvmStatic
+        fun of(vararg any: Any): Text {
+            var format: TextFormat = TextFormats.NORMAL
+            var color: TextColor = TextColors.NORMAL
+            var content: String
+            var text: Text? = null
+            val others = mutableListOf<Text>()
+
+            any.forEach { elem ->
+
+                when (elem) {
+                    is TextFormat -> format = elem
+                    is TextColor -> color = elem
+                    is String -> {
+                        content = elem
+
+                        val builded = Text(color, format, content, arrayOf())
+
+                        if (text == null)
+                            text = builded
+                        else
+                            others += builded
+
+                        format = TextFormats.NORMAL
+                        color = TextColors.NORMAL
+                        content = ""
+                    }
+                    is Text -> {
+                        if (text == null)
+                            text = elem
+                        else
+                            others += elem
+                    }
+                    else -> throw IllegalArgumentException("Cannot parse $elem!")
+                }
+            }
+
+            if (text == null) {
+                throw IllegalArgumentException("No content provided!")
+            }
+
+            return Text(text!!.color, text!!.format, text!!.content, others.toTypedArray())
+        }
     }
 }

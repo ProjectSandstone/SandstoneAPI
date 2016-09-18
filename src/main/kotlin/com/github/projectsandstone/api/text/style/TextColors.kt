@@ -35,19 +35,49 @@ import com.github.projectsandstone.api.util.style.Color
  */
 object TextColors {
 
+    @JvmStatic
+    val NORMAL = TextColor("reset", 255, 255, 255)
+
+    @JvmStatic
     val LIGHT_GRAY = TextColor("light_gray", 192, 192, 192)
+
+    @JvmStatic
     val DARK_GRAY = TextColor("dark_gray", 64, 64, 64)
+
+    @JvmStatic
     val MAGENTA = TextColor("magenta", 255, 0, 255)
+
+    @JvmStatic
     val ORANGE = TextColor("orange", 255, 200, 0)
+
+    @JvmStatic
     val YELLOW = TextColor("yellow", 255, 255, 0)
+
+    @JvmStatic
     val WHITE = TextColor("white", 255, 255, 255)
+
+    @JvmStatic
     val RESET = TextColor("reset", 255, 255, 255)
+
+    @JvmStatic
     val GRAY = TextColor("gray", 128, 128, 128)
+
+    @JvmStatic
     val PINK = TextColor("pink", 255, 175, 175)
+
+    @JvmStatic
     val CYAN = TextColor("cyan", 0, 255, 255)
+
+    @JvmStatic
     val GREEN = TextColor("green", 0, 255, 0)
+
+    @JvmStatic
     val BLUE = TextColor("blue", 0, 0, 255)
+
+    @JvmStatic
     val BLACK = TextColor("black", 0, 0, 0)
+
+    @JvmStatic
     val RED = TextColor("red", 255, 0, 0)
 
 
