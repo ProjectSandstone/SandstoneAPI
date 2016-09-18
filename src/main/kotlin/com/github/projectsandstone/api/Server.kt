@@ -27,6 +27,8 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.projectsandstone.api.world.World
+
 
 interface Server {
     /**
@@ -53,5 +55,10 @@ interface Server {
      * Max players allowed in [Server]
      */
     val maxPlayers: Int
+
+    /**
+     * Worlds in the [Server].
+     */
+    val worlds: List<World>
 
 }

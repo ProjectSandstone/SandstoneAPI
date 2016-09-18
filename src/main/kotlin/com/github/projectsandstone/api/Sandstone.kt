@@ -33,6 +33,7 @@ import com.github.projectsandstone.api.logging.LoggerFactory
 import com.github.projectsandstone.api.plugin.PluginManager
 import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
+import com.github.projectsandstone.api.world.World
 
 /**
  * Created by jonathan on 12/08/16.
@@ -118,4 +119,11 @@ object Sandstone {
     @JvmStatic
     val server: Server
         get() = this.game.server
+
+    /**
+     * Worlds in [Server]
+     */
+    @JvmStatic
+    val worlds: List<World>
+        get() = this.game.server.worlds
 }
