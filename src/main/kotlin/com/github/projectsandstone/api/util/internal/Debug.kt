@@ -25,34 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.util.internal
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
+object Debug {
+    private const val ADAPTER_GEN_PROPERTY = "sandstone.debug.adapter"
+    private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
 
-/**
- * Method event listener. This Listener holds a method that will be invoked.
- */
-interface MethodEventListener : EventListener<Event> {
+    val ADAPTER_GEN_DEBUG = getProperty(ADAPTER_GEN_PROPERTY)
+    val EVENT_GEN_DEBUG = getProperty(EVENT_GEN_PROPERTY)
 
-    /**
-     * Method to invoke
-     */
-    val method: MethodHandle
-
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
-
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
-
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
-
+    private fun getProperty(name: String) = System.getProperties()[name]?.equals("true") ?: false
 }

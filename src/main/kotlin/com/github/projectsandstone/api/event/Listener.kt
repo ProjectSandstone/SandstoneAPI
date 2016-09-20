@@ -27,18 +27,17 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.jonathanxd.iutils.annotations.Named
 import com.github.projectsandstone.api.Platform
-import com.github.projectsandstone.api.event.info.Info
+import com.github.projectsandstone.api.event.annotation.Named
 
 /**
  * Annotated methods that handle events.
  *
  * The method MUST specify the [Event] in the first parameter, other parameters will be filled with
- * objects of [Info] instance, if has no object that matches the parameter type, the method will
+ * properties of [Event], if has no object that matches the parameter type, the method will
  * not be invoked.
  *
- * You can use [Named] annotation to provide a name to be searched in [Info].
+ * You **MUST** to use [Named] annotation to provide name of property.
  */
 @Retention(AnnotationRetention.RUNTIME)
 @Target(AnnotationTarget.FUNCTION)

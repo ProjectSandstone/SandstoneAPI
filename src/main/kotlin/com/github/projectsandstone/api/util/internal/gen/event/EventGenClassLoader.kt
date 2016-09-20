@@ -25,34 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.util.internal.gen.event
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
+import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration
+import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
+import java.util.*
 
 /**
- * Method event listener. This Listener holds a method that will be invoked.
+ * [ClassLoader] of all event generated classes
  */
-interface MethodEventListener : EventListener<Event> {
+internal object EventGenClassLoader : ClassLoader() {
 
-    /**
-     * Method to invoke
-     */
-    val method: MethodHandle
+    private val loadedClasses_ = mutableListOf<SandstoneClass<*>>()
+    val loadedClasses = Collections.unmodifiableList(loadedClasses_)
 
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
+    fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>) : SandstoneClass<*> {
 
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
+        val definedClass = this.defineClass(name, byteArray, 0, byteArray.size)
 
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
+        val sandstoneClass = SandstoneClass(definedClass, byteArray, source)
+
+        this.loadedClasses_ += sandstoneClass
+
+        return sandstoneClass
+    }
+
+    fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, source: Lazy<String>) =
+            this.defineClass(typeDeclaration.canonicalName, byteArray, source)
 
 }

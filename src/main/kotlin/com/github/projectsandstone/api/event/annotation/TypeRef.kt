@@ -25,11 +25,24 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.extensions.service
+package com.github.projectsandstone.api.event.annotation
 
-import com.github.projectsandstone.api.service.ServiceManager
+import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 
-
-inline fun <reified T : Any> ServiceManager.setProvider(plugin: Any, provider: T) {
-    this.setProvider(plugin, T::class.java, provider)
-}
+/**
+ * *Sandstone Event Manager* supports Generic Types, but Java has no Full-Reification (Java only
+ * reifies generic types if the type is explicit specified) and Event Implementation Generator
+ * erases all types, to work-around this limitation, you must to specify a explicit type reference of a generic type.
+ *
+ * *Event Manager* Supports only [Class] and [TypeInfo].
+ *
+ * Example of usage:
+ *
+ * [ChangeServiceProviderEvent].
+ *
+ * @param value Type name.
+ */
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FIELD)
+annotation class TypeRef(val value: String)

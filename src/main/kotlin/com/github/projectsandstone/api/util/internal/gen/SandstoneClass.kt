@@ -25,34 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.util.internal.gen
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
+import java.util.*
 
-/**
- * Method event listener. This Listener holds a method that will be invoked.
- */
-interface MethodEventListener : EventListener<Event> {
+data class SandstoneClass<T>(val javaClass: Class<T>, val bytes: ByteArray, val source: Lazy<String>) {
 
-    /**
-     * Method to invoke
-     */
-    val method: MethodHandle
+    override fun hashCode(): Int {
+        var result = 1
 
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
+        result = 31 * result + javaClass.hashCode()
 
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
+        result = 31 * result + Arrays.hashCode(bytes)
 
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
+        return result
 
+    }
+
+    override fun equals(other: Any?): Boolean {
+
+        if(other != null && other is SandstoneClass<*>)
+            return this.javaClass.equals(other.javaClass)
+                    && Arrays.equals(this.bytes, other.bytes)
+
+        return super.equals(other)
+    }
 }

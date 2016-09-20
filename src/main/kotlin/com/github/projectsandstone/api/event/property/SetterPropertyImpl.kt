@@ -25,19 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.extensions.event
+package com.github.projectsandstone.api.event.property
 
-import com.github.jonathanxd.iutils.`object`.ConcreteTypeInfo
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import com.github.projectsandstone.api.event.Event
-import com.github.projectsandstone.api.event.EventListener
-import com.github.projectsandstone.api.event.EventManager
+import java.util.function.Consumer
+import java.util.function.Supplier
 
-/**
- * Created by jonathan on 14/08/16.
- */
-inline fun <reified T: Event> EventManager.registerListener(plugin: Any, eventListener: EventListener<T>) {
-    val typeInfo: TypeInfo<T> = object: ConcreteTypeInfo<T>(){}
+class SetterPropertyImpl<R>(override val type: Class<R>, val setter: Consumer<R>) : SetterProperty<R> {
 
-    this.registerListener(plugin, typeInfo, eventListener)
+    override fun setValue(value: R) {
+        this.setter.accept(value)
+    }
 }

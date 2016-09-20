@@ -27,7 +27,9 @@
  */
 package com.github.projectsandstone.api.event.service
 
+import com.github.jonathanxd.iutils.`object`.TypeInfo
 import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.event.annotation.TypeRef
 import com.github.projectsandstone.api.service.RegisteredProvider
 
 /**
@@ -40,7 +42,8 @@ interface ChangeServiceProviderEvent<T : Any> : Event {
     /**
      * Service Class
      */
-    val service: Class<T>
+    @TypeRef("T")
+    val service: TypeInfo<T>
 
     /**
      * Old Service Provider, if available.

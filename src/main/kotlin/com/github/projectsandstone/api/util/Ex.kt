@@ -25,34 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.util
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
+import com.github.jonathanxd.codeapi.types.CodeType
+
+inline fun succeed(func: () -> Unit) : Boolean {
+    try {
+        func()
+        return true
+    }catch (t: Throwable) {
+        return false
+    }
+}
+
+inline fun <reified R> succeedReturn(func: () -> R) : R? {
+    try {
+        return func()
+    }catch (t: Throwable) {
+        return null
+    }
+}
 
 /**
- * Method event listener. This Listener holds a method that will be invoked.
+ * If primitiveType != null, returns primitiveType, if primitiveType == null, returns [codeType]
  */
-interface MethodEventListener : EventListener<Event> {
-
-    /**
-     * Method to invoke
-     */
-    val method: MethodHandle
-
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
-
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
-
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
-
+fun fixType(codeType: CodeType): CodeType {
+    return codeType.primitiveType ?: codeType
 }

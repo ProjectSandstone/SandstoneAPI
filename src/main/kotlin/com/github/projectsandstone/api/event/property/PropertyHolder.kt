@@ -25,34 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
-
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
+package com.github.projectsandstone.api.event.property
 
 /**
- * Method event listener. This Listener holds a method that will be invoked.
+ * [PropertyHolder] holds information about properties in a class, commonly used in Events,
+ * **Sandstone Event Generator** will automatically generate properties.
  */
-interface MethodEventListener : EventListener<Event> {
+interface PropertyHolder {
+    /**
+     * Gets the property of type [type] and name [name]
+     *
+     * @param type Type of property type.
+     * @param name Name of property.
+     * @return Property, if exists, or null otherwise.
+     */
+    fun <R> getProperty(type: Class<R>, name: String): Property<R>?
 
     /**
-     * Method to invoke
+     * Gets the property map.
+     * @return Immutable property map.
      */
-    val method: MethodHandle
-
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
-
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
-
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
-
+    fun getProperties(): Map<String, Property<*>>
 }

@@ -43,7 +43,9 @@ dependencies {
 
     // Utilities
     compile 'com.flowpowered:flow-math:1.0.3'
-    compile 'com.github.JonathanxD:JwIUtils:2.5.0'
+    compile 'com.github.JonathanxD:JwIUtils:2.6.3'
+    compile 'com.github.JonathanxD:CodeAPI:1.14.0-SNAPSHOT'
+    compile 'com.github.JonathanxD:Adapter:3.7.0'
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -73,6 +75,7 @@ shadowJar {
 dokka {
     outputFormat = 'javadoc'
     outputDirectory = javadoc.destinationDir
+    includes = ['src/main/Module.md']
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

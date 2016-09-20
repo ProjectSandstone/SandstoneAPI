@@ -25,34 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
-
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
+package com.github.projectsandstone.api.event.property
 
 /**
- * Method event listener. This Listener holds a method that will be invoked.
+ * A Property that have a getter method.
  */
-interface MethodEventListener : EventListener<Event> {
+interface GetterProperty<R> : Property<R> {
 
     /**
-     * Method to invoke
+     * Gets the property value.
      */
-    val method: MethodHandle
-
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
-
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
-
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
+    fun getValue() : R
 
 }

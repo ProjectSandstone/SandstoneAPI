@@ -34,6 +34,7 @@ import com.github.projectsandstone.api.plugin.PluginManager
 import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import com.github.projectsandstone.api.world.World
+import java.nio.file.Path
 
 /**
  * Created by jonathan on 12/08/16.
@@ -49,6 +50,9 @@ object Sandstone {
 
     @JvmStatic
     private lateinit var loggerFactory_: LoggerFactory
+
+    @JvmStatic
+    private lateinit var sandstonePath_: Path
 
     /**
      * *[Game]*
@@ -77,6 +81,12 @@ object Sandstone {
     val loggerFactory: LoggerFactory
         get() = loggerFactory_
 
+    /**
+     * *Sandstone* base path.
+     */
+    @JvmStatic
+    val sandstonePath: Path
+        get() = sandstonePath_
 
     /**
      * *Sandstone* [PluginManager]

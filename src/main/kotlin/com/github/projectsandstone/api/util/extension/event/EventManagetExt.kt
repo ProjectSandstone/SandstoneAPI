@@ -25,34 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.util.extension.event
 
+import com.github.jonathanxd.iutils.`object`.ConcreteTypeInfo
 import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
+import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.event.EventListener
+import com.github.projectsandstone.api.event.EventManager
 
 /**
- * Method event listener. This Listener holds a method that will be invoked.
+ * Created by jonathan on 14/08/16.
  */
-interface MethodEventListener : EventListener<Event> {
+inline fun <reified T: Event> EventManager.registerListener(plugin: Any, eventListener: EventListener<T>) {
+    val typeInfo: TypeInfo<T> = object: ConcreteTypeInfo<T>(){}
 
-    /**
-     * Method to invoke
-     */
-    val method: MethodHandle
-
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
-
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
-
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
-
+    this.registerListener(plugin, typeInfo, eventListener)
 }

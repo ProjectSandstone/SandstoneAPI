@@ -28,11 +28,9 @@
 package com.github.projectsandstone.api.event
 
 import com.github.jonathanxd.iutils.`object`.TypeInfo
-import com.github.projectsandstone.api.Sandstone
-import com.github.projectsandstone.api.constants.SandstonePlugin
+import com.github.projectsandstone.api.event.annotation.TypeRef
 import com.github.projectsandstone.api.plugin.PluginContainer
 import java.lang.reflect.Method
-import java.time.Duration
 
 /**
  * Created by jonathan on 13/08/16.
@@ -113,6 +111,8 @@ interface EventManager {
     /**
      * Dispatch an [Event] of type [eventType] to all [EventListener]s that listen to the [event].
      *
+     * This method is used when you need to dispatch a generic event that doesn't provide [TypeRef]
+     *
      * @param event [Event] to dispatch do listeners.
      * @param eventType Type (generic) of [Event]
      * @param pluginContainer Plugin that created this event.
@@ -148,7 +148,6 @@ interface EventManager {
         this.dispatch(event, eventType, pluginContainer, true)
         this.dispatch(event, eventType, pluginContainer, false)
     }
-
 
 
     //////////// Async

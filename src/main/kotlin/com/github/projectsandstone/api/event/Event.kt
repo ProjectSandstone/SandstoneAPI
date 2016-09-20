@@ -27,20 +27,22 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.projectsandstone.api.event.info.Info
+import com.github.projectsandstone.api.event.annotation.Named
+import com.github.projectsandstone.api.event.property.PropertyHolder
+import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
+import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 
 /**
- * Created by jonathan on 13/08/16.
- */
-/**
- * [Event] implementation must provide a [Info] containing all elements related to event.
+ * [Event].
  *
- * Example PlayerDeathEvent must provide: Player, Location, World, DeathCause, etc...
+ * Has two ways to implement a event, first is creating your own interface that inherit [Event],
+ * and creating abstract property methods (getters and setters) and calling [SandstoneEventGen.gen].
+ * The second is: Implementing event in an concrete class, and naming constructor parameters with [Named]
+ * annotation.
+ *
+ * The second way is not recommended.
+ *
+ * Example of a event interface with properties: [ChangeServiceProviderEvent].
  */
-interface Event {
-
-    /**
-     * Get the [Event] [Info]
-     */
-    fun getInfo(): Info
+interface Event : PropertyHolder {
 }

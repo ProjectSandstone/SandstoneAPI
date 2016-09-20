@@ -25,34 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.event.annotation
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import java.lang.invoke.MethodHandle
-
-/**
- * Method event listener. This Listener holds a method that will be invoked.
- */
-interface MethodEventListener : EventListener<Event> {
-
-    /**
-     * Method to invoke
-     */
-    val method: MethodHandle
-
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
-
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
-
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
-
-}
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.FIELD,
+        AnnotationTarget.PROPERTY,
+        AnnotationTarget.ANNOTATION_CLASS,
+        AnnotationTarget.CLASS,
+        AnnotationTarget.CONSTRUCTOR,
+        AnnotationTarget.EXPRESSION,
+        AnnotationTarget.FILE,
+        AnnotationTarget.FUNCTION,
+        AnnotationTarget.LOCAL_VARIABLE,
+        AnnotationTarget.PROPERTY_GETTER,
+        AnnotationTarget.PROPERTY_SETTER,
+        AnnotationTarget.TYPE,
+        AnnotationTarget.TYPE_PARAMETER,
+        AnnotationTarget.VALUE_PARAMETER)
+annotation class Named(val value: String)
