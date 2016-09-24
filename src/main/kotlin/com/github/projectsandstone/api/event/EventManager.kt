@@ -54,7 +54,7 @@ interface EventManager {
      * @see [registerListeners]
      */
     fun <T : Event> registerListener(plugin: Any, eventType: Class<T>, eventListener: EventListener<T>) {
-        this.registerListener(plugin, TypeInfer.inferTypeInfoAs<T>(eventType), eventListener)
+        this.registerListener(plugin, TypeInfo.aEnd(eventType), eventListener)
     }
 
     /**
@@ -106,7 +106,7 @@ interface EventManager {
      */
     @Throws(Throwable::class)
     fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatch(event, TypeInfer.inferTypeInfoAs<T>(event.javaClass), pluginContainer, isBeforeModifications)
+        this.dispatch(event, TypeInfer.inferTypes(event), pluginContainer, isBeforeModifications)
     }
 
     /**
@@ -115,13 +115,13 @@ interface EventManager {
      * This method is used when you need to dispatch a generic event that doesn't provide [TypeRef]
      *
      * @param event [Event] to dispatch do listeners.
-     * @param eventType Type (generic) of [Event]
+     * @param eventType Inferred event types.
      * @param pluginContainer Plugin that created this event.
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatch(event: T, eventType: TypeInfo<T>, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
+    fun <T : Event> dispatch(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
 
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
@@ -145,7 +145,7 @@ interface EventManager {
      * @param pluginContainer Plugin that created this event.
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatch(event: T, eventType: TypeInfo<T>, pluginContainer: PluginContainer) {
+    fun <T : Event> dispatch(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer) {
         this.dispatch(event, eventType, pluginContainer, true)
         this.dispatch(event, eventType, pluginContainer, false)
     }
@@ -165,7 +165,7 @@ interface EventManager {
      */
     @Throws(Throwable::class)
     fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatchAsync(event, TypeInfer.inferTypeInfoAs<T>(event.javaClass), pluginContainer, isBeforeModifications)
+        this.dispatchAsync(event, TypeInfer.inferTypes(event), pluginContainer, isBeforeModifications)
     }
 
     /**
@@ -174,13 +174,13 @@ interface EventManager {
      * Asynchronous dispatch
      *
      * @param event [Event] to dispatch do listeners.
-     * @param eventType Type (generic) of [Event]
+     * @param eventType Inferred event types
      * @param pluginContainer Plugin that created this event.
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatchAsync(event: T, eventType: TypeInfo<T>, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
+    fun <T : Event> dispatchAsync(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
 
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
@@ -208,7 +208,7 @@ interface EventManager {
      * @param pluginContainer Plugin that created this event.
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatchAsync(event: T, eventType: TypeInfo<T>, pluginContainer: PluginContainer) {
+    fun <T : Event> dispatchAsync(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer) {
         this.dispatchAsync(event, eventType, pluginContainer, false)
         this.dispatchAsync(event, eventType, pluginContainer, true)
     }

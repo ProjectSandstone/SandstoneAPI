@@ -25,24 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.annotation
+package com.github.projectsandstone.example;
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
+import com.github.jonathanxd.iutils.map.MapUtils;
+import com.github.jonathanxd.iutils.object.TypeInfo;
+import com.github.projectsandstone.api.event.Event;
+import com.github.projectsandstone.api.event.annotation.TypeRef;
+import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen;
+import com.github.projectsandstone.api.util.type.TypeInfer;
 
-/**
- * *Sandstone Event Manager* supports Generic Types, but Java has no Full-Reification (Java only
- * reifies generic types if the type is explicit specified) and Event Implementation Generator
- * erases all types, to work-around this limitation, you must to specify a explicit type reference of a generic type.
- *
- * *Event Manager* Supports only [Class] and [TypeInfo].
- *
- * Example of usage:
- *
- * [ChangeServiceProviderEvent].
- *
- * @param value Type name.
- */
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
-annotation class TypeRef(val value: String)
+import org.junit.Assert;
+import org.junit.Test;
+
+public class TypeInferTest {
+
+    @Test
+    public void typeInferTest() {
+
+        VM vm = SandstoneEventGen.INSTANCE.gen(VM.class,
+                MapUtils.mapOf("type", String.class));
+
+        Assert.assertEquals(TypeInfo.aEnd(String.class), TypeInfer.INSTANCE.inferTypes(vm).get("T"));
+    }
+
+    public static interface VM<T> extends Event {
+        @TypeRef("T")
+        Class<T> getType();
+    }
+}

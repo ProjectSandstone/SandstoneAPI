@@ -155,7 +155,6 @@ object SandstoneEventGenUtil {
     }
 
     private fun genPropertyField(type: Class<*>, body: CodeSource, properties: List<Property>) {
-
         body += CodeAPI.field(Modifier.PRIVATE or Modifier.FINAL,
                 propertiesFieldType,
                 propertiesFieldName,

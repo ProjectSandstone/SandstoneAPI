@@ -39,51 +39,58 @@ import java.util.*
 
 object TypeInfer {
 
-    fun inferTypeInfo(o: Any) : TypeInfo<*> {
-
-        val types = this.inferTypes(o)
-        val tInfoBuilder = TypeInfo.a(o.javaClass)
-
-        val cl = o.javaClass
-        cl.typeParameters.forEach {
-            tInfoBuilder.of(listOf(types[it.name]!!))
-        }
-
-        return tInfoBuilder.build()
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    fun <T> inferTypeInfoAs(o: Any) : TypeInfo<T> {
-        return this.inferTypeInfo(o) as TypeInfo<T>
-    }
-
     fun inferTypes(o: Any): Map<String, TypeInfo<*>> {
 
         val map = HashMap<String, TypeInfo<*>>()
 
-        for (field in o.javaClass.fields) {
-            if (Modifier.isStatic(field.modifiers))
-                continue
-
-            analyzeAnnotations(map, o, field, field.type, Invokables.fromField<Any>(field))
-        }
-
-        for (method in o.javaClass.methods) {
-            if (Modifier.isStatic(method.modifiers))
-                continue
-
-            analyzeAnnotations(map, o, method, method.returnType, Invokables.fromMethod<Any>(method))
-        }
+        this.inferTypes(o.javaClass, o, map)
 
         return map
     }
 
+    private fun inferTypes(cl: Class<Any>, instance: Any, map: MutableMap<String, TypeInfo<*>>) {
+        for (field in cl.fields) {
+            if (Modifier.isStatic(field.modifiers))
+                continue
+
+            analyzeAnnotations(map, instance, field, field.type, Invokables.fromField<Any>(field))
+        }
+
+        for (method in cl.methods) {
+            if (Modifier.isStatic(method.modifiers))
+                continue
+
+            analyzeAnnotations(map, instance, method, method.returnType, Invokables.fromMethod<Any>(method))
+        }
+
+        if(cl.superclass != null && cl.superclass != Any::class.java) {
+            @Suppress("UNCHECKED_CAST")
+            val superClass: Class<Any> = cl.superclass as Class<Any>
+
+            this.inferTypes(superClass, instance, map)
+        }
+
+        val interfaces = cl.interfaces
+
+        if(interfaces != null && interfaces.size > 0)
+            interfaces.forEach {
+                if(it != null) {
+                    @Suppress("UNCHECKED_CAST")
+                    this.inferTypes(it as Class<Any>, instance, map)
+                }
+            }
+    }
+
     private fun analyzeAnnotations(map: MutableMap<String, TypeInfo<*>>, instance: Any, annotatedElement: AnnotatedElement, type: Class<*>, invokable: Invokable<Any>) {
 
-        val annotation = annotatedElement.getAnnotation(TypeRef::class.java)
+        val annotation = annotatedElement.getDeclaredAnnotation(TypeRef::class.java)
 
         if (annotation != null) {
             val typeInfo: TypeInfo<*>
+            val typeName = annotation.value
+
+            if(map.containsKey(typeName))
+                return
 
             if (TypeInfo::class.java.isAssignableFrom(type)) {
                 typeInfo = invokable.invoke(instance) as TypeInfo<*>
@@ -92,8 +99,6 @@ object TypeInfer {
             } else {
                 throw IllegalArgumentException("Type of element: '$annotatedElement' must be Class<?> of iutils.TypeInfo")
             }
-
-            val typeName = annotation.value
 
             if (map.containsKey(typeName))
                 throw IllegalArgumentException("Duplicated definition of type: '$typeName'. Element: '$annotatedElement'!")
