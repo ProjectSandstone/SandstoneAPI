@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.event
 import com.github.jonathanxd.iutils.`object`.TypeInfo
 import com.github.projectsandstone.api.event.annotation.TypeRef
 import com.github.projectsandstone.api.plugin.PluginContainer
+import com.github.projectsandstone.api.util.type.TypeInfer
 import java.lang.reflect.Method
 
 /**
@@ -53,7 +54,7 @@ interface EventManager {
      * @see [registerListeners]
      */
     fun <T : Event> registerListener(plugin: Any, eventType: Class<T>, eventListener: EventListener<T>) {
-        this.registerListener(plugin, TypeInfo.aEnd(eventType), eventListener)
+        this.registerListener(plugin, TypeInfer.inferTypeInfoAs<T>(eventType), eventListener)
     }
 
     /**
@@ -105,7 +106,7 @@ interface EventManager {
      */
     @Throws(Throwable::class)
     fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatch(event, TypeInfo.aEnd(event.javaClass), pluginContainer, isBeforeModifications)
+        this.dispatch(event, TypeInfer.inferTypeInfoAs<T>(event.javaClass), pluginContainer, isBeforeModifications)
     }
 
     /**
@@ -164,7 +165,7 @@ interface EventManager {
      */
     @Throws(Throwable::class)
     fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatchAsync(event, TypeInfo.aEnd(event.javaClass), pluginContainer, isBeforeModifications)
+        this.dispatchAsync(event, TypeInfer.inferTypeInfoAs<T>(event.javaClass), pluginContainer, isBeforeModifications)
     }
 
     /**

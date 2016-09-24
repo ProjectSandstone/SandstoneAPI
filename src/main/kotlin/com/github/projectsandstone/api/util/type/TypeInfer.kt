@@ -28,6 +28,8 @@
 package com.github.projectsandstone.api.util.type
 
 import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.jonathanxd.iutils.`object`.TypeProvider
+import com.github.jonathanxd.iutils.`object`.TypeUtil
 import com.github.jonathanxd.iutils.reflection.Invokable
 import com.github.jonathanxd.iutils.reflection.Invokables
 import com.github.projectsandstone.api.event.annotation.TypeRef
@@ -36,6 +38,25 @@ import java.lang.reflect.Modifier
 import java.util.*
 
 object TypeInfer {
+
+    fun inferTypeInfo(o: Any) : TypeInfo<*> {
+
+        val types = this.inferTypes(o)
+        val tInfoBuilder = TypeInfo.a(o.javaClass)
+
+        val cl = o.javaClass
+        cl.typeParameters.forEach {
+            tInfoBuilder.of(listOf(types[it.name]!!))
+        }
+
+        return tInfoBuilder.build()
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    fun <T> inferTypeInfoAs(o: Any) : TypeInfo<T> {
+        return this.inferTypeInfo(o) as TypeInfo<T>
+    }
+
     fun inferTypes(o: Any): Map<String, TypeInfo<*>> {
 
         val map = HashMap<String, TypeInfo<*>>()
