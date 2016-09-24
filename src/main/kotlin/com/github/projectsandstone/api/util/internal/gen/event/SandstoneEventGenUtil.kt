@@ -107,8 +107,6 @@ object SandstoneEventGenUtil {
             PlainSourceGenerator().gen(codeSource)
         }
 
-        Files.write(Paths.get("save.class"), bytes, StandardOpenOption.CREATE)
-
         val sandstoneClass = EventGenClassLoader.defineClass(codeClass, bytes, source) as SandstoneClass<T>
 
         if (Debug.EVENT_GEN_DEBUG) {
