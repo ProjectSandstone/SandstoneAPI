@@ -37,6 +37,19 @@ import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 
 object SandstoneEventFactory {
 
+    /**
+     * Create implementation of a [Event] of type [eventType].
+     *
+     * @param eventType Type of event.
+     * @param properties Properties (read the Sandstone wiki to learn about Property System).
+     * @param T event type
+     * @return event instance.
+     */
+    @JvmStatic
+    fun <T : Event> createEvent(eventType: TypeInfo<T>, properties: Map<String, Any>): T {
+        return SandstoneEventGen.gen(eventType, properties)
+    }
+
     @JvmStatic
     fun createServerStartingEvent(): ServerStartingEvent {
         return SandstoneEventGen.create()
@@ -72,13 +85,18 @@ object SandstoneEventFactory {
         return SandstoneEventGen.create()
     }
 
+    @Suppress("UNCHECKED_CAST")
     @JvmStatic
     fun <T : Any> createChangeServiceProviderEvent(service: TypeInfo<T>,
                                                    oldProvider: RegisteredProvider<T>?,
                                                    newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> {
-        return SandstoneEventGen.create(mutableMapOf("service" to service,
-                "oldProvider" to oldProvider,
-                "newProvider" to newProvider)
+        return SandstoneEventGen.create(
+                TypeInfo.of(ChangeServiceProviderEvent::class.java)
+                        .of<Any>(service)
+                        .build() as TypeInfo<ChangeServiceProviderEvent<T>>,
+                mutableMapOf("service" to service,
+                        "oldProvider" to oldProvider,
+                        "newProvider" to newProvider)
         )
     }
 
@@ -91,6 +109,6 @@ object SandstoneEventFactory {
     @JvmStatic
     inline fun <reified T : Any> createChangeServiceProviderEvent(oldProvider: RegisteredProvider<T>?,
                                                                   newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> {
-        return this.createChangeServiceProviderEvent(object: AbstractTypeInfo<T>(){}, oldProvider, newProvider)
+        return this.createChangeServiceProviderEvent(object : AbstractTypeInfo<T>() {}, oldProvider, newProvider)
     }
 }

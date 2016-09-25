@@ -28,6 +28,7 @@
 package com.github.projectsandstone.api.util.internal.gen.event
 
 import com.github.jonathanxd.iutils.`object`.Primitive
+import com.github.jonathanxd.iutils.`object`.TypeInfo
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import com.github.projectsandstone.api.event.annotation.Named
 import java.lang.invoke.MethodHandles
@@ -38,10 +39,10 @@ import java.lang.invoke.MethodType
  */
 object SandstoneEventGen {
     private val lookup = MethodHandles.publicLookup()
-    private val cached: MutableMap<Class<*>, Class<*>> = WeakValueHashMap()
+    private val cached: MutableMap<TypeInfo<*>, Class<*>> = WeakValueHashMap()
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> gen(type: Class<T>, properties: Map<String, Any?>): T {
+    fun <T> gen(type: TypeInfo<T>, properties: Map<String, Any?>): T {
         val class_: Class<T>
 
         if (this.cached.containsKey(type)) {

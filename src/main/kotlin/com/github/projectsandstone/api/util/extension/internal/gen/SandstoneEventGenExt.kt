@@ -27,8 +27,15 @@
  */
 package com.github.projectsandstone.api.util.extension.internal.gen
 
+import com.github.jonathanxd.iutils.`object`.ConcreteTypeInfo
+import com.github.jonathanxd.iutils.`object`.TypeInfo
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 
-inline fun <reified T : Any> SandstoneEventGen.create(properties: Map<String, Any?>) = this.gen(T::class.java, properties)
+inline fun <reified T : Any> SandstoneEventGen.create(typeInfo: TypeInfo<T>, properties: Map<String, Any?>) = this.gen(typeInfo, properties)
 
-inline fun <reified T : Any> SandstoneEventGen.create() = this.gen(T::class.java, mutableMapOf<String, Any?>())
+inline fun <reified T : Any> SandstoneEventGen.create(typeInfo: TypeInfo<T>) = this.gen(typeInfo, mutableMapOf<String, Any?>())
+
+inline fun <reified T : Any> SandstoneEventGen.create(properties: Map<String, Any?>) = this.gen(object: ConcreteTypeInfo<T>(){}, properties)
+
+inline fun <reified T : Any> SandstoneEventGen.create() = this.gen(object: ConcreteTypeInfo<T>(){}, mutableMapOf<String, Any?>())
+

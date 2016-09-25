@@ -44,7 +44,7 @@ dependencies {
     // Utilities
     compile 'com.flowpowered:flow-math:1.0.3'
     compile 'com.github.JonathanxD:JwIUtils:2.6.3'
-    compile 'com.github.JonathanxD:CodeAPI:1.14.0-SNAPSHOT'
+    compile 'com.github.JonathanxD:CodeAPI:1.14.2-SNAPSHOT'
     compile 'com.github.JonathanxD:Adapter:3.7.0'
 
     // Kotlin

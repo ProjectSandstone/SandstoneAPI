@@ -28,9 +28,9 @@
 package com.github.projectsandstone.api.event
 
 import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.annotation.TypeRef
 import com.github.projectsandstone.api.plugin.PluginContainer
-import com.github.projectsandstone.api.util.type.TypeInfer
 import java.lang.reflect.Method
 
 /**
@@ -43,7 +43,8 @@ import java.lang.reflect.Method
  */
 interface EventManager {
 
-    /**
+    @Suppress("UNCHECKED_CAST")
+            /**
      * Register a [EventListener] for a [Event].
      *
      * If you wan't to register an instance as [EventListener] use [registerListeners].
@@ -96,6 +97,55 @@ interface EventManager {
                                ignoreCancelled: Boolean = false,
                                isBeforeModifications: Boolean = false)
 
+
+    /**
+     * Dispatch an event of type [eventType] to all listener that list to the event.
+     *
+     * @param eventType Type of event.
+     * @param properties Properties of this event.
+     * @param pluginContainer Plugin that created this event.
+     * @param isBeforeModifications True if this dispatch is occurring before modifications,
+     * false otherwise (default: false).
+     */
+    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
+        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), pluginContainer, isBeforeModifications);
+    }
+
+    /**
+     * Dispatch an event of type [eventType] to all listener that list to the event.
+     *
+     * @param eventType Type of event.
+     * @param properties Properties of this event.
+     * @param pluginContainer Plugin that created this event.
+     */
+    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer) {
+        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), pluginContainer)
+    }
+
+    /**
+     * Dispatch an event of type [eventType] to all listener that list to the event.
+     *
+     * @param eventType Type of event.
+     * @param properties Properties of this event.
+     * @param plugin Plugin instance
+     * @param isBeforeModifications True if this dispatch is occurring before modifications,
+     * false otherwise (default: false).
+     */
+    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any, isBeforeModifications: Boolean) {
+        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), Sandstone.pluginManager.getRequiredPlugin(plugin), isBeforeModifications)
+    }
+
+    /**
+     * Dispatch an event of type [eventType] to all listener that list to the event.
+     *
+     * @param eventType Type of event.
+     * @param properties Properties of this event.
+     * @param plugin Plugin instance
+     */
+    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any) {
+        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), Sandstone.pluginManager.getRequiredPlugin(plugin))
+    }
+
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
      *
@@ -105,23 +155,31 @@ interface EventManager {
      * false otherwise (default: false).
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatch(event, TypeInfer.inferTypes(event), pluginContainer, isBeforeModifications)
-    }
+    fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
 
     /**
-     * Dispatch an [Event] of type [eventType] to all [EventListener]s that listen to the [event].
-     *
-     * This method is used when you need to dispatch a generic event that doesn't provide [TypeRef]
+     * Dispatch an [Event] to all [EventListener]s that listen to the [event].
      *
      * @param event [Event] to dispatch do listeners.
-     * @param eventType Inferred event types.
-     * @param pluginContainer Plugin that created this event.
+     * @param plugin Plugin instance.
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
     @Throws(Throwable::class)
-    fun <T : Event> dispatch(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
+    fun <T : Event> dispatch(event: T, plugin: Any, isBeforeModifications: Boolean) {
+        this.dispatch(event, Sandstone.pluginManager.getRequiredPlugin(plugin), isBeforeModifications)
+    }
+
+    /**
+     * Dispatch an [Event] to all [EventListener]s that listen to the [event].
+     *
+     * @param event [Event] to dispatch do listeners.
+     * @param plugin Plugin instance.
+     */
+    @Throws(Throwable::class)
+    fun <T : Event> dispatch(event: T, plugin: Any) {
+        this.dispatch(event, Sandstone.pluginManager.getRequiredPlugin(plugin))
+    }
 
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
@@ -135,22 +193,6 @@ interface EventManager {
         this.dispatch(event, pluginContainer, false)
     }
 
-    /**
-     * Dispatch an [Event] of type [eventType] to all [EventListener]s that listen to the [event].
-     *
-     * [Event] will be dispatched as before and after modifications.
-     *
-     * @param event [Event] to dispatch do listeners.
-     * @param eventType Type (generic) of [Event]
-     * @param pluginContainer Plugin that created this event.
-     */
-    @Throws(Throwable::class)
-    fun <T : Event> dispatch(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer) {
-        this.dispatch(event, eventType, pluginContainer, true)
-        this.dispatch(event, eventType, pluginContainer, false)
-    }
-
-
     //////////// Async
 
     /**
@@ -163,24 +205,41 @@ interface EventManager {
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(Throwable::class)
-    fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatchAsync(event, TypeInfer.inferTypes(event), pluginContainer, isBeforeModifications)
-    }
+    fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
 
     /**
-     * Dispatch an [Event] of type [eventType] to all [EventListener]s that listen to the [event].
+     * Dispatch an [Event] to all [EventListener]s that listen to the [event].
      *
      * Asynchronous dispatch
      *
      * @param event [Event] to dispatch do listeners.
-     * @param eventType Inferred event types
-     * @param pluginContainer Plugin that created this event.
+     * @param plugin Plugin instance
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
+    @Suppress("UNCHECKED_CAST")
     @Throws(Throwable::class)
-    fun <T : Event> dispatchAsync(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
+    fun <T : Event> dispatchAsync(event: T, plugin: Any, isBeforeModifications: Boolean) {
+        this.dispatchAsync(event, Sandstone.pluginManager.getRequiredPlugin(plugin), isBeforeModifications)
+    }
+
+    /**
+     * Dispatch an [Event] to all [EventListener]s that listen to the [event].
+     *
+     * Asynchronous dispatch
+     *
+     * @param event [Event] to dispatch do listeners.
+     * @param plugin Plugin instance
+     * @param isBeforeModifications True if this dispatch is occurring before modifications,
+     * false otherwise (default: false).
+     */
+    @Suppress("UNCHECKED_CAST")
+    @Throws(Throwable::class)
+    fun <T : Event> dispatchAsync(event: T, plugin: Any) {
+        this.dispatchAsync(event, Sandstone.pluginManager.getRequiredPlugin(plugin))
+    }
 
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
@@ -194,23 +253,6 @@ interface EventManager {
     fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer) {
         this.dispatchAsync(event, pluginContainer, false)
         this.dispatchAsync(event, pluginContainer, true)
-    }
-
-    /**
-     * Dispatch an [Event] of type [eventType] to all [EventListener]s that listen to the [event].
-     *
-     * Asynchronous dispatch
-     *
-     * [Event] will be dispatched as before and after modifications.
-     *
-     * @param event [Event] to dispatch do listeners.
-     * @param eventType Type (generic) of [Event]
-     * @param pluginContainer Plugin that created this event.
-     */
-    @Throws(Throwable::class)
-    fun <T : Event> dispatchAsync(event: T, eventType: Map<String, TypeInfo<*>>, pluginContainer: PluginContainer) {
-        this.dispatchAsync(event, eventType, pluginContainer, false)
-        this.dispatchAsync(event, eventType, pluginContainer, true)
     }
 
     //////////// /Async

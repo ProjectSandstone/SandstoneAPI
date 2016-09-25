@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.common.*
 import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator
+import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.helper.Helper
 import com.github.jonathanxd.codeapi.helper.MethodSpec
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes
@@ -42,6 +43,7 @@ import com.github.jonathanxd.codeapi.literals.Literals
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.types.Generic
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator
+import com.github.jonathanxd.iutils.`object`.TypeInfo
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.annotation.Named
@@ -51,13 +53,12 @@ import com.github.projectsandstone.api.event.property.PropertyImpl
 import com.github.projectsandstone.api.event.property.SetterPropertyImpl
 import com.github.projectsandstone.api.util.internal.Debug
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
+import com.github.projectsandstone.api.util.internal.gen.genericFromTypeInfo
+import com.github.projectsandstone.api.util.internal.gen.genericSignFromTypeInfo
 import com.github.projectsandstone.api.util.internal.gen.save.ClassSaver
 import com.github.projectsandstone.api.util.succeed
 import com.github.projectsandstone.api.util.succeedReturn
 import java.lang.reflect.Modifier
-import java.nio.file.Files
-import java.nio.file.Paths
-import java.nio.file.StandardOpenOption
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
@@ -71,9 +72,11 @@ object SandstoneEventGenUtil {
             .of(Helper.getJavaType(com.github.projectsandstone.api.event.property.Property::class.java))
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> genImplementation(type: Class<T>): SandstoneClass<T> {
+    fun <T> genImplementation(typeInfo: TypeInfo<T>): SandstoneClass<T> {
 
-        val isItf = type.isInterface
+        val type: CodeType = genericFromTypeInfo(typeInfo)
+        val classType = typeInfo.aClass
+        val isItf = classType.isInterface
 
         var codeClassBuilder = CodeAPI
                 .aClassBuilder()
@@ -90,13 +93,14 @@ object SandstoneEventGenUtil {
 
         val body = codeClass.body.get()
 
-        val properties = this.getProperties(type)
 
-        this.genFields(type, body, properties)
-        this.genConstructor(type, body, properties)
-        this.genMethods(type, body, properties)
+        val properties = this.getProperties(classType)
+
+        this.genFields(classType, body, properties)
+        this.genConstructor(classType, body, properties)
+        this.genMethods(classType, body, properties)
         // Gen getProperties & getProperty
-        this.genPropertyHolderMethods(type, body, properties)
+        this.genPropertyHolderMethods(classType, body, properties)
         this.check(body)
 
 

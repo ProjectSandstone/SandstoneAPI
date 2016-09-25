@@ -25,31 +25,26 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.example;
+package com.github.projectsandstone.api.util.internal.gen
 
-import com.github.jonathanxd.iutils.map.MapUtils;
-import com.github.jonathanxd.iutils.object.TypeInfo;
-import com.github.projectsandstone.api.event.Event;
-import com.github.projectsandstone.api.event.annotation.TypeRef;
-import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen;
-import com.github.projectsandstone.api.util.type.TypeInfer;
+import com.github.jonathanxd.codeapi.generic.GenericSignature
+import com.github.jonathanxd.codeapi.helper.Helper
+import com.github.jonathanxd.codeapi.types.Generic
+import com.github.jonathanxd.codeapi.types.GenericType
+import com.github.jonathanxd.iutils.`object`.TypeInfo
 
-import org.junit.Assert;
-import org.junit.Test;
 
-public class TypeInferTest {
+fun genericSignFromTypeInfo(typeInfo: TypeInfo<*>): GenericSignature<GenericType> =
+        GenericSignature.create(genericFromTypeInfo(typeInfo))
 
-    @Test
-    public void typeInferTest() {
 
-        VM vm = SandstoneEventGen.INSTANCE.gen(VM.class,
-                MapUtils.mapOf("type", String.class));
+fun genericFromTypeInfo(typeInfo: TypeInfo<*>): Generic {
 
-        Assert.assertEquals(TypeInfo.aEnd(String.class), TypeInfer.INSTANCE.inferTypes(vm).get("T"));
+    var generic = Generic.type(Helper.getJavaType(typeInfo.aClass))
+
+    typeInfo.related.forEach {
+        generic = generic.of(genericFromTypeInfo(it))
     }
 
-    public static interface VM<T> extends Event {
-        @TypeRef("T")
-        Class<T> getType();
-    }
+    return generic
 }

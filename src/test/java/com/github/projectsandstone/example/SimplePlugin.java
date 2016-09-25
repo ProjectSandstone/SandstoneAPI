@@ -27,15 +27,20 @@
  */
 package com.github.projectsandstone.example;
 
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 
+import com.github.jonathanxd.iutils.map.MapUtils;
 import com.github.projectsandstone.api.Game;
 import com.github.projectsandstone.api.event.Listener;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
+import com.github.projectsandstone.api.event.property.Property;
 import com.github.projectsandstone.api.logging.Logger;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.api.plugin.PluginDefinition;
 import com.github.projectsandstone.api.util.version.Schemes;
+
+import kotlin.collections.MapsKt;
 
 /**
  * Created by jonathan on 13/08/16.
