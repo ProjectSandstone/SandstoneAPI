@@ -105,4 +105,9 @@ interface PluginContainer {
      * Plugin class loader.
      */
     val classLoader: PluginClassLoader
+
+    /**
+     * Main class of this plugin.
+     */
+    val mainClass: String
 }
