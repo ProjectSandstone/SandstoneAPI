@@ -64,7 +64,7 @@ interface PluginLoader {
      * @return [PluginContainer] create from [Plugin] annotations found in [classes]
      */
     @Throws(PluginLoadException::class)
-    fun loadClasses(classes: Array<Class<*>>): List<PluginContainer>
+    fun loadClasses(classes: Array<String>): List<PluginContainer>
 
     /**
      * Load [plugin] classes. Must be called AFTER dependency resolution.
