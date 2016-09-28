@@ -65,10 +65,10 @@ interface PluginManager {
      * Load all plugins found in [classes].
      *
      * @param classes Classes of plugin.
-     * @return True if all plugins [classes] was loaded successfully, else otherwise. (Errors will be logged to console).
+     * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
      */
     @Throws(MissingDependencyException::class, CircularDependencyException::class)
-    fun loadPlugins(classes: Array<Class<*>>): Boolean
+    fun loadPlugins(classes: Array<Class<*>>): List<PluginContainer>
 
     /**
      * Load a [PluginContainer].
