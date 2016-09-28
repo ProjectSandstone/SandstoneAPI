@@ -76,6 +76,8 @@ object SandstonePlugin: PluginContainer {
         get() = Sandstone.logger
 
     override val classLoader: PluginClassLoader = SandstonePluginClassLoader
+    override val mainClass: String = "com.github.projectsandstone.api.Sandstone"
+
 
 
     private object SandstonePluginClassLoader : PluginClassLoader {
