@@ -62,6 +62,15 @@ interface PluginManager {
     val pluginLoader: PluginLoader
 
     /**
+     * Load all plugins found in [classes].
+     *
+     * @param classes Classes of plugin.
+     * @return True if all plugins [classes] was loaded successfully, else otherwise. (Errors will be logged to console).
+     */
+    @Throws(MissingDependencyException::class, CircularDependencyException::class)
+    fun loadPlugins(classes: Array<Class<*>>): Boolean
+
+    /**
      * Load a [PluginContainer].
      *
      * @throws MissingDependencyException
