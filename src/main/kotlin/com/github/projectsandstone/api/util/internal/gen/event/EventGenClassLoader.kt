@@ -28,13 +28,14 @@
 package com.github.projectsandstone.api.util.internal.gen.event
 
 import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration
+import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
 import java.util.*
 
 /**
  * [ClassLoader] of all event generated classes
  */
-internal object EventGenClassLoader : ClassLoader() {
+internal object EventGenClassLoader : ClassLoader(Sandstone::class.java.classLoader) {
 
     private val loadedClasses_ = mutableListOf<SandstoneClass<*>>()
     val loadedClasses = Collections.unmodifiableList(loadedClasses_)
