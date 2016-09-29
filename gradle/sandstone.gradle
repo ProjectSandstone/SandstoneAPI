@@ -56,7 +56,7 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     // JUnit
-    testCompile group: 'junit', name:'junit', version: '4.12'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
 
@@ -111,10 +111,10 @@ license {
     header rootProject.file('LICENSE_HEADER')
 
     sourceSets = project.sourceSets
-    
+
     ignoreFailures false
     strictCheck true
-    
+
     mapping {
         java = 'JAVADOC_STYLE'
         kt = 'JAVADOC_STYLE'

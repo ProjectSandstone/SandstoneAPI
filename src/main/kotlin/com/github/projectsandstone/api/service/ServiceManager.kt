@@ -27,8 +27,6 @@
  */
 package com.github.projectsandstone.api.service
 
-import com.github.jonathanxd.codeproxy.CodeProxy
-
 /**
  * Manage all [RegisteredProvider]s, services must be registered only during the post-initialization.
  *
