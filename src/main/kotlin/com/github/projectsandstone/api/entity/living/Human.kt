@@ -27,5 +27,7 @@
  */
 package com.github.projectsandstone.api.entity.living
 
-interface Human {
+import com.github.projectsandstone.api.entity.Entity
+
+interface Human : Entity {
 }
