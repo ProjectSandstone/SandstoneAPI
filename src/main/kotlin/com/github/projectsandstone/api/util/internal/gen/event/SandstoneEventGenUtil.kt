@@ -85,7 +85,7 @@ object SandstoneEventGenUtil {
                 .replace("<", "_of_").replace(">", "__")
                 .replace(", ", "_and_")
 
-        val name = "${type.canonicalName}Impl$count$typeInfoLiter"
+        val name = "${typeInfoLiter}Impl$$count"
         ++count
 
         var codeClassBuilder = CodeAPI
