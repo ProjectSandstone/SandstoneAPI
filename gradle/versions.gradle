@@ -1,0 +1,2 @@
+ext.kotlin_version = '1.0.4'
+ext.dokka_version = '0.9.9'

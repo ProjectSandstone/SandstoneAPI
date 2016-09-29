@@ -27,6 +27,8 @@
  */
 package com.github.projectsandstone.api.service
 
+import com.github.jonathanxd.codeproxy.CodeProxy
+
 /**
  * Manage all [RegisteredProvider]s, services must be registered only during the post-initialization.
  *
@@ -54,6 +56,37 @@ interface ServiceManager {
      * @return provider for service class [service], if not found, return null.
      */
     fun <T : Any> provide(service: Class<T>): T?
+
+    /**
+     * Provide the service lazily.
+     *
+     * This method lookup for provider in *Sandstone Service Manager* and in *Platform Service manager*
+     *
+     * @param service Service class
+     * @return Lazy provider of [service]
+     */
+    fun <T : Any> provideLazy(service: Class<T>): Lazy<T?> = lazy {
+        this.provide(service)
+    }
+
+    /**
+     * Provide the service proxied.
+     *
+     * This method lookup for provider in *Sandstone Service Manager* and in *Platform Service manager*
+     *
+     * The proxy provider will always call [provide] in all operations of service,
+     * but it has a few set of limitations:
+     *
+     * - Fields is not proxied.
+     *
+     * - Only proxy accessible members
+     *
+     * - Only proxy classes with public constructors.
+     *
+     * @param service Service class
+     * @return Proxy provider of service.
+     */
+    fun <T : Any> provideProxy(service: Class<T>): T
 
     /**
      * Watch all provider registration.

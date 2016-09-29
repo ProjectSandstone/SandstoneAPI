@@ -46,6 +46,7 @@ dependencies {
     compile 'com.github.JonathanxD:JwIUtils:2.7.1'
     compile 'com.github.JonathanxD:CodeAPI:1.14.2-SNAPSHOT'
     compile 'com.github.JonathanxD:Adapter:3.8.0'
+    compile 'com.github.JonathanxD:CodeProxy:1.0.4'
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
