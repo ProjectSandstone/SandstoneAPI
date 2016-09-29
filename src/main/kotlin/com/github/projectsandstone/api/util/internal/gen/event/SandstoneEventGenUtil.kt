@@ -71,6 +71,8 @@ object SandstoneEventGenUtil {
             .of(PredefinedTypes.STRING)
             .of(Helper.getJavaType(com.github.projectsandstone.api.event.property.Property::class.java))
 
+    private var count: Int = 0
+
     @Suppress("UNCHECKED_CAST")
     fun <T> genImplementation(typeInfo: TypeInfo<T>): SandstoneClass<T> {
 
@@ -78,11 +80,19 @@ object SandstoneEventGenUtil {
         val classType = typeInfo.aClass
         val isItf = classType.isInterface
 
+        val typeInfoLiter = typeInfo.toString()
+                .replace(".", "_")
+                .replace("<", "_of_").replace(">", "__")
+                .replace(", ", "_and_")
+
+        val name = "${type.canonicalName}Impl$count$typeInfoLiter"
+        ++count
+
         var codeClassBuilder = CodeAPI
                 .aClassBuilder()
                 .withBody(CodeSource())
                 .withModifiers(Modifier.PUBLIC)
-                .withQualifiedName(type.canonicalName + "Impl")
+                .withQualifiedName(name)
 
         if (isItf)
             codeClassBuilder = codeClassBuilder.withImplementations(type)
