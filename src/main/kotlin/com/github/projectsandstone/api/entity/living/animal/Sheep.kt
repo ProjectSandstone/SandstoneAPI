@@ -25,64 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.text.style
+package com.github.projectsandstone.api.entity.living.animal
 
-import com.github.projectsandstone.api.util.style.Color
-
-
-/**
- * Constant text colors
- */
-object TextColors {
-
-    @JvmField
-    val NORMAL = TextColor("reset", 255, 255, 255)
-
-    @JvmField
-    val LIGHT_GRAY = TextColor("light_gray", 192, 192, 192)
-
-    @JvmField
-    val DARK_GRAY = TextColor("dark_gray", 64, 64, 64)
-
-    @JvmField
-    val MAGENTA = TextColor("magenta", 255, 0, 255)
-
-    @JvmField
-    val ORANGE = TextColor("orange", 255, 200, 0)
-
-    @JvmField
-    val YELLOW = TextColor("yellow", 255, 255, 0)
-
-    @JvmField
-    val WHITE = TextColor("white", 255, 255, 255)
-
-    @JvmField
-    val RESET = TextColor("reset", 255, 255, 255)
-
-    @JvmField
-    val GRAY = TextColor("gray", 128, 128, 128)
-
-    @JvmField
-    val PINK = TextColor("pink", 255, 175, 175)
-
-    @JvmField
-    val CYAN = TextColor("cyan", 0, 255, 255)
-
-    @JvmField
-    val GREEN = TextColor("green", 0, 255, 0)
-
-    @JvmField
-    val BLUE = TextColor("blue", 0, 0, 255)
-
-    @JvmField
-    val BLACK = TextColor("black", 0, 0, 0)
-
-    @JvmField
-    val RED = TextColor("red", 255, 0, 0)
-
-
-    private inline fun TextColor(name: String, red: Int, green: Int, blue: Int): TextColor {
-        return TextColor(name, Color(red, green, blue))
-    }
+interface Sheep : Animal {
 }
-

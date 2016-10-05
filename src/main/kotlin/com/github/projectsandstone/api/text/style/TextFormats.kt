@@ -32,22 +32,22 @@ package com.github.projectsandstone.api.text.style
  */
 object TextFormats {
 
-    @JvmStatic
+    @JvmField
     val NORMAL = TextFormat()
 
-    @JvmStatic
+    @JvmField
     val BOLD = TextFormat(bold = true)
 
-    @JvmStatic
+    @JvmField
     val ITALIC = TextFormat(italic = true)
 
-    @JvmStatic
+    @JvmField
     val UNDERLINE = TextFormat(underline = true)
 
-    @JvmStatic
+    @JvmField
     val STRIKE_THROUGH = TextFormat(strikeThrough = true)
 
-    @JvmStatic
+    @JvmField
     val OBFUSCATED = TextFormat(obfuscated = true)
 
 }
