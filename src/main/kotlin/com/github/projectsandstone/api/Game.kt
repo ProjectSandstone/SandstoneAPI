@@ -29,6 +29,7 @@ package com.github.projectsandstone.api
 
 import com.github.projectsandstone.api.event.EventManager
 import com.github.projectsandstone.api.plugin.PluginManager
+import com.github.projectsandstone.api.registry.Registry
 import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import java.nio.file.Path
@@ -81,4 +82,9 @@ interface Game {
      * Game save path
      */
     val savePath: Path
+
+    /**
+     * Game registry
+     */
+    val registry: Registry
 }

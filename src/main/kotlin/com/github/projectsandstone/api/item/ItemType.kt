@@ -25,39 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.example;
+package com.github.projectsandstone.api.item
 
-import com.google.inject.Inject;
-
-import com.github.projectsandstone.api.Game;
-import com.github.projectsandstone.api.event.Listener;
-import com.github.projectsandstone.api.event.init.InitializationEvent;
-import com.github.projectsandstone.api.logging.Logger;
-import com.github.projectsandstone.api.plugin.Plugin;
-import com.github.projectsandstone.api.plugin.PluginDefinition;
-import com.github.projectsandstone.api.util.version.Schemes;
+import com.github.projectsandstone.api.block.BlockType
+import com.github.projectsandstone.api.registry.RegistryEntry
 
 /**
- * Created by jonathan on 13/08/16.
+ * Minecraft Item Type
  */
-@Plugin(id = "com.github.projectsandstone.example", version = "1.0.0")
-public class SimplePlugin {
+interface ItemType : RegistryEntry {
 
-    private final Game game;
-    private final Logger logger;
+    /**
+     * Block type corresponding to this item, if exists.
+     */
+    val block: BlockType?
 
-    @Inject
-    public SimplePlugin(Game game, Logger logger, PluginDefinition pluginDefinition) {
-        this.game = game;
-        this.logger = logger;
-        pluginDefinition.applyVersion(version -> version.changeScheme(Schemes.getSemVerScheme()));
-    }
+    /**
+     * Max item stack quantity
+     */
+    val maxStack: Int
 
-    @Listener
-    public void onInit(InitializationEvent initializationEvent) {
-        logger.info("Simple plugin initialized!");
-
-        game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
-    }
 
 }

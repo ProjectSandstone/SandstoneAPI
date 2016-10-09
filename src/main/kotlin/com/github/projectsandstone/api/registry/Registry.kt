@@ -25,7 +25,35 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.entity.living.animal
+package com.github.projectsandstone.api.registry
 
-interface MooshroomCow : Cow {
+/**
+ * Registry manager.
+ */
+interface Registry {
+
+    /**
+     * Gets registry entry by [id].
+     *
+     * @param id Id of registry entry.
+     * @return Entry or null if cannot found.
+     */
+    fun getEntry(id: String): RegistryEntry?
+
+    /**
+     * Gets registry entry by [id].
+     *
+     * @param id Id of registry entry.
+     * @param type Type of registry entry. (bound is not limited to [RegistryEntry], but the [Registry] will not contains values that isn't [RegistryEntry])
+     * @return Entry or null if cannot found.
+     */
+    fun <T : RegistryEntry> getEntry(id: String, type: Class<out T>): T?
+
+    /**
+     * Gets all elements of type [type]
+     *
+     * @param type Type of registry. (bound is not limited to [RegistryEntry], but the [Registry] will not contains values that isn't [RegistryEntry]).
+     * @return a list of all types of [type].
+     */
+    fun <T : RegistryEntry> getAll(type: Class<out T>): List<T>
 }

@@ -25,39 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.example;
+package com.github.projectsandstone.api.block
 
-import com.google.inject.Inject;
+import com.github.projectsandstone.api.item.ItemType
+import com.github.projectsandstone.api.registry.RegistryEntry
 
-import com.github.projectsandstone.api.Game;
-import com.github.projectsandstone.api.event.Listener;
-import com.github.projectsandstone.api.event.init.InitializationEvent;
-import com.github.projectsandstone.api.logging.Logger;
-import com.github.projectsandstone.api.plugin.Plugin;
-import com.github.projectsandstone.api.plugin.PluginDefinition;
-import com.github.projectsandstone.api.util.version.Schemes;
+interface BlockType : RegistryEntry {
 
-/**
- * Created by jonathan on 13/08/16.
- */
-@Plugin(id = "com.github.projectsandstone.example", version = "1.0.0")
-public class SimplePlugin {
+    /**
+     * Item type corresponding to this block, if exists.
+     */
+    val item: ItemType?
 
-    private final Game game;
-    private final Logger logger;
+    /**
+     * Default state of the block
+     */
+    val defaultState: BlockState
 
-    @Inject
-    public SimplePlugin(Game game, Logger logger, PluginDefinition pluginDefinition) {
-        this.game = game;
-        this.logger = logger;
-        pluginDefinition.applyVersion(version -> version.changeScheme(Schemes.getSemVerScheme()));
-    }
-
-    @Listener
-    public void onInit(InitializationEvent initializationEvent) {
-        logger.info("Simple plugin initialized!");
-
-        game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
-    }
-
+    /**
+     * If this block is set to receive random ticks.
+     */
+    var tickRandomly: Boolean
 }
