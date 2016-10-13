@@ -39,14 +39,14 @@ jar {
 dependencies {
 
     // Dependency injection
-    compile 'com.google.inject:guice:4.1.0'
+    compile "com.google.inject:guice:$guice_version"
 
     // Utilities
-    compile 'com.flowpowered:flow-math:1.0.3'
-    compile 'com.github.JonathanxD:JwIUtils:2.7.1'
-    compile 'com.github.JonathanxD:CodeAPI:1.14.2-SNAPSHOT'
-    compile 'com.github.JonathanxD:Adapter:3.8.0'
-    compile 'com.github.JonathanxD:CodeProxy:1.0.4'
+    compile "com.flowpowered:flow-math:$flowmath_version"
+    compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
+    compile "com.github.JonathanxD:CodeAPI:$codeapi_version"
+    compile 'com.github.JonathanxD:Adapter:$adapter_version'
+    compile 'com.github.JonathanxD:CodeProxy:$codeproxy_version'
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

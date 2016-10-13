@@ -89,4 +89,6 @@ fun checkNotInitEntries(clasz: Class<*>) {
 /**
  * Game module, by default, the module is 'minecraft' with or without the annotation.
  */
+@Retention(AnnotationRetention.RUNTIME)
+@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FIELD)
 annotation class Module(val value: String = defaultModule)
