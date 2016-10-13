@@ -45,8 +45,8 @@ dependencies {
     compile "com.flowpowered:flow-math:$flowmath_version"
     compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
     compile "com.github.JonathanxD:CodeAPI:$codeapi_version"
-    compile 'com.github.JonathanxD:Adapter:$adapter_version'
-    compile 'com.github.JonathanxD:CodeProxy:$codeproxy_version'
+    compile "com.github.JonathanxD:Adapter:$adapter_version"
+    compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
