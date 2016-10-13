@@ -63,6 +63,10 @@ inline fun <reified T : RegistryEntry> Registry.getRegistryEntry(id: String): T?
     return this.getEntry(id, T::class.java)
 }
 
+inline fun <reified T : RegistryEntry> Registry.registerEntry(id: String, entry: T) {
+    return this.registerEntry(id, entry, T::class.java)
+}
+
 @Suppress("UNCHECKED_CAST")
 fun <T : RegistryEntry> Registry.getEntryGeneric(id: String, type: Class<*>): T? {
     return this.getEntry(id, type as Class<T>)

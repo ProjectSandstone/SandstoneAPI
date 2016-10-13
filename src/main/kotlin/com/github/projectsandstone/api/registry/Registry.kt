@@ -29,8 +29,24 @@ package com.github.projectsandstone.api.registry
 
 /**
  * Registry manager.
+ *
+ * Implementation MUST registry per id and type (not only id), that means that two
+ * [RegistryEntry] with same id and different type can exists twice.
+ *
+ * All type check MUST be exact type checking, no inheritance checking
+ * ([Class.equals] instead of [Class.isAssignableFrom]).
  */
 interface Registry {
+
+    /**
+     * Register the entry
+     *
+     * @param id Id of registry entry.
+     * @param entry Entry instance.
+     * @param type Entry type.
+     * @return [Unit]
+     */
+    fun <T : RegistryEntry> registerEntry(id: String, entry: T, type: Class<out T>)
 
     /**
      * Gets registry entry by [id].
