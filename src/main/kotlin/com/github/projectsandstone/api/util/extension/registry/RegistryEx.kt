@@ -46,15 +46,7 @@ inline fun <reified T : RegistryEntry> getEntry(name: () -> String): T {
     return entry ?: throw EntryNotFoundException("Required entry: ${name()} not found!")
 }
 
-inline fun <reified T : Any> uninitializedEntry(): T {
-
-    val `class` = T::class.java
-    if (`class`.isInterface) {
-        return CodeProxy.newProxyInstance(`class`.classLoader, Any::class.java, arrayOf(`class`), UNINITIALIZED_HANDLER) as T
-    } else {
-        return CodeProxy.newProxyInstance(`class`.classLoader, `class`, UNINITIALIZED_HANDLER)
-    }
-}
+inline fun <reified T : Any> uninitializedEntry(): T  = uninitializedEntry(T::class.java)
 
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
