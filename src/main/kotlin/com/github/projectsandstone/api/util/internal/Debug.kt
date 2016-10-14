@@ -30,9 +30,11 @@ package com.github.projectsandstone.api.util.internal
 object Debug {
     private const val ADAPTER_GEN_PROPERTY = "sandstone.debug.adapter"
     private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
+    private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
 
     val ADAPTER_GEN_DEBUG = getProperty(ADAPTER_GEN_PROPERTY)
     val EVENT_GEN_DEBUG = getProperty(EVENT_GEN_PROPERTY)
+    val LISTENER_GEN_DEBUG = getProperty(LISTENER_GEN_PROPERTY)
 
     private fun getProperty(name: String) = System.getProperties()[name]?.equals("true") ?: false
 }

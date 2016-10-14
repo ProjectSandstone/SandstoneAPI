@@ -35,6 +35,7 @@ import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import com.github.projectsandstone.api.world.World
 import java.nio.file.Path
+import java.nio.file.Paths
 
 /**
  * Created by jonathan on 12/08/16.

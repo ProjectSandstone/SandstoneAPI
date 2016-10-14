@@ -29,6 +29,8 @@ package com.github.projectsandstone.api.util
 
 import com.github.jonathanxd.codeapi.helper.Helper
 import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.types.Generic
+import com.github.jonathanxd.iutils.`object`.TypeInfo
 import kotlin.jvm.internal.ClassBasedDeclarationContainer
 import kotlin.reflect.KClass
 
@@ -54,3 +56,19 @@ fun <T> Class<T>.toType(): CodeType = Helper.getJavaType(this)
  * Convert current kotlin class to CodeAPI type.
  */
 fun <T : Any> KClass<T>.toType(): CodeType = (this as ClassBasedDeclarationContainer).jClass.toType()
+
+/**
+ * Convert type info to CodeAPI [Generic].
+ */
+fun <T> TypeInfo<T>.toGeneric(): Generic {
+    val aClass = this.aClass
+    val related = this.related
+
+    var generic = Generic.type(aClass.toType())
+
+    if (related.size > 0) {
+        generic = generic.of(*related.map { it.toGeneric() }.toTypedArray())
+    }
+
+    return generic
+}

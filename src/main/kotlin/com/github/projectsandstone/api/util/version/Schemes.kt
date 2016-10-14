@@ -32,9 +32,9 @@ package com.github.projectsandstone.api.util.version
  */
 object Schemes {
     @JvmStatic
-    internal lateinit var semVerScheme_ : VersionScheme
+    internal lateinit var semVerScheme_: VersionScheme
 
     @JvmStatic
     val semVerScheme: VersionScheme
-    get() = this.semVerScheme_
+        get() = this.semVerScheme_
 }

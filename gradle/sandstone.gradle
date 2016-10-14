@@ -47,6 +47,7 @@ dependencies {
     compile "com.github.JonathanxD:CodeAPI:$codeapi_version"
     compile "com.github.JonathanxD:Adapter:$adapter_version"
     compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
+    compile "com.google.code.findbugs:jsr305:$jsr305_version"
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

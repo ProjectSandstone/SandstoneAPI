@@ -56,6 +56,16 @@ inline fun <reified T : Any> uninitializedEntry(): T {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
+fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
+
+    if (`class`.isInterface) {
+        return CodeProxy.newProxyInstance(`class`.classLoader, Any::class.java, arrayOf(`class`), UNINITIALIZED_HANDLER) as T
+    } else {
+        return CodeProxy.newProxyInstance(`class`.classLoader, `class`, UNINITIALIZED_HANDLER)
+    }
+}
+
 /**
  * Gets registry from platform
  */
