@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.event.service
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.service.RegisteredProvider
 

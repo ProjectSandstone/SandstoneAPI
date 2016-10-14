@@ -43,7 +43,7 @@ import com.github.jonathanxd.codeapi.literals.Literals
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.types.Generic
 import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator
-import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.annotation.Named

@@ -31,7 +31,7 @@ import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.helper.Helper
 import com.github.jonathanxd.codeapi.types.Generic
 import com.github.jonathanxd.codeapi.types.GenericType
-import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.jonathanxd.iutils.type.TypeInfo
 
 
 fun genericSignFromTypeInfo(typeInfo: TypeInfo<*>): GenericSignature<GenericType> =

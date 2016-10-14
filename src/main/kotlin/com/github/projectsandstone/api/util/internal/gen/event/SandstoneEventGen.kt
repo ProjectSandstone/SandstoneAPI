@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.util.internal.gen.event
 
-import com.github.jonathanxd.iutils.`object`.Primitive
-import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.jonathanxd.iutils.type.Primitive
+import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import com.github.projectsandstone.api.event.annotation.Named
 import java.lang.invoke.MethodHandles

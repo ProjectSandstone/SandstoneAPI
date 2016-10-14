@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.jonathanxd.iutils.type.TypeInfo
 import java.lang.invoke.MethodHandle
 
 /**

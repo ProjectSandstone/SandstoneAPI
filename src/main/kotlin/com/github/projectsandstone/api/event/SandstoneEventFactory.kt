@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.jonathanxd.iutils.`object`.AbstractTypeInfo
-import com.github.jonathanxd.iutils.`object`.TypeInfo
+import com.github.jonathanxd.iutils.type.AbstractTypeInfo
+import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.event.init.*
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.service.RegisteredProvider

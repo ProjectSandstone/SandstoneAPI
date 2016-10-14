@@ -28,8 +28,8 @@
 package com.github.projectsandstone.api.event
 
 import com.github.jonathanxd.iutils.`object`.Named
-import com.github.jonathanxd.iutils.`object`.TypeInfo
-import com.github.jonathanxd.iutils.`object`.TypeUtil
+import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.jonathanxd.iutils.type.TypeUtil
 import com.github.projectsandstone.api.Platform
 import java.lang.reflect.Method
 
