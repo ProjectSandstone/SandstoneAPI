@@ -52,14 +52,6 @@ interface Registry {
      * Gets registry entry by [id].
      *
      * @param id Id of registry entry.
-     * @return Entry or null if cannot found.
-     */
-    fun getEntry(id: String): RegistryEntry?
-
-    /**
-     * Gets registry entry by [id].
-     *
-     * @param id Id of registry entry.
      * @param type Type of registry entry. (bound is not limited to [RegistryEntry], but the [Registry] will not contains values that isn't [RegistryEntry])
      * @return Entry or null if cannot found.
      */
