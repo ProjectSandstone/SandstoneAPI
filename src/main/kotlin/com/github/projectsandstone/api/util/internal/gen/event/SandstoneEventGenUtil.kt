@@ -30,27 +30,29 @@ package com.github.projectsandstone.api.util.internal.gen.event
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.common.*
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator
 import com.github.jonathanxd.codeapi.generic.GenericSignature
 import com.github.jonathanxd.codeapi.helper.Helper
-import com.github.jonathanxd.codeapi.helper.MethodSpec
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes
 import com.github.jonathanxd.codeapi.impl.CodeConstructor
 import com.github.jonathanxd.codeapi.impl.CodeMethod
+import com.github.jonathanxd.codeapi.impl.MethodSpecImpl
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation
 import com.github.jonathanxd.codeapi.literals.Literals
 import com.github.jonathanxd.codeapi.types.CodeType
 import com.github.jonathanxd.codeapi.types.Generic
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator
 import com.github.jonathanxd.iutils.type.TypeInfo
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter
+import com.github.jonathanxd.iutils.array.PrimitiveArrayConverter
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.annotation.Named
 import com.github.projectsandstone.api.event.property.GSPropertyImpl
 import com.github.projectsandstone.api.event.property.GetterPropertyImpl
 import com.github.projectsandstone.api.event.property.PropertyImpl
 import com.github.projectsandstone.api.event.property.SetterPropertyImpl
+import com.github.projectsandstone.api.util.extension.codeapi.plusAssign
 import com.github.projectsandstone.api.util.internal.Debug
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
 import com.github.projectsandstone.api.util.internal.gen.genericFromTypeInfo
@@ -90,7 +92,7 @@ object SandstoneEventGenUtil {
 
         var codeClassBuilder = CodeAPI
                 .aClassBuilder()
-                .withBody(CodeSource())
+                .withBody(MutableCodeSource())
                 .withModifiers(Modifier.PUBLIC)
                 .withQualifiedName(name)
 
@@ -101,7 +103,7 @@ object SandstoneEventGenUtil {
 
         val codeClass = codeClassBuilder.build()
 
-        val body = codeClass.body.get()
+        val body = codeClass.body.get() as MutableCodeSource
 
 
         val properties = this.getProperties(classType)
@@ -116,7 +118,7 @@ object SandstoneEventGenUtil {
 
         val codeSource = CodeAPI.sourceOfParts(codeClass)
 
-        val bytes = PrimitiveArrayConverter.toPrimitive(BytecodeGenerator().gen(codeSource).result)
+        val bytes = BytecodeGenerator().gen(codeSource)[0].bytecode
         val source = lazy {
             PlainSourceGenerator().gen(codeSource)
         }
@@ -148,7 +150,7 @@ object SandstoneEventGenUtil {
         }
     }
 
-    private fun genFields(type: Class<*>, body: CodeSource, properties: List<Property>) {
+    private fun genFields(type: Class<*>, body: MutableCodeSource, properties: List<Property>) {
         properties.forEach {
             val name = it.propertyName
 
@@ -168,7 +170,7 @@ object SandstoneEventGenUtil {
         genPropertyField(type, body, properties)
     }
 
-    private fun genPropertyField(type: Class<*>, body: CodeSource, properties: List<Property>) {
+    private fun genPropertyField(type: Class<*>, body: MutableCodeSource, properties: List<Property>) {
         body += CodeAPI.field(Modifier.PRIVATE or Modifier.FINAL,
                 propertiesFieldType,
                 propertiesFieldName,
@@ -180,10 +182,10 @@ object SandstoneEventGenUtil {
                 CodeAPI.invokeStatic(Collections::class.java,
                         "unmodifiableMap",
                         CodeAPI.typeSpec(Map::class.java, Map::class.java),
-                        CodeAPI.argument(CodeAPI.accessStaticThisField(propertiesFieldType, propertiesFieldName))))
+                        CodeAPI.argument(CodeAPI.accessThisField(propertiesFieldType, propertiesFieldName))))
     }
 
-    private fun genConstructor(type: Class<*>, body: CodeSource, properties: List<Property>) {
+    private fun genConstructor(type: Class<*>, body: MutableCodeSource, properties: List<Property>) {
         val parameters = mutableListOf<CodeParameter>()
 
         properties.forEach {
@@ -196,11 +198,11 @@ object SandstoneEventGenUtil {
             ))
         }
 
-        val constructor = CodeConstructor(listOf(CodeModifier.PUBLIC), parameters, emptyList(), CodeSource())
+        val constructor = CodeConstructor(listOf(CodeModifier.PUBLIC), parameters, emptyList(), MutableCodeSource())
 
         body += constructor
 
-        val constructorBody = constructor.body.get()
+        val constructorBody = constructor.body.get() as MutableCodeSource
 
         properties.forEach {
             val valueType: CodeType = Helper.getJavaType(it.type)
@@ -214,8 +216,8 @@ object SandstoneEventGenUtil {
                 CodeAPI.invokeConstructor(Info::class.java, CodeAPI.argument(Helper.accessThis(), PropertyHolder::class.java)))*/
     }
 
-    private fun genConstructorPropertiesMap(type: Class<*>, constructorBody: CodeSource, properties: List<Property>) {
-        val accessMap = CodeAPI.accessStaticThisField(propertiesFieldType, propertiesFieldName)
+    private fun genConstructorPropertiesMap(type: Class<*>, constructorBody: MutableCodeSource, properties: List<Property>) {
+        val accessMap = CodeAPI.accessThisField(propertiesFieldType, propertiesFieldName)
 
         properties.forEach {
             constructorBody += this.invokePut(accessMap,
@@ -264,7 +266,7 @@ object SandstoneEventGenUtil {
         val invocation = Helper.invoke(InvokeType.get(Helper.getJavaType(type)),
                 type,
                 Helper.accessThis(),
-                MethodSpec(getterName, propertyType, mutableListOf()))
+                MethodSpecImpl(getterName, propertyType, mutableListOf()))
 
         return CodeAPI.invokeDynamic(InvokeDynamic.invokeDynamicLambda(
                 CodeAPI.fullMethodSpec(supplierType, PredefinedTypes.OBJECT, "get"),
@@ -295,7 +297,7 @@ object SandstoneEventGenUtil {
                 invocation)
     }
 
-    private fun genMethods(type: Class<*>, body: CodeSource, properties: List<Property>) {
+    private fun genMethods(type: Class<*>, body: MutableCodeSource, properties: List<Property>) {
         properties.forEach {
             val name = it.propertyName
 
@@ -310,7 +312,7 @@ object SandstoneEventGenUtil {
         }
     }
 
-    private fun genGetter(type: Class<*>, body: CodeSource, getterName: String, name: String) {
+    private fun genGetter(type: Class<*>, body: MutableCodeSource, getterName: String, name: String) {
         val fieldType = getPropertyType(type, name)
 
         val method = CodeMethod(getterName, listOf(CodeModifier.PUBLIC), emptyList(), fieldType, CodeAPI.sourceOfParts(
@@ -320,7 +322,7 @@ object SandstoneEventGenUtil {
         body += method
     }
 
-    private fun genSetter(type: Class<*>, body: CodeSource, getterName: String, name: String) {
+    private fun genSetter(type: Class<*>, body: MutableCodeSource, getterName: String, name: String) {
         val fieldType = getPropertyType(type, name)
 
         val method = CodeMethod(getterName, listOf(CodeModifier.PUBLIC), listOf(CodeAPI.parameter(fieldType, name)), PredefinedTypes.VOID, CodeAPI.sourceOfParts(
@@ -330,9 +332,9 @@ object SandstoneEventGenUtil {
         body += method
     }
 
-    private fun genPropertyHolderMethods(type: Class<*>, body: CodeSource, properties: List<Property>) {
+    private fun genPropertyHolderMethods(type: Class<*>, body: MutableCodeSource, properties: List<Property>) {
 
-        val methodBody = CodeSource()
+        val methodBody = MutableCodeSource()
 
         val method = CodeAPI.methodBuilder()
                 .withModifiers(Modifier.PUBLIC)
@@ -343,7 +345,7 @@ object SandstoneEventGenUtil {
                 .withBody(methodBody)
                 .build()
 
-        val accessMap = CodeAPI.accessStaticThisField(propertiesFieldType, propertiesFieldName)
+        val accessMap = CodeAPI.accessThisField(propertiesFieldType, propertiesFieldName)
 
         methodBody += CodeAPI.returnValue(com.github.projectsandstone.api.event.property.Property::class.java,
                 CodeAPI.cast(Any::class.java, com.github.projectsandstone.api.event.property.Property::class.java,
@@ -363,7 +365,7 @@ object SandstoneEventGenUtil {
                 .withReturnType(propertiesFieldType)
                 .withAnnotations(CodeAPI.annotation(Override::class.java))
                 .withBody(CodeAPI.sourceOfParts(
-                        Helper.returnValue(propertiesFieldType, CodeAPI.accessStaticThisField(propertiesFieldType, propertiesUnmodName))
+                        Helper.returnValue(propertiesFieldType, CodeAPI.accessThisField(propertiesFieldType, propertiesUnmodName))
                 ))
                 .build()
 

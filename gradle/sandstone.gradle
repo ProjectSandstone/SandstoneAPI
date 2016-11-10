@@ -50,7 +50,7 @@ dependencies {
     compile "com.google.code.findbugs:jsr305:$jsr305_version"
 
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
 
     // Test
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -64,6 +64,7 @@ dependencies {
 repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
+    maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
 }
 
 test {

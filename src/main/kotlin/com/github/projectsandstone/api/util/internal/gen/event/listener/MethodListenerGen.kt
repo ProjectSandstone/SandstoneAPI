@@ -31,15 +31,16 @@ import com.github.jonathanxd.adapter.utils.classu.CodeAPIUtil
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
+import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.CodeParameter
-import com.github.jonathanxd.codeapi.gen.common.PlainSourceGenerator
+import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator
+import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation
 import com.github.jonathanxd.codeapi.literals.Literals
 import com.github.jonathanxd.codeapi.types.Generic
-import com.github.jonathanxd.codeapi.visitgenerator.BytecodeGenerator
-import com.github.jonathanxd.iutils.arrays.PrimitiveArrayConverter
+import com.github.jonathanxd.iutils.array.PrimitiveArrayConverter
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.EventListener
@@ -95,7 +96,7 @@ object MethodListenerGen {
 
         val generator = BytecodeGenerator()
 
-        val bytes = PrimitiveArrayConverter.toPrimitive(generator.gen(source).result)
+        val bytes = generator.gen(source)[0].bytecode
 
         val definedClass = EventGenClassLoader.defineClass(codeClass, bytes, lazy { PlainSourceGenerator().gen(source) }) as SandstoneClass<EventListener<Event>>
 
@@ -111,7 +112,7 @@ object MethodListenerGen {
     private const val instanceFieldName: String = "\$instance"
 
     private fun genBody(method: Method, instance: Any?, listenerData: ListenerData): CodeSource {
-        val source = CodeSource()
+        val source = MutableCodeSource()
 
         val isStatic = Modifier.isStatic(method.modifiers)
 
@@ -135,14 +136,14 @@ object MethodListenerGen {
     }
 
     private fun genMethods(method: Method, instance: Any?, listenerData: ListenerData): CodeSource {
-        val source = CodeSource()
+        val source = MutableCodeSource()
 
         val isStatic = Modifier.isStatic(method.modifiers)
         val eventType = Event::class.java.toType()
 
         // This is hard to maintain, but, is funny :D
         fun genOnEventBody(): CodeSource {
-            val body = CodeSource()
+            val body = MutableCodeSource()
 
             val namedParameters = listenerData.namedParameters
 

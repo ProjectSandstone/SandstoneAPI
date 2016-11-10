@@ -71,7 +71,7 @@ data class ListenerData(
             val namedParameters = method.parameters.map {
                 val typeInfo = TypeUtil.toReference(it.parameterizedType)
 
-                val name: String? = it.getDeclaredAnnotation(com.github.jonathanxd.iutils.annotations.Named::class.java)?.value
+                val name: String? = it.getDeclaredAnnotation(com.github.jonathanxd.iutils.annotation.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(javax.inject.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(com.google.inject.name.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(com.github.projectsandstone.api.event.annotation.Named::class.java)?.value
