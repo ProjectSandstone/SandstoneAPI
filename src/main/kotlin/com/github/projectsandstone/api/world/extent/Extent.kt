@@ -27,8 +27,11 @@
  */
 package com.github.projectsandstone.api.world.extent
 
+import com.flowpowered.math.vector.Vector2i
 import com.flowpowered.math.vector.Vector3d
 import com.flowpowered.math.vector.Vector3i
+import com.github.projectsandstone.api.block.BlockState
+import com.github.projectsandstone.api.event.Source
 import com.github.projectsandstone.api.text.channel.MessageReceiver
 import com.github.projectsandstone.api.world.Chunk
 import com.github.projectsandstone.api.world.Location
@@ -38,7 +41,7 @@ import com.github.projectsandstone.api.world.World
 /**
  * An [Extent] is a container of game objects (ex: Block, Entities, Tile Entities).
  *
- * Example of [Extent]s: [World], [Chunk] or [Selection].
+ * Example of [Extent]s: [World], [Chunk]
  */
 interface Extent : EntityUniverse, MessageReceiver {
 
@@ -48,10 +51,26 @@ interface Extent : EntityUniverse, MessageReceiver {
      * Example:
      * If this [Extent] is a chunk, the returned list will contains
      * only current [Chunk]. If this [Extent] is a [World], the returned list will
-     * contains all loaded chunks of this [World]. If is a [Selection], returned
-     * list will contains all loaded [Chunk]s of this [Selection].
+     * contains all loaded chunks of this [World].
      */
     val loadedChunks: List<Chunk>
+
+    /**
+     * Gets a chunk in the [location]
+     *
+     * @param location Location
+     * @return Chunk in the [location]
+     */
+    fun getChunk(location: Vector2i): Chunk = Chunk(this, location)
+
+    /**
+     * Gets all [Chunk]s inside the region.
+     *
+     * @param from From location
+     * @param to To Location.
+     * @return all [Chunk]s inside the region.
+     */
+    fun getChunks(from: Vector2i, to: Vector2i): Collection<Chunk>
 
     /**
      * Get a [Location] in this [Extent].
@@ -90,11 +109,86 @@ interface Extent : EntityUniverse, MessageReceiver {
     fun getLocation(x: Int, y: Int, z: Int): Location<Extent> = this.getLocation(Vector3i(x, y, z))
 
     /**
-     * Create a [Selection] from position [from] to position [to].
+     * Gets the [BlockState] in [location]
      *
-     * @param from [Selection] from position
-     * @param to [Selection] to position
-     * @return Selected positions
+     * @param location Location
+     * @return BlockState in location
      */
-    fun select(from: Vector3d, to: Vector3d): Selection
+    fun getBlock(location: Vector3i): BlockState
+
+    /**
+     * Gets all [BlockState]s inside the region.
+     *
+     * @param from From location.
+     * @param to To location.
+     * @return [BlockState]s inside the region.
+     */
+    fun getBlocks(from: Vector3i, to: Vector3i): Collection<BlockState>
+
+    /**
+     * Sets the [BlockState] in [location].
+     *
+     * @param location Location
+     * @param blockState Block State
+     */
+    fun setBlock(location: Vector3i, blockState: BlockState) = this.setBlock(location, blockState, null)
+
+    /**
+     * Sets the [BlockState] in [location].
+     *
+     * @param location Location
+     * @param blockState Block State
+     * @param source Source of the block change.
+     */
+    fun setBlock(location: Vector3i, blockState: BlockState, source: Source?)
+
+    /**
+     * Sets all blocks in selected location to [blockState].
+     *
+     * @param from From location
+     * @param to To location.
+     * @param blockState Block State
+     */
+    fun setBlocks(from: Vector3i, to: Vector3i, blockState: BlockState) = this.setBlocks(from, to, blockState, null)
+
+    /**
+     * Sets all blocks in selected location to [blockState].
+     *
+     * @param from From location
+     * @param to To location.
+     * @param blockState Block State
+     * @param source Source of the block change.
+     */
+    fun setBlocks(from: Vector3i, to: Vector3i, blockState: BlockState, source: Source?)
+
+    /**
+     * Sets all blocks in selected location to [BlockState] supplied by [stateSupplier]
+     * for each [Vector3i].
+     *
+     * @param from From location
+     * @param to To location.
+     * @param stateSupplier [BlockState] supplier.
+     */
+    fun setBlocks(from: Vector3i, to: Vector3i, stateSupplier: (BlockState, Vector3i) -> BlockState) =
+            this.setBlocks(from, to, null, stateSupplier)
+
+    /**
+     * Sets all blocks in selected location to [BlockState] supplied by [stateSupplier]
+     * for each [Vector3i].
+     *
+     * @param from From location
+     * @param to To location.
+     * @param stateSupplier [BlockState] supplier.
+     * @param source Source of the block change.
+     */
+    fun setBlocks(from: Vector3i, to: Vector3i, source: Source?, stateSupplier: (BlockState, Vector3i) -> BlockState)
+
+    /**
+     * Selects a region from location [from] to location [to].
+     *
+     * @param from From location
+     * @param to To location
+     * @return Selection [from] to [to].
+     */
+    fun select(from: Vector3d, to: Vector3d): Selection = Selection(this, from, to)
 }

@@ -27,22 +27,46 @@
  */
 package com.github.projectsandstone.api.world
 
+import com.flowpowered.math.vector.Vector2i
 import com.flowpowered.math.vector.Vector3d
+import com.flowpowered.math.vector.Vector3i
+import com.github.projectsandstone.api.block.BlockState
+import com.github.projectsandstone.api.entity.Entity
+import com.github.projectsandstone.api.event.Source
 import com.github.projectsandstone.api.world.extent.Extent
 
 /**
- * 3D Selection of two positions
+ * Helper class to work with Selections
  */
-interface Selection : Extent {
+data class Selection(val extent: Extent,
+                     val from: Vector3d,
+                     val to: Vector3d) {
 
-    /**
-     * From position
-     */
-    val from: Vector3d
+    val chunks: Collection<Chunk>
+        get() = this.extent.getChunks(
+                from = Vector2i(this.from.x.toInt(), this.from.z.toInt()),
+                to = Vector2i(this.to.x.toInt(), this.to.z.toInt()))
 
-    /**
-     * To position
-     */
-    val to: Vector3d
+    val entities: Collection<Entity>
+        get() = this.extent.getEntities(this.from, this.to)
 
+    val blocks: Collection<BlockState>
+        get() = this.extent.getBlocks(this.from.toInt(), this.to.toInt())
+
+    fun setBlocks(blockState: BlockState) =
+            this.extent.setBlocks(this.from.toInt(), this.to.toInt(), blockState)
+
+    fun setBlocks(blockState: BlockState, source: Source?) =
+            this.extent.setBlocks(this.from.toInt(), this.to.toInt(), blockState, source)
+
+    fun setBlocks(stateProvider: (BlockState, Vector3i) -> BlockState) =
+            this.extent.setBlocks(this.from.toInt(), this.to.toInt(), stateProvider)
+
+
+    fun setBlocks(source: Source?, stateProvider: (BlockState, Vector3i) -> BlockState) =
+            this.extent.setBlocks(this.from.toInt(), this.to.toInt(), source, stateProvider)
+
+    fun plus(from: Vector3d, to: Vector3d): Selection {
+        return this.copy(this.extent, this.from.add(from), this.to.add(to))
+    }
 }

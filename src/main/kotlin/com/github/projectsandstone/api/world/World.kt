@@ -27,11 +27,12 @@
  */
 package com.github.projectsandstone.api.world
 
+import com.flowpowered.math.vector.Vector3d
+import com.flowpowered.math.vector.Vector3i
 import com.github.projectsandstone.api.text.channel.MessageReceiver
 import com.github.projectsandstone.api.util.Identifiable
 import com.github.projectsandstone.api.world.extent.Extent
 import java.nio.file.Path
-import java.util.*
 
 /**
  * World
@@ -47,4 +48,20 @@ interface World : MessageReceiver, Identifiable, Extent {
      * World root directory
      */
     val directory: Path
+
+    override fun getLocation(position: Vector3d): Location<World> {
+        return Location(this, position)
+    }
+
+    override fun getLocation(position: Vector3i): Location<World> {
+        return this.getLocation(position.toDouble())
+    }
+
+    override fun getLocation(x: Double, y: Double, z: Double): Location<World> {
+        return this.getLocation(Vector3d(x, y, z))
+    }
+
+    override fun getLocation(x: Int, y: Int, z: Int): Location<World> {
+        return this.getLocation(Vector3i(x, y, z).toDouble())
+    }
 }

@@ -25,19 +25,6 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.world
+package com.github.projectsandstone.api.event
 
-/**
- * An object that can be located in world
- */
-interface Locatable {
-    /**
-     * Location of the object in the world
-     */
-    val location: Location<World>
-
-    /**
-     * Teleport object to another location
-     */
-    fun teleport(location: Location<*>)
-}
+data class Source(val source: Any)

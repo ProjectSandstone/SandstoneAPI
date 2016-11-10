@@ -27,7 +27,9 @@
  */
 package com.github.projectsandstone.api.world.extent
 
+import com.flowpowered.math.vector.Vector3d
 import com.github.projectsandstone.api.entity.Entity
+import com.github.projectsandstone.api.world.Location
 
 /**
  * Container of entities instance.
@@ -38,5 +40,19 @@ interface EntityUniverse {
      * Entities
      */
     val entities: Collection<Entity>
+
+    /**
+     * Gets entities inside the area
+     */
+    fun getEntities(from: Vector3d, to: Vector3d): Collection<Entity>
+
+    /**
+     * Spawn the entity in the universe.
+     *
+     * @param type Type of the entity.
+     * @param location Location of the entity in the universe.
+     * @return Instance of the new entity.
+     */
+    fun spawnEntity(type: Class<Entity>, location: Location<*>): Entity
 
 }

@@ -81,6 +81,7 @@ object TextColors {
     val RED = TextColor("red", 255, 0, 0)
 
 
+    @Suppress("NOTHING_TO_INLINE")
     private inline fun TextColor(name: String, red: Int, green: Int, blue: Int): TextColor {
         return TextColor(name, Color(red, green, blue))
     }

@@ -29,6 +29,9 @@ package com.github.projectsandstone.api.world
 
 import com.flowpowered.math.vector.Vector3d
 import com.flowpowered.math.vector.Vector3i
+import com.github.projectsandstone.api.block.BlockState
+import com.github.projectsandstone.api.util.extension.flow.math.minus
+import com.github.projectsandstone.api.util.extension.flow.math.plus
 import com.github.projectsandstone.api.world.extent.Extent
 
 /**
@@ -36,11 +39,11 @@ import com.github.projectsandstone.api.world.extent.Extent
  *
  * A [Location] is a position in a [Extent].
  */
-data class Location<E : Extent>(val extent: E, val x: Double, val y: Double, val z: Double) {
+data class Location<out E : Extent>(val extent: E, val position: Vector3d) {
 
     constructor(extent: E, position: Vector3i) : this(extent, position.toDouble())
 
-    constructor(extent: E, position: Vector3d) : this(extent, position.x, position.y, position.z)
+    constructor(extent: E, x: Double, y: Double, z: Double) : this(extent, Vector3d(x, y, z))
 
     /**
      * Change [Location.extent] and [Location.E] to a new [extent] and [V].
@@ -52,11 +55,11 @@ data class Location<E : Extent>(val extent: E, val x: Double, val y: Double, val
      * @return new [Location] with a different [Extent].
      */
     fun <V : Extent> changeExtent(extent: V): Location<V> {
-        return Location(extent = extent, x = this.x, y = this.y, z = this.z)
+        return Location(extent = extent, position = this.position)
     }
 
     /**
-     * Add [x], [y] and [z] to this [Location].
+     * Add [x], [y] and [z] to this [Location.position].
      *
      * @param x Coord X to add.
      * @param y Coord Y to add.
@@ -64,7 +67,17 @@ data class Location<E : Extent>(val extent: E, val x: Double, val y: Double, val
      * @return New [Location] with new calculated values.
      */
     fun plus(x: Double, y: Double, z: Double): Location<E> {
-        return this.copy(this.extent, x = this.x + x, y = this.y + y, z = this.z + z)
+        return this.copy(this.extent, position = this.position.add(x, y, z))
+    }
+
+    /**
+     * Add [position] to this [Location.position].
+     *
+     * @param position Position to increment
+     * @return New [Location] with new calculated values.
+     */
+    operator fun plus(position: Vector3d): Location<E> {
+        return this.copy(this.extent, this.position + position)
     }
 
     /**
@@ -76,26 +89,44 @@ data class Location<E : Extent>(val extent: E, val x: Double, val y: Double, val
      * @return New [Location] with new calculated values.
      */
     fun minus(x: Double, y: Double, z: Double): Location<E> {
-        return this.copy(extent = this.extent, x = this.x - x, y = this.y - y, z = this.z - z)
+        return this.copy(extent = this.extent, position = this.position.sub(x, y, z))
     }
 
     /**
-     * Add [x], [y] and [z] of [location] to this [Location].
+     * Add [position] from this [Location.position].
+     *
+     * @param position Position to increment
+     * @return New [Location] with new calculated values.
+     */
+    operator fun minus(position: Vector3d): Location<E> {
+        return this.copy(extent = this.extent, position = this.position - position)
+    }
+
+
+    /**
+     * Add [Location.position] of [location] to this [Location.position].
      *
      * @param location Location with coordinates to add.
      * @return New [Location] with new calculated values.
      */
     operator fun plus(location: Location<*>): Location<E> {
-        return this.plus(location.x, location.y, location.z)
+        return this.plus(location.position)
     }
 
     /**
-     * Remove [x], [y] and [z] of [location] to this [Location].
+     * Subtract [Location.position] of [location] from this [Location.position].
      *
-     * @param location Location with coordinates to remove.
+     * @param location Location with coordinates to subtract.
      * @return New [Location] with new calculated values.
      */
     operator fun minus(location: Location<*>): Location<E> {
-        return this.minus(location.x, location.y, location.z)
+        return this.minus(location.position)
     }
+
+    /**
+     * Gets the block in current location.
+     *
+     * @return Return the block in current location.
+     */
+    fun getBlock(): BlockState = this.extent.getBlock(this.position.toInt())
 }
