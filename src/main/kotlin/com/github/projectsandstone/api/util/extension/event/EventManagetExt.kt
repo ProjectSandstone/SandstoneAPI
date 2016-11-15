@@ -34,10 +34,14 @@ import com.github.projectsandstone.api.event.EventListener
 import com.github.projectsandstone.api.event.EventManager
 
 /**
- * Created by jonathan on 14/08/16.
+ * Register the listener to [Event] [T].
+ *
+ * @param T Event type
+ * @param plugin Plugin instance
+ * @param eventListener Event Listener instance.
  */
-inline fun <reified T: Event> EventManager.registerListener(plugin: Any, eventListener: EventListener<T>) {
-    val typeInfo: TypeInfo<T> = object: ConcreteTypeInfo<T>(){}
+inline fun <reified T : Event> EventManager.registerListener(plugin: Any, eventListener: EventListener<T>) {
+    val typeInfo: TypeInfo<T> = object : ConcreteTypeInfo<T>() {}
 
     this.registerListener(plugin, typeInfo, eventListener)
 }

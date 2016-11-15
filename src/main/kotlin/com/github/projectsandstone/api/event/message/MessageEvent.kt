@@ -25,29 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal.gen
+package com.github.projectsandstone.api.event.message
 
-import java.util.*
+import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.text.Text
 
-data class SandstoneClass<T>(val javaClass: Class<T>, val bytes: ByteArray, val source: Lazy<String>) {
+/**
+ * Fired when server receives a message
+ */
+interface MessageEvent : Event {
 
-    override fun hashCode(): Int {
-        var result = 1
+    var message: Text
 
-        result = 31 * result + javaClass.hashCode()
-
-        result = 31 * result + Arrays.hashCode(bytes)
-
-        return result
-
-    }
-
-    override fun equals(other: Any?): Boolean {
-
-        if(other != null && other is SandstoneClass<*>)
-            return this.javaClass == other.javaClass
-                    && Arrays.equals(this.bytes, other.bytes)
-
-        return super.equals(other)
-    }
 }

@@ -39,18 +39,23 @@ import java.lang.invoke.MethodType
  */
 object SandstoneEventGen {
     private val lookup = MethodHandles.publicLookup()
-    private val cached: MutableMap<TypeInfo<*>, Class<*>> = WeakValueHashMap()
+    private val cached: MutableMap<GeneratedEventImpl, Class<*>> = WeakValueHashMap()
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> gen(type: TypeInfo<T>, properties: Map<String, Any?>): T {
+    @JvmOverloads
+    fun <T> gen(type: TypeInfo<T>, properties: Map<String, Any?>, additionalProperties: List<PropertyInfo> = emptyList()): T {
+        this.checkProperties(type, properties, additionalProperties)
+
         val class_: Class<T>
+        
+        val generated = GeneratedEventImpl(type, properties.keys)
 
-        if (this.cached.containsKey(type)) {
-            class_ = cached[type]!! as Class<T>
+        if (this.cached.containsKey(generated)) {
+            class_ = cached[generated]!! as Class<T>
         } else {
-            class_ = SandstoneEventGenUtil.genImplementation(type).javaClass
+            class_ = SandstoneEventGenUtil.genImplementation(type, additionalProperties).javaClass
 
-            this.cached += type to class_
+            this.cached += generated to class_
         }
 
         return this.factory(class_, properties)
@@ -79,6 +84,26 @@ object SandstoneEventGen {
         }
 
         return constructor.newInstance(*parameters.toTypedArray()) as T
+    }
+
+    private fun checkProperties(type: TypeInfo<*>, properties: Map<String, Any?>, additionalProperties: List<PropertyInfo>) {
+        val typeProperties = SandstoneEventGenUtil.getProperties(type.aClass) + additionalProperties
+
+        val missing = typeProperties.filter {
+            if(!properties.containsKey(it.propertyName))
+                return@filter true
+            else {
+                val property = properties[it.propertyName]
+
+                if(property != null && !it.type.isAssignableFrom(property.javaClass))
+                    throw ClassCastException("Cannot cast provided property '$property' of type '${property.javaClass}' to expected type '${it.type}'")
+            }
+
+            return@filter false
+        }
+
+        if(missing.isNotEmpty())
+            throw IllegalArgumentException("Missing ${if(missing.size == 1) "property" else "properties"}: '$missing' in provided properties map ($properties)")
     }
 
     private fun propertiesToType(anyList: List<Any>): MethodType {

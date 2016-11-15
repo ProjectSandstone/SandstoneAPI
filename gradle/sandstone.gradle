@@ -71,6 +71,10 @@ test {
     useJUnit()
 }
 
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+
 shadowJar {
     classifier = 'shaded'
 }

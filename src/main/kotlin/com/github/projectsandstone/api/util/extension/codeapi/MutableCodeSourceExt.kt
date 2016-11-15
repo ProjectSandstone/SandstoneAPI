@@ -30,6 +30,9 @@ package com.github.projectsandstone.api.util.extension.codeapi
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.MutableCodeSource
 
+/**
+ * Operator extension fun to add elements to [MutableCodeSource] using '+=' operator.
+ */
 operator fun MutableCodeSource.plusAssign(part: CodePart): Unit {
     this.add(part)
 }

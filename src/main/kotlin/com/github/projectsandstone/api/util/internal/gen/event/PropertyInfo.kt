@@ -25,29 +25,10 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal.gen
+package com.github.projectsandstone.api.util.internal.gen.event
 
-import java.util.*
-
-data class SandstoneClass<T>(val javaClass: Class<T>, val bytes: ByteArray, val source: Lazy<String>) {
-
-    override fun hashCode(): Int {
-        var result = 1
-
-        result = 31 * result + javaClass.hashCode()
-
-        result = 31 * result + Arrays.hashCode(bytes)
-
-        return result
-
-    }
-
-    override fun equals(other: Any?): Boolean {
-
-        if(other != null && other is SandstoneClass<*>)
-            return this.javaClass == other.javaClass
-                    && Arrays.equals(this.bytes, other.bytes)
-
-        return super.equals(other)
-    }
+data class PropertyInfo(val propertyName: String, val getterName: String?, val setterName: String? = null, val type: Class<*>) {
+    fun hasGetter() = this.getterName != null
+    fun hasSetter() = this.setterName != null
+    fun isMutable() = this.setterName != null
 }

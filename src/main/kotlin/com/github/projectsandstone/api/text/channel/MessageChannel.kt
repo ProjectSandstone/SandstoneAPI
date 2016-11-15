@@ -25,29 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal.gen
+package com.github.projectsandstone.api.text.channel
 
-import java.util.*
+import com.github.projectsandstone.api.text.Text
 
-data class SandstoneClass<T>(val javaClass: Class<T>, val bytes: ByteArray, val source: Lazy<String>) {
+/**
+ * A message channel that send message to members.
+ */
+interface MessageChannel {
+    val members: MutableList<MessageReceiver>
 
-    override fun hashCode(): Int {
-        var result = 1
-
-        result = 31 * result + javaClass.hashCode()
-
-        result = 31 * result + Arrays.hashCode(bytes)
-
-        return result
-
+    fun send(sender: Any?, text: Text) {
+        this.members.forEach {
+            it.sendMessage(this.transform(sender, it, text))
+        }
     }
 
-    override fun equals(other: Any?): Boolean {
-
-        if(other != null && other is SandstoneClass<*>)
-            return this.javaClass == other.javaClass
-                    && Arrays.equals(this.bytes, other.bytes)
-
-        return super.equals(other)
-    }
+    fun transform(sender: Any?, receiver: MessageReceiver, text: Text): Text = text
 }

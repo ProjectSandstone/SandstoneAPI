@@ -52,7 +52,7 @@ interface Registry {
      * Gets registry entry by [id].
      *
      * @param id Id of registry entry.
-     * @param type Type of registry entry. (bound is not limited to [RegistryEntry], but the [Registry] will not contains values that isn't [RegistryEntry])
+     * @param type Type of registry entry.
      * @return Entry or null if cannot found.
      */
     fun <T : RegistryEntry> getEntry(id: String, type: Class<out T>): T?
@@ -60,7 +60,7 @@ interface Registry {
     /**
      * Gets all elements of type [type]
      *
-     * @param type Type of registry. (bound is not limited to [RegistryEntry], but the [Registry] will not contains values that isn't [RegistryEntry]).
+     * @param type Type of registry.
      * @return a list of all types of [type].
      */
     fun <T : RegistryEntry> getAll(type: Class<out T>): List<T>

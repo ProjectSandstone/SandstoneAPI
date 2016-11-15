@@ -25,29 +25,8 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal.gen
+package com.github.projectsandstone.api.util.internal.gen.event
 
-import java.util.*
+import com.github.jonathanxd.iutils.type.TypeInfo
 
-data class SandstoneClass<T>(val javaClass: Class<T>, val bytes: ByteArray, val source: Lazy<String>) {
-
-    override fun hashCode(): Int {
-        var result = 1
-
-        result = 31 * result + javaClass.hashCode()
-
-        result = 31 * result + Arrays.hashCode(bytes)
-
-        return result
-
-    }
-
-    override fun equals(other: Any?): Boolean {
-
-        if(other != null && other is SandstoneClass<*>)
-            return this.javaClass == other.javaClass
-                    && Arrays.equals(this.bytes, other.bytes)
-
-        return super.equals(other)
-    }
-}
+data class GeneratedEventImpl(val typeInfo: TypeInfo<*>, val propertiesKeys: Set<String>)

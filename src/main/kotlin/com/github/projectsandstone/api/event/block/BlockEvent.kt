@@ -25,29 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal.gen
+package com.github.projectsandstone.api.event.block
 
-import java.util.*
+import com.github.projectsandstone.api.block.BlockState
+import com.github.projectsandstone.api.event.Event
 
-data class SandstoneClass<T>(val javaClass: Class<T>, val bytes: ByteArray, val source: Lazy<String>) {
-
-    override fun hashCode(): Int {
-        var result = 1
-
-        result = 31 * result + javaClass.hashCode()
-
-        result = 31 * result + Arrays.hashCode(bytes)
-
-        return result
-
-    }
-
-    override fun equals(other: Any?): Boolean {
-
-        if(other != null && other is SandstoneClass<*>)
-            return this.javaClass == other.javaClass
-                    && Arrays.equals(this.bytes, other.bytes)
-
-        return super.equals(other)
-    }
+/**
+ * Base class of all events related to [BlockState].
+ */
+interface BlockEvent : Event {
+    val block: BlockState
 }

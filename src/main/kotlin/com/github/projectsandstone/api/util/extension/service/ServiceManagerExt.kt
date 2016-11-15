@@ -29,7 +29,13 @@ package com.github.projectsandstone.api.util.extension.service
 
 import com.github.projectsandstone.api.service.ServiceManager
 
-
+/**
+ * Set provider of a service.
+ *
+ * @param plugin Plugin instance
+ * @param provider Provider instance.
+ * @param T Service Type
+ */
 inline fun <reified T : Any> ServiceManager.setProvider(plugin: Any, provider: T) {
     this.setProvider(plugin, T::class.java, provider)
 }

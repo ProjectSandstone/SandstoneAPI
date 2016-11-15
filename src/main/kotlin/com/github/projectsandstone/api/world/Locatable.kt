@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.world
 
 /**
- * An object that can be located in world
+ * An object that can be located in world and teleported to a [Location]
  */
 interface Locatable {
     /**

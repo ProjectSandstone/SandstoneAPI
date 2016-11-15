@@ -35,19 +35,16 @@ import com.github.projectsandstone.api.registry.RegistryEntry
 import com.github.projectsandstone.api.util.exception.EntryNotFoundException
 import com.github.projectsandstone.api.util.exception.EntryNotInitializedException
 
-val UNINITIALIZED_HANDLER: InvocationHandler =
+private val UNINITIALIZED_HANDLER: InvocationHandler =
         InvocationHandler { any, method, arrayOfAnys, proxyData ->
             throw EntryNotInitializedException("Method invoked on a uninitialized entry!")
         }
 
-inline fun <reified T : RegistryEntry> getEntry(name: () -> String): T {
-    val entry = Sandstone.game.registry.getRegistryEntry<T>(name())
-
-    return entry ?: throw EntryNotFoundException("Required entry: ${name()} not found!")
-}
-
 inline fun <reified T : Any> uninitializedEntry(): T  = uninitializedEntry(T::class.java)
 
+/**
+ * Create a uninitialized [RegistryEntry], all methods invoke on this instance will throw [EntryNotInitializedException].
+ */
 @Suppress("UNCHECKED_CAST")
 fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
 
@@ -59,16 +56,49 @@ fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
 }
 
 /**
- * Gets registry from platform
+ * Gets a entry by id.
+ *
+ * @param id Function that returns the id of [RegistryEntry] to find.
+ * @param T Entry type.
+ * @return Entry
+ * @throws EntryNotFoundException if the entry cannot be found.
+ */
+@Throws(EntryNotFoundException::class)
+inline fun <reified T : RegistryEntry> getEntry(id: () -> String): T {
+    val entry = Sandstone.game.registry.getRegistryEntry<T>(id())
+
+    return entry ?: throw EntryNotFoundException("Required entry: ${id()} not found!")
+}
+
+/**
+ * Gets registry entry by [id].
+ *
+ * @param id Id of registry entry.
+ * @param T Type of registry entry.
+ * @return Entry or null if cannot found.
  */
 inline fun <reified T : RegistryEntry> Registry.getRegistryEntry(id: String): T? {
     return this.getEntry(id, T::class.java)
 }
 
+/**
+ * Register entry [T] with [id].
+ *
+ * @param id Id of the entry
+ * @param entry Entry instance.
+ * @param T Type of entry.
+ */
 inline fun <reified T : RegistryEntry> Registry.registerEntry(id: String, entry: T) {
     return this.registerEntry(id, entry, T::class.java)
 }
 
+/**
+ * Gets a entry by [id] and [type].
+ *
+ * @param id Entry id
+ * @param type Entry type
+ * @param T Expected entry type.
+ */
 @Suppress("UNCHECKED_CAST")
 fun <T : RegistryEntry> Registry.getEntryGeneric(id: String, type: Class<*>): T? {
     return this.getEntry(id, type as Class<T>)

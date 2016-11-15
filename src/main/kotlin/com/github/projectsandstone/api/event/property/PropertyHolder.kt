@@ -42,6 +42,54 @@ interface PropertyHolder {
     fun <R> getProperty(type: Class<R>, name: String): Property<R>?
 
     /**
+     * Gets the getter property of type [type] and name [name]
+     *
+     * If the property is not a instance of [GetterProperty], returns null.
+     *
+     * @param type Type of property type.
+     * @param name Name of property.
+     * @return Getter version of Property, if exists, or null otherwise.
+     */
+    fun <R> getGetterProperty(type: Class<R>, name: String) =
+        this.getProperty(type, name) as? GetterProperty
+
+    /**
+     * Gets the setter property of type [type] and name [name]
+     *
+     * If the property is not a instance of [SetterProperty], returns null.
+     *
+     * @param type Type of property type.
+     * @param name Name of property.
+     * @return Setter version of Property, if exists, or null otherwise.
+     */
+    fun <R> getSetterProperty(type: Class<R>, name: String) =
+            this.getProperty(type, name) as? SetterProperty<R>
+
+    /**
+     * Gets the GS (getter and setter) property of type [type] and name [name]
+     *
+     * If the property is not a instance of [GSProperty], returns null.
+     *
+     * @param type Type of property type.
+     * @param name Name of property.
+     * @return GS version of Property, if exists, or null otherwise.
+     */
+    fun <R> getGSProperty(type: Class<R>, name: String) =
+            this.getProperty(type, name) as? GSProperty<R>
+
+    /**
+     * Returns true if the holder has the property.
+     *
+     * If the holder contains the property but the type of the property isn't instance of [type]
+     * the method will returns false.
+     *
+     * @param type Type of property.
+     * @param name Name of property.
+     * @return True if the holder has the property.
+     */
+    fun hasProperty(type: Class<*>, name: String): Boolean
+
+    /**
      * Gets the property map.
      * @return Immutable property map.
      */
