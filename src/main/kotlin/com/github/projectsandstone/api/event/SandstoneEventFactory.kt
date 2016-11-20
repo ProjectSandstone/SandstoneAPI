@@ -29,9 +29,22 @@ package com.github.projectsandstone.api.event
 
 import com.github.jonathanxd.iutils.type.AbstractTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.projectsandstone.api.block.BlockState
+import com.github.projectsandstone.api.entity.Entity
+import com.github.projectsandstone.api.entity.living.player.Player
+import com.github.projectsandstone.api.event.block.BlockInteractEvent
+import com.github.projectsandstone.api.event.entity.damage.DamageCause
+import com.github.projectsandstone.api.event.entity.damage.EntityDamageEvent
 import com.github.projectsandstone.api.event.init.*
+import com.github.projectsandstone.api.event.message.MessageChannelEvent
+import com.github.projectsandstone.api.event.message.MessageEvent
+import com.github.projectsandstone.api.event.player.PlayerBlockInteractEvent
+import com.github.projectsandstone.api.event.player.PlayerMessageChannelEvent
+import com.github.projectsandstone.api.event.player.PlayerMessageEvent
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.service.RegisteredProvider
+import com.github.projectsandstone.api.text.Text
+import com.github.projectsandstone.api.text.channel.MessageChannel
 import com.github.projectsandstone.api.util.extension.internal.gen.create
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 
@@ -111,4 +124,60 @@ object SandstoneEventFactory {
                                                                   newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> {
         return this.createChangeServiceProviderEvent(object : AbstractTypeInfo<T>() {}, oldProvider, newProvider)
     }
+
+    @JvmStatic
+    fun createEntityDamageEvent(damageCause: DamageCause, entity: Entity): EntityDamageEvent {
+        return SandstoneEventGen.create(mapOf(
+                "damageCause" to damageCause,
+                "entity" to entity
+        ))
+    }
+
+    @JvmStatic
+    fun createBlockInteractEvent(block: BlockState): BlockInteractEvent {
+        return SandstoneEventGen.create(mapOf(
+                "block" to block
+        ))
+    }
+
+    @JvmStatic
+    fun createPlayerBlockInteractEvent(player: Player, block: BlockState): PlayerBlockInteractEvent {
+        return SandstoneEventGen.create(mapOf(
+                "player" to player,
+                "block" to block
+        ))
+    }
+
+    @JvmStatic
+    fun createMessageEvent(message: Text): MessageEvent {
+        return SandstoneEventGen.create(mapOf(
+                "message" to message
+        ))
+    }
+
+    @JvmStatic
+    fun createPlayerMessageEvent(player: Player, message: Text): PlayerMessageEvent {
+        return SandstoneEventGen.create(mapOf(
+                "player" to player,
+                "message" to message
+        ))
+    }
+
+    @JvmStatic
+    fun createMessageChannelEvent(channel: MessageChannel?, message: Text): MessageChannelEvent {
+        return SandstoneEventGen.create(mapOf(
+                "channel" to channel,
+                "message" to message
+        ))
+    }
+
+    @JvmStatic
+    fun createPlayerMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): PlayerMessageChannelEvent {
+        return SandstoneEventGen.create(mapOf(
+                "player" to player,
+                "channel" to channel,
+                "message" to message
+        ))
+    }
+
 }

@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.util.internal.gen.event
 import com.github.jonathanxd.iutils.type.Primitive
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.iutils.map.WeakValueHashMap
+import com.github.projectsandstone.api.event.Cancellable
 import com.github.projectsandstone.api.event.annotation.Named
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
@@ -43,12 +44,18 @@ object SandstoneEventGen {
 
     @Suppress("UNCHECKED_CAST")
     @JvmOverloads
-    fun <T> gen(type: TypeInfo<T>, properties: Map<String, Any?>, additionalProperties: List<PropertyInfo> = emptyList()): T {
-        this.checkProperties(type, properties, additionalProperties)
+    fun <T> gen(type: TypeInfo<T>, properties_: Map<String, Any?>, additionalProperties: List<PropertyInfo> = emptyList()): T {
+        this.checkProperties(type, properties_, additionalProperties)
 
         val class_: Class<T>
-        
-        val generated = GeneratedEventImpl(type, properties.keys)
+
+        val generated = GeneratedEventImpl(type, properties_.keys)
+
+        val properties = properties_.toMutableMap()
+
+        if(Cancellable::class.java.isAssignableFrom(type.aClass) && !properties.contains("isCancelled")) {
+            properties += "isCancelled" to false
+        }
 
         if (this.cached.containsKey(generated)) {
             class_ = cached[generated]!! as Class<T>

@@ -63,7 +63,20 @@ interface MessageReceiver {
         }
     }
 
-    // getMessageChannel
-    // setMessageChannel
+    /**
+     * Gets the current message channel.
+     *
+     * @return Current message channel.
+     */
+    fun getMessageChannel(): MessageChannel? = null
+
+    /**
+     * Sets current message channel.
+     *
+     * @param channel Current message channel.
+     */
+    fun setMessageChannel(channel: MessageChannel?) {
+
+    }
 
 }

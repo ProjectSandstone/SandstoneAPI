@@ -31,4 +31,8 @@ import com.github.projectsandstone.api.event.Cancellable
 import com.github.projectsandstone.api.event.entity.EntityEvent
 
 interface EntityDamageEvent : EntityEvent, Cancellable {
+    /**
+     * Damage cause.
+     */
+    val damageCause: DamageCause
 }

@@ -28,12 +28,9 @@
 package com.github.projectsandstone.api.entity
 
 import com.github.projectsandstone.api.util.Identifiable
+import com.github.projectsandstone.api.world.Locatable
 
 /**
  * Minecraft entity.
  */
-interface Entity : Identifiable {
-
-
-
-}
+interface Entity : Identifiable, Locatable

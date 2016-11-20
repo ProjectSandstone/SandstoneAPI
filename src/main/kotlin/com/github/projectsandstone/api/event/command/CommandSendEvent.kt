@@ -25,34 +25,21 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.service
+package com.github.projectsandstone.api.event.command
 
-import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.event.Event
-import com.github.projectsandstone.api.event.annotation.TypeRef
-import com.github.projectsandstone.api.service.RegisteredProvider
 
 /**
- * Fired when a service provider is changed.
- *
- * @param T Service Type
+ * Fired when a command is sent.
  */
-interface ChangeServiceProviderEvent<T : Any> : Event {
+interface CommandSendEvent : Event {
+    /**
+     * Command name.
+     */
+    val command: String
 
     /**
-     * Service Class
+     * Command arguments.
      */
-    @TypeRef("T")
-    val service: TypeInfo<T>
-
-    /**
-     * Old Service Provider, if available.
-     */
-    val oldProvider: RegisteredProvider<T>?
-
-    /**
-     * New Service Provider
-     */
-    val newProvider: RegisteredProvider<T>
-
+    val args: Array<String>
 }

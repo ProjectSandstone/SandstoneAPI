@@ -29,4 +29,4 @@ package com.github.projectsandstone.api.event.player
 
 import com.github.projectsandstone.api.event.block.BlockInteractEvent
 
-interface PlayerInteractBlockEvent: PlayerEvent, BlockInteractEvent
+interface PlayerBlockInteractEvent : PlayerEvent, BlockInteractEvent
