@@ -50,8 +50,8 @@ interface PropertyHolder {
      * @param name Name of property.
      * @return Getter version of Property, if exists, or null otherwise.
      */
-    fun <R> getGetterProperty(type: Class<R>, name: String) =
-        this.getProperty(type, name) as? GetterProperty
+    fun <R> getGetterProperty(type: Class<R>, name: String): GetterProperty<R>? =
+        this.getProperty(type, name) as? GetterProperty<R>
 
     /**
      * Gets the setter property of type [type] and name [name]
@@ -62,7 +62,7 @@ interface PropertyHolder {
      * @param name Name of property.
      * @return Setter version of Property, if exists, or null otherwise.
      */
-    fun <R> getSetterProperty(type: Class<R>, name: String) =
+    fun <R> getSetterProperty(type: Class<R>, name: String): SetterProperty<R>? =
             this.getProperty(type, name) as? SetterProperty<R>
 
     /**
@@ -74,7 +74,7 @@ interface PropertyHolder {
      * @param name Name of property.
      * @return GS version of Property, if exists, or null otherwise.
      */
-    fun <R> getGSProperty(type: Class<R>, name: String) =
+    fun <R> getGSProperty(type: Class<R>, name: String): GSProperty<R>? =
             this.getProperty(type, name) as? GSProperty<R>
 
     /**
