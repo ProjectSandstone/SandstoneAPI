@@ -25,68 +25,16 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
-
-import com.github.projectsandstone.api.event.EventManager
-import com.github.projectsandstone.api.plugin.PluginManager
-import com.github.projectsandstone.api.registry.Registry
-import com.github.projectsandstone.api.scheduler.Scheduler
-import com.github.projectsandstone.api.service.ServiceManager
-import com.github.projectsandstone.api.util.edition.GameEdition
-import java.nio.file.Path
+package com.github.projectsandstone.api.util.edition
 
 /**
- * Created by jonathan on 12/08/16.
+ * Minecraft Game Edition.
  */
-interface Game {
+@FunctionalInterface
+interface GameEdition {
 
     /**
-     * Implementing platform
+     * Name of the game edition.
      */
-    val platform: Platform
-
-    /**
-     * Game Server
-     */
-    val server: Server
-
-    /**
-     * *Sandstone* plugin manager.
-     */
-    val pluginManager: PluginManager
-
-    /**
-     * *Sandstone* service manager.
-     */
-    val serviceManager: ServiceManager
-
-    /**
-     * *Sandstone* event manager.
-     */
-    val eventManager: EventManager
-
-    /**
-     * *Sandstone* Scheduler
-     */
-    val scheduler: Scheduler
-
-    /**
-     * Root Game Path
-     */
-    val gamePath: Path
-
-    /**
-     * Game save path
-     */
-    val savePath: Path
-
-    /**
-     * Game registry
-     */
-    val registry: Registry
-
-    /**
-     * Game edition
-     */
-    val edition: GameEdition
+    val name: String
 }

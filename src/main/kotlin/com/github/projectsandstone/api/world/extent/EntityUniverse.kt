@@ -44,7 +44,16 @@ interface EntityUniverse {
     /**
      * Gets entities inside the area
      */
-    fun getEntities(from: Vector3d, to: Vector3d): Collection<Entity>
+    fun getEntities(from: Vector3d, to: Vector3d): Collection<Entity> {
+        val min = from.min(to)
+        val max = from.max(to)
+
+        return this.entities.filter {
+            val position = it.location.position
+
+            return@filter position >= min && position <= max
+        }
+    }
 
     /**
      * Spawn the entity in the universe.

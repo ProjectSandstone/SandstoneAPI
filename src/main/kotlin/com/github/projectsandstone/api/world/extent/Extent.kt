@@ -33,6 +33,7 @@ import com.flowpowered.math.vector.Vector3i
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.event.Source
 import com.github.projectsandstone.api.text.channel.MessageReceiver
+import com.github.projectsandstone.api.util.extension.flow.math.rangeTo
 import com.github.projectsandstone.api.world.Chunk
 import com.github.projectsandstone.api.world.Location
 import com.github.projectsandstone.api.world.Selection
@@ -70,7 +71,19 @@ interface Extent : EntityUniverse, MessageReceiver {
      * @param to To Location.
      * @return all [Chunk]s inside the region.
      */
-    fun getChunks(from: Vector2i, to: Vector2i): Collection<Chunk>
+    fun getChunks(from: Vector2i, to: Vector2i): Collection<Chunk> {
+
+        val chunks = mutableListOf<Chunk>()
+
+        val min = from.min(to)
+        val max = from.max(to)
+
+        for(vector in min..max) {
+            chunks += this.getChunk(vector)
+        }
+
+        return chunks
+    }
 
     /**
      * Get a [Location] in this [Extent].
@@ -123,7 +136,18 @@ interface Extent : EntityUniverse, MessageReceiver {
      * @param to To location.
      * @return [BlockState]s inside the region.
      */
-    fun getBlocks(from: Vector3i, to: Vector3i): Collection<BlockState>
+    fun getBlocks(from: Vector3i, to: Vector3i): Collection<BlockState> {
+        val blocks = mutableListOf<BlockState>()
+
+        val min = from.min(to)
+        val max = from.max(to)
+
+        for(vector in min..max) {
+            blocks += this.getBlock(vector)
+        }
+
+        return blocks
+    }
 
     /**
      * Sets the [BlockState] in [location].
@@ -159,7 +183,15 @@ interface Extent : EntityUniverse, MessageReceiver {
      * @param blockState Block State
      * @param source Source of the block change.
      */
-    fun setBlocks(from: Vector3i, to: Vector3i, blockState: BlockState, source: Source?)
+    fun setBlocks(from: Vector3i, to: Vector3i, blockState: BlockState, source: Source?) {
+
+        val min = from.min(to)
+        val max = from.max(to)
+
+        for(vector in min..max) {
+            this.setBlock(vector, blockState, source)
+        }
+    }
 
     /**
      * Sets all blocks in selected location to [BlockState] supplied by [stateSupplier]
@@ -181,7 +213,14 @@ interface Extent : EntityUniverse, MessageReceiver {
      * @param stateSupplier [BlockState] supplier.
      * @param source Source of the block change.
      */
-    fun setBlocks(from: Vector3i, to: Vector3i, source: Source?, stateSupplier: (BlockState, Vector3i) -> BlockState)
+    fun setBlocks(from: Vector3i, to: Vector3i, source: Source?, stateSupplier: (BlockState, Vector3i) -> BlockState) {
+        val min = from.min(to)
+        val max = from.max(to)
+
+        for(vector in min..max) {
+            this.setBlock(vector, stateSupplier(this.getBlock(vector), vector), source)
+        }
+    }
 
     /**
      * Selects a region from location [from] to location [to].

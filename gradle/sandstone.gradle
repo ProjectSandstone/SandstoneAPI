@@ -79,18 +79,20 @@ shadowJar {
     classifier = 'shaded'
 }
 
-dokka {
+/*dokka {
     outputFormat = 'javadoc'
     outputDirectory = javadoc.destinationDir
     includes = ['src/main/Module.md']
 }
+Dokka disabled until a fix for Kotlin-M03.
+*/
 
 task sourcesJar(type: Jar, dependsOn: classes) {
     classifier = 'sources'
     from sourceSets.main.allSource
 }
 
-task javadocJar(type: Jar, dependsOn: dokka) {
+task javadocJar(type: Jar, dependsOn: classes /*dokka*/) {
     classifier = 'javadoc'
     from javadoc.destinationDir
 }

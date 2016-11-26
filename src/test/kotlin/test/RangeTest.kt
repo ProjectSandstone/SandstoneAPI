@@ -25,68 +25,45 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package test
 
-import com.github.projectsandstone.api.event.EventManager
-import com.github.projectsandstone.api.plugin.PluginManager
-import com.github.projectsandstone.api.registry.Registry
-import com.github.projectsandstone.api.scheduler.Scheduler
-import com.github.projectsandstone.api.service.ServiceManager
-import com.github.projectsandstone.api.util.edition.GameEdition
-import java.nio.file.Path
+import com.flowpowered.math.vector.Vector2i
+import com.github.projectsandstone.api.util.extension.flow.math.rangeTo
+import org.junit.Assert
+import org.junit.Test
 
-/**
- * Created by jonathan on 12/08/16.
- */
-interface Game {
+class RangeTest {
+    @Test
+    fun test() {
+        val strs = mutableListOf<String>()
+        val strs2 = mutableListOf<String>()
 
-    /**
-     * Implementing platform
-     */
-    val platform: Platform
+        val vec = Vector2i(2, 3)
+        val vec2 = Vector2i(9, 7)
 
-    /**
-     * Game Server
-     */
-    val server: Server
+        for (i in vec..vec2) {
+            println(i)
+            strs += i.toString()
+        }
 
-    /**
-     * *Sandstone* plugin manager.
-     */
-    val pluginManager: PluginManager
+        println("======================================")
 
-    /**
-     * *Sandstone* service manager.
-     */
-    val serviceManager: ServiceManager
+        for (b in 3..7) {
+            for (a in 2..9) {
+                println("($a, $b)")
 
-    /**
-     * *Sandstone* event manager.
-     */
-    val eventManager: EventManager
+                strs2 += "($a, $b)"
+            }
+        }
 
-    /**
-     * *Sandstone* Scheduler
-     */
-    val scheduler: Scheduler
+        Assert.assertTrue(strs.containsAll(strs2))
 
-    /**
-     * Root Game Path
-     */
-    val gamePath: Path
+        println("======================================")
 
-    /**
-     * Game save path
-     */
-    val savePath: Path
+        val vectA = Vector2i(4, 5)
+        val vectB = Vector2i(1, 9)
 
-    /**
-     * Game registry
-     */
-    val registry: Registry
-
-    /**
-     * Game edition
-     */
-    val edition: GameEdition
+        println("min ${vectA.min(vectB)}")
+        println("max ${vectA.max(vectB)}")
+    }
 }

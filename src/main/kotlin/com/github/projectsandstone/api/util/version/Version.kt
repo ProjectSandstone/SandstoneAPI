@@ -30,16 +30,6 @@ package com.github.projectsandstone.api.util.version
 
 data class Version(val versionString: String, val versionScheme: VersionScheme) : Comparable<Version> {
     /**
-     * Version String
-
-    val versionString: String
-
-
-     * Version scheme
-
-    val versionScheme: VersionScheme*/
-
-    /**
      * Returns true if this [Version] is compatible with [version]
      *
      * @param version Version to check
@@ -53,7 +43,7 @@ data class Version(val versionString: String, val versionScheme: VersionScheme) 
      * @param version Version to compare
      * @return True if this [Version] is newer than [version]
      */
-    fun isNewerThan(version: Version) = this.compareTo(version) > 0
+    fun isNewerThan(version: Version) = this > version
 
     /**
      * Returns True if this [Version] is older than [version]
@@ -61,7 +51,7 @@ data class Version(val versionString: String, val versionScheme: VersionScheme) 
      * @param version Version to compare
      * @return True if this [Version] is older than [version]
      */
-    fun isOlderThan(version: Version) = this.compareTo(version) < 0
+    fun isOlderThan(version: Version) = this < version
 
     /**
      * Returns True if this [Version] is same as [version]

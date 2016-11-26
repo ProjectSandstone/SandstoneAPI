@@ -27,20 +27,22 @@
  */
 package test
 
+import com.flowpowered.math.vector.Vector2i
 import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.constants.SandstonePlugin
-import com.github.projectsandstone.api.event.property.GSProperty
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.service.RegisteredProvider
+import com.github.projectsandstone.api.util.extension.flow.math.rangeTo
 import com.github.projectsandstone.api.util.internal.gen.event.PropertyInfo
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 import com.github.projectsandstone.example.MyService
 import com.github.projectsandstone.example.MyServiceImpl
 
 fun main(args: Array<String>) {
-    val type = object: ConcreteTypeInfo<ChangeServiceProviderEvent<MyService>>() {}
+
+    val type = object : ConcreteTypeInfo<ChangeServiceProviderEvent<MyService>>() {}
 
     val gen = SandstoneEventGen.gen(type, mapOf(
             "service" to TypeInfo.aEnd(MyService::class.java),
@@ -62,7 +64,7 @@ fun main(args: Array<String>) {
 
 }
 
-object MyProvider: RegisteredProvider<MyService> {
+object MyProvider : RegisteredProvider<MyService> {
     override val service: Class<MyService> = MyService::class.java
     override val provider: MyService = MyServiceImpl()
     override val plugin: PluginContainer = SandstonePlugin
