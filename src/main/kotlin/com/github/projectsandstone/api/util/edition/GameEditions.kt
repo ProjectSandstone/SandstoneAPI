@@ -32,16 +32,18 @@ import com.github.projectsandstone.api.util.extension.registry.uninitializedEntr
 /**
  * Sandstone Known Game editions
  */
-class GameEditions {
+object GameEditions {
 
     /**
      * Minecraft PC Edition
      */
+    @JvmField
     val PC = uninitializedEntry<GameEdition>()
 
     /**
      * Minecraft Pocket Edition
      */
+    @JvmField
     val PE = uninitializedEntry<GameEdition>()
 
 }
