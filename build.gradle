@@ -17,6 +17,8 @@ buildscript {
 
 }
 
+ext.api = project
+
 group 'com.github.projectsandstone'
 version '1.0-SNAPSHOT'
 
