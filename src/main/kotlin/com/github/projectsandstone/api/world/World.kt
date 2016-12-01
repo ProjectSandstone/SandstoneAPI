@@ -64,4 +64,12 @@ interface World : MessageReceiver, Identifiable, Extent {
     override fun getLocation(x: Int, y: Int, z: Int): Location<World> {
         return this.getLocation(Vector3i(x, y, z).toDouble())
     }
+
+    override fun getWorld(): World {
+        return this
+    }
+
+    override fun getWorldLocation(location: Location<Extent>): Location<World> {
+        return location.changeExtent(this)
+    }
 }

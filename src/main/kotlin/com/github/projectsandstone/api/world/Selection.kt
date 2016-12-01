@@ -36,7 +36,7 @@ import com.github.projectsandstone.api.event.Source
 import com.github.projectsandstone.api.world.extent.Extent
 
 /**
- * Helper class to work with Selections
+ * Helper class to work with Selections.
  */
 data class Selection(val extent: Extent,
                      val from: Vector3d,

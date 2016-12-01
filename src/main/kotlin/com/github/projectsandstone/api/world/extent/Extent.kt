@@ -78,7 +78,7 @@ interface Extent : EntityUniverse, MessageReceiver {
         val min = from.min(to)
         val max = from.max(to)
 
-        for(vector in min..max) {
+        for (vector in min..max) {
             chunks += this.getChunk(vector)
         }
 
@@ -142,7 +142,7 @@ interface Extent : EntityUniverse, MessageReceiver {
         val min = from.min(to)
         val max = from.max(to)
 
-        for(vector in min..max) {
+        for (vector in min..max) {
             blocks += this.getBlock(vector)
         }
 
@@ -188,7 +188,7 @@ interface Extent : EntityUniverse, MessageReceiver {
         val min = from.min(to)
         val max = from.max(to)
 
-        for(vector in min..max) {
+        for (vector in min..max) {
             this.setBlock(vector, blockState, source)
         }
     }
@@ -217,7 +217,7 @@ interface Extent : EntityUniverse, MessageReceiver {
         val min = from.min(to)
         val max = from.max(to)
 
-        for(vector in min..max) {
+        for (vector in min..max) {
             this.setBlock(vector, stateSupplier(this.getBlock(vector), vector), source)
         }
     }
@@ -230,4 +230,19 @@ interface Extent : EntityUniverse, MessageReceiver {
      * @return Selection [from] to [to].
      */
     fun select(from: Vector3d, to: Vector3d): Selection = Selection(this, from, to)
+
+    /**
+     * Gets the world of current [Extent].
+     *
+     * @return the world of current [Extent], if current [Extent] is a [World], return itself.
+     */
+    fun getWorld(): World
+
+    /**
+     * Gets the [World] location of provided [location]
+     * (this method only applies the offsets to the [location]).
+     *
+     * @return [World] location of provided [location].
+     */
+    fun getWorldLocation(location: Location<Extent>): Location<World>
 }

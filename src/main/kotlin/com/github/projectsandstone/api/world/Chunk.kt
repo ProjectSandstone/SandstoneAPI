@@ -40,9 +40,12 @@ import com.github.projectsandstone.api.world.extent.Extent
 
 /**
  * A [Chunk] of the [World].
+ *
+ * @param position Location of the chunk in the extent.
  */
 data class Chunk(val extent: Extent,
                  val position: Vector2i) : Extent {
+
     private val selection: Selection =
             Selection(extent,
                     Vector3d(position.x.toDouble(), 0.0, position.y.toDouble()),
@@ -108,5 +111,22 @@ data class Chunk(val extent: Extent,
      * @return Selection of this [Chunk].
      */
     fun getSelection(): Selection = this.selection
+
+    override fun getWorld(): World {
+        return this.extent.getWorld()
+    }
+
+    override fun getWorldLocation(location: Location<Extent>): Location<World> {
+        if(location.extent !is Chunk)
+            throw IllegalArgumentException("The extent of location '$location' must be a Chunk.")
+
+        val position = location.position
+
+        val x = this.position.x + position.x //offset
+        val y = position.y
+        val z = this.position.y + position.z //offset
+
+        return Location(this.getWorld(), Vector3d(x, y, z))
+    }
 
 }
