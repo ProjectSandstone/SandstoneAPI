@@ -6,6 +6,9 @@ ext.flowmath_version = '1.0.3'
 
 ext.jwiutils_version = '3.1.1'
 ext.codeapi_version = '2.1.5'
-ext.adapter_version = '4.0.0-R5'
+ext.adapter_version = '4.0.0-R7'
 ext.codeproxy_version = '1.0.5-1'
 ext.jsr305_version = '3.0.1'
+
+ext.license_version = '0.13.1'
+ext.shadow_version = '1.2.4'

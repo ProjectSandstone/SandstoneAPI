@@ -10,9 +10,9 @@ buildscript {
 
     dependencies {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
-        classpath "org.jetbrains.dokka:dokka-gradle-plugin:${dokka_version}"
-        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:0.13.1"
-        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.4"
+        classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
+        classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:$license_version"
+        classpath "com.github.jengelman.gradle.plugins:shadow:$shadow_version"
     }
 
 }
