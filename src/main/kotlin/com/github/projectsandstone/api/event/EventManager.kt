@@ -29,7 +29,6 @@ package com.github.projectsandstone.api.event
 
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.Sandstone
-import com.github.projectsandstone.api.event.annotation.TypeRef
 import com.github.projectsandstone.api.plugin.PluginContainer
 import java.lang.reflect.Method
 
@@ -45,15 +44,15 @@ interface EventManager {
 
     @Suppress("UNCHECKED_CAST")
             /**
-     * Register a [EventListener] for a [Event].
-     *
-     * If you wan't to register an instance as [EventListener] use [registerListeners].
-     *
-     * @param plugin Plugin of the [eventListener]
-     * @param eventType Type of event
-     * @param eventListener Listener of the event.
-     * @see [registerListeners]
-     */
+             * Register a [EventListener] for a [Event].
+             *
+             * If you wan't to register an instance as [EventListener] use [registerListeners].
+             *
+             * @param plugin Plugin of the [eventListener]
+             * @param eventType Type of event
+             * @param eventListener Listener of the event.
+             * @see [registerListeners]
+             */
     fun <T : Event> registerListener(plugin: Any, eventType: Class<T>, eventListener: EventListener<T>) {
         this.registerListener(plugin, TypeInfo.aEnd(eventType), eventListener)
     }
@@ -107,8 +106,8 @@ interface EventManager {
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
-    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), pluginContainer, isBeforeModifications);
+    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
+        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), pluginContainer, isBeforeModifications)
     }
 
     /**
@@ -118,7 +117,7 @@ interface EventManager {
      * @param properties Properties of this event.
      * @param pluginContainer Plugin that created this event.
      */
-    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer) {
+    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer) {
         this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), pluginContainer)
     }
 
@@ -131,7 +130,7 @@ interface EventManager {
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
-    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any, isBeforeModifications: Boolean) {
+    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any, isBeforeModifications: Boolean) {
         this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), Sandstone.pluginManager.getRequiredPlugin(plugin), isBeforeModifications)
     }
 
@@ -142,7 +141,7 @@ interface EventManager {
      * @param properties Properties of this event.
      * @param plugin Plugin instance
      */
-    fun <T: Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any) {
+    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any) {
         this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), Sandstone.pluginManager.getRequiredPlugin(plugin))
     }
 

@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living
 
-interface Aerial : Creature {
-}
+interface Aerial : Creature

@@ -30,5 +30,4 @@ package com.github.projectsandstone.api.entity.living
 /**
  * Entity that can age and breed.
  */
-interface Ageable : LivingEntity {
-}
+interface Ageable : LivingEntity

@@ -57,6 +57,8 @@ data class Chunk(val extent: Extent,
     override val entities: Collection<Entity>
         get() = this.selection.entities
 
+    override val world: World = this.extent.world
+
     override fun sendMessage(text: Text) {
         this.entities.forEach {
             if (it is MessageReceiver) {
@@ -112,10 +114,6 @@ data class Chunk(val extent: Extent,
      */
     fun getSelection(): Selection = this.selection
 
-    override fun getWorld(): World {
-        return this.extent.getWorld()
-    }
-
     override fun getWorldLocation(location: Location<Extent>): Location<World> {
         if(location.extent !is Chunk)
             throw IllegalArgumentException("The extent of location '$location' must be a Chunk.")
@@ -126,7 +124,7 @@ data class Chunk(val extent: Extent,
         val y = position.y
         val z = this.position.y + position.z //offset
 
-        return Location(this.getWorld(), Vector3d(x, y, z))
+        return Location(this.world, Vector3d(x, y, z))
     }
 
 }

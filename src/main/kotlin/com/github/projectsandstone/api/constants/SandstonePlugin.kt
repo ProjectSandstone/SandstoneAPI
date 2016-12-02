@@ -40,7 +40,7 @@ import java.nio.file.Paths
 /**
  * Represents the SandstonePlugin
  */
-object SandstonePlugin: PluginContainer {
+object SandstonePlugin : PluginContainer {
 
     override val id: String
         get() = Constants.SANDSTONE_PLUGIN_ID
@@ -61,7 +61,11 @@ object SandstonePlugin: PluginContainer {
         get() = true
 
     override val file: Path?
-        get() = try { Paths.get(this.javaClass.protectionDomain.codeSource.location.toURI()) } catch (throwable: Throwable) { null }
+        get() = try {
+            Paths.get(this.javaClass.protectionDomain.codeSource.location.toURI())
+        } catch (throwable: Throwable) {
+            null
+        }
 
     override val instance: Any?
         get() = Sandstone
@@ -77,7 +81,6 @@ object SandstonePlugin: PluginContainer {
 
     override val classLoader: PluginClassLoader = SandstonePluginClassLoader
     override val mainClass: String = "com.github.projectsandstone.api.Sandstone"
-
 
 
     private object SandstonePluginClassLoader : PluginClassLoader {

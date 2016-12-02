@@ -30,5 +30,4 @@ package com.github.projectsandstone.api.entity.living.monster
 import com.github.projectsandstone.api.entity.living.Creature
 import com.github.projectsandstone.api.entity.living.Hostile
 
-interface Monster : Hostile, Creature {
-}
+interface Monster : Hostile, Creature

@@ -32,5 +32,4 @@ import com.github.projectsandstone.api.entity.living.Ageable
 /**
  * Animal Entity
  */
-interface Animal : Ageable {
-}
+interface Animal : Ageable

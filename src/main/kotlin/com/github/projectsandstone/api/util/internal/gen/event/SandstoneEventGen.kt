@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.util.internal.gen.event
 
+import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import com.github.jonathanxd.iutils.type.Primitive
 import com.github.jonathanxd.iutils.type.TypeInfo
-import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import com.github.projectsandstone.api.event.Cancellable
 import com.github.projectsandstone.api.event.annotation.Named
 import java.lang.invoke.MethodHandles
@@ -53,7 +53,7 @@ object SandstoneEventGen {
 
         val properties = properties_.toMutableMap()
 
-        if(Cancellable::class.java.isAssignableFrom(type.aClass) && !properties.contains("isCancelled")) {
+        if (Cancellable::class.java.isAssignableFrom(type.aClass) && !properties.contains("isCancelled")) {
             properties += "isCancelled" to false
         }
 
@@ -97,20 +97,20 @@ object SandstoneEventGen {
         val typeProperties = SandstoneEventGenUtil.getProperties(type.aClass) + additionalProperties
 
         val missing = typeProperties.filter {
-            if(!properties.containsKey(it.propertyName))
+            if (!properties.containsKey(it.propertyName))
                 return@filter true
             else {
                 val property = properties[it.propertyName]
 
-                if(property != null && !it.type.isAssignableFrom(property.javaClass))
+                if (property != null && !it.type.isAssignableFrom(property.javaClass))
                     throw ClassCastException("Cannot cast provided property '$property' of type '${property.javaClass}' to expected type '${it.type}'")
             }
 
             return@filter false
         }
 
-        if(missing.isNotEmpty())
-            throw IllegalArgumentException("Missing ${if(missing.size == 1) "property" else "properties"}: '$missing' in provided properties map ($properties)")
+        if (missing.isNotEmpty())
+            throw IllegalArgumentException("Missing ${if (missing.size == 1) "property" else "properties"}: '$missing' in provided properties map ($properties)")
     }
 
     private fun propertiesToType(anyList: List<Any>): MethodType {

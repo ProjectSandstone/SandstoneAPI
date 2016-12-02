@@ -28,5 +28,4 @@
 package com.github.projectsandstone.api.entity.living.animal
 
 // TODO: Carrier
-interface Horse : Animal {
-}
+interface Horse : Animal

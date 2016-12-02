@@ -29,19 +29,19 @@ package com.github.projectsandstone.api.util
 
 import com.github.jonathanxd.codeapi.types.CodeType
 
-inline fun succeed(func: () -> Unit) : Boolean {
+inline fun succeed(func: () -> Unit): Boolean {
     try {
         func()
         return true
-    }catch (t: Throwable) {
+    } catch (t: Throwable) {
         return false
     }
 }
 
-inline fun <reified R> succeedReturn(func: () -> R) : R? {
+inline fun <reified R> succeedReturn(func: () -> R): R? {
     try {
         return func()
-    }catch (t: Throwable) {
+    } catch (t: Throwable) {
         return null
     }
 }

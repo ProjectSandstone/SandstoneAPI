@@ -55,7 +55,8 @@ object ClassSaver {
         try {
             Files.deleteIfExists(resolvedClass)
             Files.deleteIfExists(resolvedJava)
-        } catch (ignored: Exception) {}
+        } catch (ignored: Exception) {
+        }
 
         Files.createDirectories(resolvedClass.parent)
         Files.createDirectories(resolvedJava.parent)

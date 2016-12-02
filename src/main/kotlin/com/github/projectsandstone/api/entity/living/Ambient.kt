@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living
 
-interface Ambient : Agent {
-}
+interface Ambient : Agent

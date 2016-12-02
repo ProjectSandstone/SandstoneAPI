@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living
 
-interface Hostile : LivingEntity {
-}
+interface Hostile : LivingEntity

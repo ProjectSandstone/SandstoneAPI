@@ -40,7 +40,6 @@ import com.github.jonathanxd.codeapi.helper.PredefinedTypes
 import com.github.jonathanxd.codeapi.interfaces.MethodInvocation
 import com.github.jonathanxd.codeapi.literals.Literals
 import com.github.jonathanxd.codeapi.types.Generic
-import com.github.jonathanxd.iutils.array.PrimitiveArrayConverter
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.EventListener
@@ -172,9 +171,9 @@ object MethodListenerGen {
             }
 
             val argsArray = arguments.toTypedArray()
-            if(isStatic) {
+            if (isStatic) {
                 body.add(CodeAPIUtil.invokeStaticMethod(method, *argsArray))
-            }else {
+            } else {
                 body.add(CodeAPIUtil.invokeVirtualMethod(CodeAPI.accessThisField(instance!!.javaClass.toType(), instanceFieldName), method, *argsArray))
             }
 

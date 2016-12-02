@@ -32,6 +32,7 @@ import com.flowpowered.math.vector.*
 // Vector 2
 operator fun Vector2i.rangeTo(vector2i: Vector2i): Vector2iRange =
         Vector2iRange(this, vector2i)
+
 operator fun Vector2l.rangeTo(vector2l: Vector2l): Vector2lRange =
         Vector2lRange(this, vector2l)
 

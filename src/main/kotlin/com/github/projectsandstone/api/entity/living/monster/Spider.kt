@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.monster
 
-interface Spider : Monster {
-}
+interface Spider : Monster

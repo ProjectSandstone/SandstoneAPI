@@ -30,5 +30,4 @@ package com.github.projectsandstone.api.entity.living
 /**
  * Creature entity.
  */
-interface Creature : LivingEntity {
-}
+interface Creature : LivingEntity

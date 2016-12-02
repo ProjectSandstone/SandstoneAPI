@@ -30,5 +30,4 @@ package com.github.projectsandstone.api.event.entity.damage
 /**
  * The Cause of damage.
  */
-interface DamageCause {
-}
+interface DamageCause

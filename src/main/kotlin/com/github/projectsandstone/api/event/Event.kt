@@ -44,5 +44,4 @@ import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
  *
  * Example of a event interface with properties: [ChangeServiceProviderEvent].
  */
-interface Event : PropertyHolder {
-}
+interface Event : PropertyHolder

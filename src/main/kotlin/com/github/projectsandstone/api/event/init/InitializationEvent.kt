@@ -42,5 +42,4 @@ import com.github.projectsandstone.api.event.EventListener
  * - All features that is available in [PreInitializationEvent].
  * - Some plugins features
  */
-interface InitializationEvent : Event {
-}
+interface InitializationEvent : Event

@@ -40,7 +40,7 @@ private val UNINITIALIZED_HANDLER: InvocationHandler =
             throw EntryNotInitializedException("Method invoked on a uninitialized entry!")
         }
 
-inline fun <reified T : Any> uninitializedEntry(): T  = uninitializedEntry(T::class.java)
+inline fun <reified T : Any> uninitializedEntry(): T = uninitializedEntry(T::class.java)
 
 /**
  * Create a uninitialized [RegistryEntry], all methods invoke on this instance will throw [EntryNotInitializedException].

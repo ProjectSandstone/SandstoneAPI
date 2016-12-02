@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.item
 
-import com.github.projectsandstone.api.util.extension.registry.uninitializedEntry
 import com.github.projectsandstone.api.registry.Registry
+import com.github.projectsandstone.api.util.extension.registry.uninitializedEntry
 
 /**
  * All known item types.
@@ -520,7 +520,7 @@ object ItemTypes {
 
     @JvmField
     val ENCHANTED_GOLDEN_APPLE: ItemType = uninitializedEntry()
-    
+
     /////////////////// BLOCKS ///////////////////
 
     @JvmField

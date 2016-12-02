@@ -32,6 +32,4 @@ import com.github.projectsandstone.api.event.Event
 /**
  * Server being stopped, called before the world save.
  */
-interface ServerStoppingEvent : Event {
-
-}
+interface ServerStoppingEvent : Event

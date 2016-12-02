@@ -36,6 +36,6 @@ object DamageCauses {
      * Default damage cause.
      */
     @JvmField
-    val DEFAULT: DamageCause = object: DamageCause {}
+    val DEFAULT: DamageCause = object : DamageCause {}
 
 }

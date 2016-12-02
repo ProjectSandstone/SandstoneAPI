@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living
 
-interface Aquatic : Creature {
-}
+interface Aquatic : Creature

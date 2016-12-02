@@ -32,6 +32,4 @@ import com.github.projectsandstone.api.event.Event
 /**
  * All worlds are saved, no players online, nothing to do here.
  */
-interface ServerStoppedEvent : Event {
-
-}
+interface ServerStoppedEvent : Event

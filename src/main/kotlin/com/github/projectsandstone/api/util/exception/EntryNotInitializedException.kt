@@ -30,7 +30,7 @@ package com.github.projectsandstone.api.util.exception
 /**
  * Required registry entry not found.
  */
-open class EntryNotInitializedException: RuntimeException {
+open class EntryNotInitializedException : RuntimeException {
 
     constructor() : super()
     constructor(message: String) : super(message)

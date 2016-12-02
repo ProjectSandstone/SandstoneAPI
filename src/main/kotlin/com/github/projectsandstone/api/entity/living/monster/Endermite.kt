@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.monster
 
-interface Endermite : Monster {
-}
+interface Endermite : Monster

@@ -30,6 +30,4 @@ package com.github.projectsandstone.api.event.property
 /**
  * A Property that have getter and setter methods.
  */
-interface GSProperty<R> : GetterProperty<R>, SetterProperty<R> {
-
-}
+interface GSProperty<R> : GetterProperty<R>, SetterProperty<R>

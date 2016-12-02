@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living
 
-interface Squid : Aquatic {
-}
+interface Squid : Aquatic

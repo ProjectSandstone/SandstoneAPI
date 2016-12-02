@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.util
 
-import java.util.UUID
+import java.util.*
 
 /**
  * Identifiable object.

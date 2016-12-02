@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.animal
 
-interface Chicken : Animal {
-}
+interface Chicken : Animal

@@ -28,7 +28,6 @@
 package com.github.projectsandstone.api.event.property
 
 import java.util.function.Consumer
-import java.util.function.Supplier
 
 class SetterPropertyImpl<R>(override val type: Class<R>, val setter: Consumer<R>) : SetterProperty<R> {
 

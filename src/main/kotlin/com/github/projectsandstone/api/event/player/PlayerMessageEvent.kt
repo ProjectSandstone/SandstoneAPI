@@ -27,7 +27,6 @@
  */
 package com.github.projectsandstone.api.event.player
 
-import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.event.message.MessageEvent
 
 /**

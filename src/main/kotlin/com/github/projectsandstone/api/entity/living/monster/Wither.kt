@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.monster
 
-interface Wither : Monster {
-}
+interface Wither : Monster

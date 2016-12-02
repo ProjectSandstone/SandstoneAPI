@@ -40,6 +40,4 @@ import com.github.projectsandstone.api.event.Event
  * - [Server] instance
  * - Plugin services (services that require worlds will not work in this phase).
  */
-interface ServerStartingEvent : Event {
-
-}
+interface ServerStartingEvent : Event

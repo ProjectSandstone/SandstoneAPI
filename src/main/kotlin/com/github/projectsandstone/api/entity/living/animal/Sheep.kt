@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.animal
 
-interface Sheep : Animal {
-}
+interface Sheep : Animal

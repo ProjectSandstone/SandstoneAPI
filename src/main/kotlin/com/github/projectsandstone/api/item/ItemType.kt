@@ -45,5 +45,4 @@ interface ItemType : RegistryEntry {
      */
     val maxStack: Int
 
-
 }

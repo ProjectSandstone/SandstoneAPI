@@ -51,7 +51,7 @@ interface PropertyHolder {
      * @return Getter version of Property, if exists, or null otherwise.
      */
     fun <R> getGetterProperty(type: Class<R>, name: String): GetterProperty<R>? =
-        this.getProperty(type, name) as? GetterProperty<R>
+            this.getProperty(type, name) as? GetterProperty<R>
 
     /**
      * Gets the setter property of type [type] and name [name]

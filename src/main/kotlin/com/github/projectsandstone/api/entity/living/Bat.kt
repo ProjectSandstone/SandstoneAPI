@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living
 
-interface Bat : Aerial, Ambient {
-}
+interface Bat : Aerial, Ambient

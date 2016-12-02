@@ -35,6 +35,6 @@ interface GetterProperty<R> : Property<R> {
     /**
      * Gets the property value.
      */
-    fun getValue() : R
+    fun getValue(): R
 
 }

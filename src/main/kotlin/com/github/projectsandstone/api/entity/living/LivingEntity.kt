@@ -32,5 +32,4 @@ import com.github.projectsandstone.api.entity.Entity
 /**
  * Minecraft Living [Entity].
  */
-interface LivingEntity : Entity {
-}
+interface LivingEntity : Entity

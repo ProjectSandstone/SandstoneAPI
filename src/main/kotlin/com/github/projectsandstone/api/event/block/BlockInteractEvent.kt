@@ -30,4 +30,4 @@ package com.github.projectsandstone.api.event.block
 /**
  * Fired when a block interaction event occurs.
  */
-interface BlockInteractEvent: BlockEvent
+interface BlockInteractEvent : BlockEvent

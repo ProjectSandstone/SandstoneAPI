@@ -76,13 +76,13 @@ fun Vector2f.max(vector2f: Vector2f): Vector2f {
 }
 
 fun Vector2i.min(vector2i: Vector2i): Vector2i {
-    
+
     val x = this.x
     val y = this.y
-    
+
     val otherX = vector2i.x
     val otherY = vector2i.y
-    
+
     return Vector2i(Math.min(x, otherX), Math.min(y, otherY))
 }
 
@@ -397,13 +397,13 @@ fun VectorNf.max(vectorNf: VectorNf): VectorNf {
 }
 
 fun VectorNi.min(vectorNi: VectorNi): VectorNi {
-    
+
     check(this.size() == vectorNi.size(), { "Vectors must have same size." })
-    
-    val values = this.toArray().mapIndexed { index, value -> 
+
+    val values = this.toArray().mapIndexed { index, value ->
         Math.min(value, vectorNi[index])
     }.toIntArray()
-    
+
     return VectorNi(*values)
 }
 

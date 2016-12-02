@@ -57,6 +57,11 @@ interface Extent : EntityUniverse, MessageReceiver {
     val loadedChunks: List<Chunk>
 
     /**
+     * World of this [Extent]
+     */
+    val world: World
+
+    /**
      * Gets a chunk in the [location]
      *
      * @param location Location
@@ -230,13 +235,6 @@ interface Extent : EntityUniverse, MessageReceiver {
      * @return Selection [from] to [to].
      */
     fun select(from: Vector3d, to: Vector3d): Selection = Selection(this, from, to)
-
-    /**
-     * Gets the world of current [Extent].
-     *
-     * @return the world of current [Extent], if current [Extent] is a [World], return itself.
-     */
-    fun getWorld(): World
 
     /**
      * Gets the [World] location of provided [location]

@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.animal
 
-interface Rabbit : Animal {
-}
+interface Rabbit : Animal

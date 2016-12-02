@@ -47,6 +47,4 @@ import com.github.projectsandstone.api.logging.Logger
  *
  * - [Logger]
  */
-interface PreInitializationEvent : Event {
-
-}
+interface PreInitializationEvent : Event

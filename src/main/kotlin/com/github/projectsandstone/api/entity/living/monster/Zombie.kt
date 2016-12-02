@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.monster
 
-interface Zombie : Monster {
-}
+interface Zombie : Monster

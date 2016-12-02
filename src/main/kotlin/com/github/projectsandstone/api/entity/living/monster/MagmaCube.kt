@@ -30,5 +30,4 @@ package com.github.projectsandstone.api.entity.living.monster
 import com.github.projectsandstone.api.entity.living.Creature
 import com.github.projectsandstone.api.entity.living.Hostile
 
-interface MagmaCube : Hostile, Creature {
-}
+interface MagmaCube : Hostile, Creature

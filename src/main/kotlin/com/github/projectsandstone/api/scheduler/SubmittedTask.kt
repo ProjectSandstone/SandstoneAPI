@@ -27,8 +27,6 @@
  */
 package com.github.projectsandstone.api.scheduler
 
-import java.time.Duration
-
 /**
  * Created by jonathan on 27/08/16.
  */

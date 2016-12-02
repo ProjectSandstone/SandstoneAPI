@@ -44,7 +44,7 @@ data class SandstoneClass<T>(val javaClass: Class<T>, val bytes: ByteArray, val 
 
     override fun equals(other: Any?): Boolean {
 
-        if(other != null && other is SandstoneClass<*>)
+        if (other != null && other is SandstoneClass<*>)
             return this.javaClass == other.javaClass
                     && Arrays.equals(this.bytes, other.bytes)
 

@@ -41,5 +41,4 @@ import com.github.projectsandstone.api.event.Event
  * - All features that is available in [InitializationEvent].
  * - Plugin basic features.
  */
-interface PostInitializationEvent : Event {
-}
+interface PostInitializationEvent : Event

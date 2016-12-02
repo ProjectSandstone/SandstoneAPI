@@ -35,7 +35,7 @@ inline fun <reified T : Any> SandstoneEventGen.create(typeInfo: TypeInfo<T>, pro
 
 inline fun <reified T : Any> SandstoneEventGen.create(typeInfo: TypeInfo<T>) = this.gen(typeInfo, mutableMapOf<String, Any?>())
 
-inline fun <reified T : Any> SandstoneEventGen.create(properties: Map<String, Any?>): T = this.gen(object: ConcreteTypeInfo<T>(){}, properties)
+inline fun <reified T : Any> SandstoneEventGen.create(properties: Map<String, Any?>): T = this.gen(object : ConcreteTypeInfo<T>() {}, properties)
 
-inline fun <reified T : Any> SandstoneEventGen.create(): T = this.gen(object: ConcreteTypeInfo<T>(){}, mutableMapOf<String, Any?>())
+inline fun <reified T : Any> SandstoneEventGen.create(): T = this.gen(object : ConcreteTypeInfo<T>() {}, mutableMapOf<String, Any?>())
 

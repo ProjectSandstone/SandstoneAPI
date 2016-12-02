@@ -27,8 +27,6 @@
  */
 package com.github.projectsandstone.api.util.version
 
-import java.util.*
-
 /**
  * Created by jonathan on 27/08/16.
  */

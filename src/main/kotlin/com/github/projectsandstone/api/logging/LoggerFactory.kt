@@ -40,6 +40,6 @@ interface LoggerFactory {
      * @param pluginContainer Container of plugin
      * @return Logger for [pluginContainer]
      */
-    fun createLogger(pluginContainer: PluginContainer) : Logger
+    fun createLogger(pluginContainer: PluginContainer): Logger
 
 }

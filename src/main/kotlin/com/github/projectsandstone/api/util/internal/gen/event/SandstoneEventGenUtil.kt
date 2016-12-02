@@ -281,7 +281,7 @@ object SandstoneEventGenUtil {
         val invocation: MethodInvocation
 
         //if (invokeType == InvokeType.INVOKE_VIRTUAL) {
-            invocation = CodeAPI.invokeVirtual(setterName, TypeSpec(PredefinedTypes.VOID, propertyType))
+        invocation = CodeAPI.invokeVirtual(setterName, TypeSpec(PredefinedTypes.VOID, propertyType))
         /*} else {
             invocation = CodeAPI.invokeInterface(setterName, TypeSpec(PredefinedTypes.VOID, propertyType))
         }*/
@@ -438,7 +438,7 @@ object SandstoneEventGenUtil {
             // Skip PropertyHolder methods
             // We could use method.declaringClass == PropertyHolder::class.java
             // but override methods will return false.
-            if(this.hasMethod(PropertyHolder::class.java, name))
+            if (this.hasMethod(PropertyHolder::class.java, name))
                 return@forEach
 
             if (isGet || isIs || isSet) { // hasProperty of PropertyHolder

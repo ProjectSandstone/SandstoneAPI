@@ -129,4 +129,13 @@ data class Location<out E : Extent>(val extent: E, val position: Vector3d) {
      * @return Return the block in current location.
      */
     fun getBlock(): BlockState = this.extent.getBlock(this.position.toInt())
+
+    /**
+     * Gets the world location.
+     *
+     * Calls [Extent.getWorldLocation].
+     *
+     * @return World location of this location.
+     */
+    fun getWorldLocation(): Location<World> = this.extent.getWorldLocation(this)
 }

@@ -40,7 +40,7 @@ internal object EventGenClassLoader : ClassLoader(Sandstone::class.java.classLoa
     private val loadedClasses_ = mutableListOf<SandstoneClass<*>>()
     val loadedClasses = Collections.unmodifiableList(loadedClasses_)
 
-    fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>) : SandstoneClass<*> {
+    fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>): SandstoneClass<*> {
 
         val definedClass = this.defineClass(name, byteArray, 0, byteArray.size)
 

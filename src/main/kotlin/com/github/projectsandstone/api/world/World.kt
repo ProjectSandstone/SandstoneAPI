@@ -49,6 +49,9 @@ interface World : MessageReceiver, Identifiable, Extent {
      */
     val directory: Path
 
+    override val world: World
+        get() = this
+
     override fun getLocation(position: Vector3d): Location<World> {
         return Location(this, position)
     }
@@ -65,11 +68,11 @@ interface World : MessageReceiver, Identifiable, Extent {
         return this.getLocation(Vector3i(x, y, z).toDouble())
     }
 
-    override fun getWorld(): World {
-        return this
-    }
-
+    @Suppress("UNCHECKED_CAST")
     override fun getWorldLocation(location: Location<Extent>): Location<World> {
-        return location.changeExtent(this)
+        if(location.extent !is World)
+            return location.extent.getWorldLocation(location)
+
+        return location as Location<World>
     }
 }

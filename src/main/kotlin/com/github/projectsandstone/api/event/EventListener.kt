@@ -65,6 +65,6 @@ interface EventListener<in T : Event> : Comparable<EventListener<*>> {
     override fun compareTo(other: EventListener<*>): Int {
         val compare = this.getPriority().compareTo(other.getPriority())
 
-        return if(compare == 0) -1 else compare
+        return if (compare == 0) -1 else compare
     }
 }

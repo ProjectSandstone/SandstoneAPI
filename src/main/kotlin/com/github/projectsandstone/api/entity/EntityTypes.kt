@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.entity
 
-import com.github.projectsandstone.api.util.extension.registry.uninitializedEntry
 import com.github.projectsandstone.api.registry.Registry
+import com.github.projectsandstone.api.util.extension.registry.uninitializedEntry
 
 /**
  * All known entity types.

@@ -27,5 +27,4 @@
  */
 package com.github.projectsandstone.api.entity.living.animal
 
-interface PolarBear : Animal {
-}
+interface PolarBear : Animal

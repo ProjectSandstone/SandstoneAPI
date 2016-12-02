@@ -28,7 +28,6 @@
 package com.github.projectsandstone.api.event.player
 
 import com.github.projectsandstone.api.event.message.MessageChannelEvent
-import com.github.projectsandstone.api.event.player.PlayerMessageEvent
 
 /**
  * Fired when player sends a message to a channel.
