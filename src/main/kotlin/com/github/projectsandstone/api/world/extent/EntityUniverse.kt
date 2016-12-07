@@ -29,6 +29,7 @@ package com.github.projectsandstone.api.world.extent
 
 import com.flowpowered.math.vector.Vector3d
 import com.github.projectsandstone.api.entity.Entity
+import com.github.projectsandstone.api.entity.EntityType
 import com.github.projectsandstone.api.world.Location
 
 /**
@@ -62,6 +63,6 @@ interface EntityUniverse {
      * @param location Location of the entity in the universe.
      * @return Instance of the new entity.
      */
-    fun spawnEntity(type: Class<Entity>, location: Location<*>): Entity
+    fun spawnEntity(type: EntityType, location: Location<*>): Entity
 
 }
