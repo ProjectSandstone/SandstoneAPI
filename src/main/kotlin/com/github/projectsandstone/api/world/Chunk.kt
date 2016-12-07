@@ -32,6 +32,7 @@ import com.flowpowered.math.vector.Vector3d
 import com.flowpowered.math.vector.Vector3i
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
+import com.github.projectsandstone.api.entity.EntityType
 import com.github.projectsandstone.api.event.Source
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageReceiver
@@ -97,7 +98,7 @@ data class Chunk(val extent: Extent,
         return Selection(this.extent, this.selection.from.add(from), this.selection.to.add(to))
     }
 
-    override fun spawnEntity(type: Class<Entity>, location: Location<*>): Entity =
+    override fun spawnEntity(type: EntityType, location: Location<*>): Entity =
             this.extent.spawnEntity(type, location.plus(selection.from))
 
     /**
