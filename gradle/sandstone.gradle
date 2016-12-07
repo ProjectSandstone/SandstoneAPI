@@ -48,6 +48,7 @@ dependencies {
     compile "com.github.JonathanxD:Adapter:$adapter_version"
     compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
     compile "com.google.code.findbugs:jsr305:$jsr305_version"
+    compile "io.github.lukehutch:fast-classpath-scanner:$fastclasspathscanner_version"
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
@@ -65,6 +66,7 @@ repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
     maven { url "http://dl.bintray.com/kotlin/kotlin-eap-1.1" }
+
 }
 
 test {
