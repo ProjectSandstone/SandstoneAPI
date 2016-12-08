@@ -46,6 +46,17 @@ interface ServiceManager {
     fun <T : Any> setProvider(plugin: Any, service: Class<T>, instance: T)
 
     /**
+     * Set provider of [service], is highly recommended to register services during post-initialization.
+     *
+     * This provider will be defined in *Sandstone Service Manager* and *Platform Service Manager*.
+     *
+     * @param plugin Plugin that provide this service
+     * @param service Service class
+     * @param instance Service instance (aka service implementation)
+     */
+    operator fun <T : Any> set(plugin: Any, service: Class<T>, instance: T)
+
+    /**
      * Gets provider for service class [service].
      *
      * This method lookup for provider in *Sandstone Service Manager* and in *Platform Service manager*
@@ -54,6 +65,16 @@ interface ServiceManager {
      * @return provider for service class [service], if not found, return null.
      */
     fun <T : Any> provide(service: Class<T>): T?
+
+    /**
+     * Gets provider for service class [service].
+     *
+     * This method lookup for provider in *Sandstone Service Manager* and in *Platform Service manager*
+     *
+     * @param service Service class
+     * @return provider for service class [service], if not found, return null.
+     */
+    operator fun <T : Any> get(service: Class<T>): T? = provide(service)
 
     /**
      * Provide the service lazily.

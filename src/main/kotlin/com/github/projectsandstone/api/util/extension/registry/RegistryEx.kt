@@ -85,11 +85,22 @@ inline fun <reified T : RegistryEntry> Registry.getRegistryEntry(id: String): T?
  * Register entry [T] with [id].
  *
  * @param id Id of the entry
- * @param entry Entry instance.
  * @param T Type of entry.
+ * @param entry Entry instance.
  */
 inline fun <reified T : RegistryEntry> Registry.registerEntry(id: String, entry: T) {
-    return this.registerEntry(id, entry, T::class.java)
+    return this.registerEntry(id, T::class.java, entry)
+}
+
+/**
+ * Register entry [T] with [id].
+ *
+ * @param id Id of the entry
+ * @param T Type of entry.
+ * @param entry Entry instance.
+ */
+inline operator fun <reified T : RegistryEntry> Registry.set(id: String, entry: T) {
+    return this.registerEntry(id, T::class.java, entry)
 }
 
 /**

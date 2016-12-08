@@ -42,11 +42,22 @@ interface Registry {
      * Register the entry
      *
      * @param id Id of registry entry.
-     * @param entry Entry instance.
      * @param type Entry type.
+     * @param entry Entry instance.
      * @return [Unit]
      */
-    fun <T : RegistryEntry> registerEntry(id: String, entry: T, type: Class<out T>)
+    fun <T : RegistryEntry> registerEntry(id: String, type: Class<out T>, entry: T)
+
+    /**
+     * Register the entry
+     *
+     * @param id Id of registry entry.
+     * @param type Entry type.
+     * @param entry Entry instance.
+     * @return [Unit]
+     */
+    operator fun <T : RegistryEntry> set(id: String, type: Class<out T>, entry: T)
+            = this.registerEntry(id, type, entry)
 
     /**
      * Gets registry entry by [id].
@@ -56,6 +67,16 @@ interface Registry {
      * @return Entry or null if cannot found.
      */
     fun <T : RegistryEntry> getEntry(id: String, type: Class<out T>): T?
+
+    /**
+     * Gets registry entry by [id].
+     *
+     * @param id Id of registry entry.
+     * @param type Type of registry entry.
+     * @return Entry or null if cannot found.
+     */
+    operator fun <T : RegistryEntry> get(id: String, type: Class<out T>): T?
+            = this.getEntry(id, type)
 
     /**
      * Gets all elements of type [type]
