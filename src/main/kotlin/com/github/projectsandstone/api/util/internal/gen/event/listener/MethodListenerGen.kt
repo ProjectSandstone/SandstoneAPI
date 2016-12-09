@@ -27,13 +27,14 @@
  */
 package com.github.projectsandstone.api.util.internal.gen.event.listener
 
-import com.github.jonathanxd.adapter.utils.classu.CodeAPIUtil
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.CodeSource
 import com.github.jonathanxd.codeapi.MutableCodeSource
 import com.github.jonathanxd.codeapi.common.CodeArgument
 import com.github.jonathanxd.codeapi.common.CodeParameter
+import com.github.jonathanxd.codeapi.conversions.createInvocation
+import com.github.jonathanxd.codeapi.conversions.createStaticInvocation
 import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator
 import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator
 import com.github.jonathanxd.codeapi.helper.PredefinedTypes
@@ -170,11 +171,11 @@ object MethodListenerGen {
                 }
             }
 
-            val argsArray = arguments.toTypedArray()
+
             if (isStatic) {
-                body.add(CodeAPIUtil.invokeStaticMethod(method, *argsArray))
+                body.add(method.createStaticInvocation(arguments))
             } else {
-                body.add(CodeAPIUtil.invokeVirtualMethod(CodeAPI.accessThisField(instance!!.javaClass.toType(), instanceFieldName), method, *argsArray))
+                body.add(method.createInvocation(CodeAPI.accessThisField(instance!!.javaClass.toType(), instanceFieldName), arguments))
             }
 
             return body
