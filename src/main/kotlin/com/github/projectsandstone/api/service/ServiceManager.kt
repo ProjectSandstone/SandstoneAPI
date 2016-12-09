@@ -54,7 +54,8 @@ interface ServiceManager {
      * @param service Service class
      * @param instance Service instance (aka service implementation)
      */
-    operator fun <T : Any> set(plugin: Any, service: Class<T>, instance: T)
+    operator fun <T : Any> set(plugin: Any, service: Class<T>, instance: T) =
+            this.setProvider(plugin, service, instance)
 
     /**
      * Gets provider for service class [service].
