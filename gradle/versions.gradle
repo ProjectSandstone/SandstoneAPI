@@ -4,7 +4,7 @@ ext.dokka_version = '0.9.10'
 ext.guice_version = '4.1.0'
 ext.flowmath_version = '1.0.3'
 
-ext.jwiutils_version = '3.2.1'
+ext.jwiutils_version = '3.2.2'
 ext.codeapi_version = '2.1.7'
 ext.codeapiconversions_version = '1.0'
 ext.adapterhelper_version = '1.0.0'
