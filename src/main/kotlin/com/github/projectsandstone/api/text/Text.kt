@@ -36,7 +36,7 @@ import java.util.*
 /**
  * Immutable Text representation
  */
-data class Text @JvmOverloads constructor(val color: TextColor = TextColors.RESET,
+data class Text @JvmOverloads constructor(val color: TextColor = TextColors.NORMAL,
                                           val format: TextFormat = TextFormats.NORMAL,
                                           val content: String,
                                           val parent: Array<Text>? = emptyArray()) {
