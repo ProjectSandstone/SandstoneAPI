@@ -35,20 +35,27 @@ import java.util.*
 /**
  * [ClassLoader] of all event generated classes
  */
-internal object EventGenClassLoader : ClassLoader(Sandstone::class.java.classLoader) {
+internal object EventGenClassLoader {
 
     private val loadedClasses_ = mutableListOf<SandstoneClass<*>>()
     val loadedClasses = Collections.unmodifiableList(loadedClasses_)
 
     fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>): SandstoneClass<*> {
+        val cl = Sandstone::class.java.classLoader
 
-        val definedClass = this.defineClass(name, byteArray, 0, byteArray.size)
+        val definedClass = this.inject(cl, name, byteArray)
 
         val sandstoneClass = SandstoneClass(definedClass, byteArray, source)
 
         this.loadedClasses_ += sandstoneClass
 
         return sandstoneClass
+    }
+
+    private fun inject(classLoader: ClassLoader, name: String, bytes: ByteArray): Class<*> {
+        val method = ClassLoader::class.java.getDeclaredMethod("defineClass", String::class.java, ByteArray::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
+        method.isAccessible = true
+        return method.invoke(classLoader, name, bytes, 0, bytes.size) as Class<*>
     }
 
     fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, source: Lazy<String>) =
