@@ -356,8 +356,10 @@ object SandstoneEventGenUtil {
         val propertyTypeAccess = CodeAPI.invokeInterface(Property::class.java, accessPropertyVar, "getType", CodeAPI.typeSpec(Class::class.java))
 
         methodBody += CodeAPI.ifBlock(IfExpressionHelper.builder()
+                // Check if property is not null
+                .checkNotNull(accessPropertyVar)
                 // if propertyType.isAssignableFrom(type) return propertyVar else return null
-                .checkTrue(CodeAPI.invokeVirtual(
+                .andTrue(CodeAPI.invokeVirtual(
                         Class::class.java, propertyTypeAccess, "isAssignableFrom", CodeAPI.typeSpec(Boolean::class.javaPrimitiveType, Class::class.java),
                         CodeAPI.argument(CodeAPI.accessLocalVariable(Class::class.java, "type"))
                 ))
