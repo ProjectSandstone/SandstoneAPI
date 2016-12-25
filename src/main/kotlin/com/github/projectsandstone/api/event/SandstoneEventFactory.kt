@@ -46,8 +46,12 @@ import com.github.projectsandstone.api.service.RegisteredProvider
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageChannel
 import com.github.projectsandstone.api.util.extension.internal.gen.create
+import com.github.projectsandstone.api.util.internal.gen.event.PropertyInfo
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 
+/**
+ * Sandstone event implementation factory helper.
+ */
 object SandstoneEventFactory {
 
     /**
@@ -61,6 +65,20 @@ object SandstoneEventFactory {
     @JvmStatic
     fun <T : Event> createEvent(eventType: TypeInfo<T>, properties: Map<String, Any>): T {
         return SandstoneEventGen.gen(eventType, properties)
+    }
+
+    /**
+     * Create implementation of a [Event] of type [eventType].
+     *
+     * @param eventType Type of event.
+     * @param properties Properties (read the Sandstone wiki to learn about Property System).
+     * @param T event type
+     * @param additionalProperties Additional properties. (Properties that aren't present in [eventType] class).
+     * @return event instance.
+     */
+    @JvmStatic
+    fun <T : Event> createEvent(eventType: TypeInfo<T>, properties: Map<String, Any>, additionalProperties: List<PropertyInfo>): T {
+        return SandstoneEventGen.gen(eventType, properties, additionalProperties)
     }
 
     @JvmStatic
@@ -174,7 +192,7 @@ object SandstoneEventFactory {
     @JvmStatic
     fun createPlayerMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): PlayerMessageChannelEvent {
         return SandstoneEventGen.create(mapOf(
-                "player" to player,
+                "entity" to player,
                 "channel" to channel,
                 "message" to message
         ))

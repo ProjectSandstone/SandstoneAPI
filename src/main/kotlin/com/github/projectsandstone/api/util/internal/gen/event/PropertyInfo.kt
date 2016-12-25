@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.util.internal.gen.event
 
-data class PropertyInfo(val propertyName: String, val getterName: String?, val setterName: String? = null, val type: Class<*>) {
+data class PropertyInfo @JvmOverloads constructor(val propertyName: String, val getterName: String? = null, val setterName: String? = null, val type: Class<*>) {
     fun hasGetter() = this.getterName != null
     fun hasSetter() = this.setterName != null
     fun isMutable() = this.setterName != null
