@@ -98,7 +98,7 @@ object MethodListenerGen {
 
         val bytes = generator.gen(source)[0].bytecode
 
-        val definedClass = EventGenClassLoader.defineClass(codeClass, bytes, lazy { PlainSourceGenerator().gen(source) }) as SandstoneClass<EventListener<Event>>
+        val definedClass = EventGenClassLoader.defineClass(codeClass, bytes, lazy { PlainSourceGenerator().gen(source) }, (plugin.classLoader as ClassLoader)) as SandstoneClass<EventListener<Event>>
 
         if (Debug.LISTENER_GEN_DEBUG) {
             ClassSaver.save(Sandstone.sandstonePath, "listenergen", definedClass)

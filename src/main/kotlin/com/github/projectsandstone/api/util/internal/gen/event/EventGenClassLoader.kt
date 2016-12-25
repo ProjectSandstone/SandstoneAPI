@@ -42,8 +42,11 @@ internal object EventGenClassLoader {
 
     fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>): SandstoneClass<*> {
         val cl = Sandstone::class.java.classLoader
+        return this.defineClass(name, byteArray, source, cl)
+    }
 
-        val definedClass = this.inject(cl, name, byteArray)
+    fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>, classLoader: ClassLoader): SandstoneClass<*> {
+        val definedClass = this.inject(classLoader, name, byteArray)
 
         val sandstoneClass = SandstoneClass(definedClass, byteArray, source)
 
@@ -59,6 +62,9 @@ internal object EventGenClassLoader {
     }
 
     fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, source: Lazy<String>) =
+            this.defineClass(typeDeclaration.canonicalName, byteArray, source)
+
+    fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, source: Lazy<String>, classLoader: ClassLoader) =
             this.defineClass(typeDeclaration.canonicalName, byteArray, source)
 
 }
