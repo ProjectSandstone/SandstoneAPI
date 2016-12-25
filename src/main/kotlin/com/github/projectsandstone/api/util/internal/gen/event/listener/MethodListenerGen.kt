@@ -64,14 +64,20 @@ object MethodListenerGen {
 
     fun create(plugin: PluginContainer, method: Method, instance: Any?, listenerData: ListenerData): EventListener<Event> {
 
-        val `class` = this.createClass(plugin, instance, method, listenerData)
+        val klass = this.createClass(plugin, instance, method, listenerData)
 
         val isStatic = Modifier.isStatic(method.modifiers)
 
         return if (!isStatic) {
-            `class`.getConstructor(instance!!.javaClass).newInstance(instance)
+            try {
+                klass.classLoader.loadClass(instance!!.javaClass.canonicalName)
+            } catch (e: ClassNotFoundException) {
+                throw IllegalStateException("Cannot lookup for Plugin class: '${instance!!.javaClass}' from class loader: '${klass.classLoader}'")
+            }
+
+            klass.getConstructor(instance.javaClass).newInstance(instance)
         } else {
-            `class`.newInstance()
+            klass.newInstance()
         }
     }
 

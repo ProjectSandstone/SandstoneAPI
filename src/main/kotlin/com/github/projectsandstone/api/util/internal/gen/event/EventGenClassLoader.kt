@@ -65,6 +65,6 @@ internal object EventGenClassLoader {
             this.defineClass(typeDeclaration.canonicalName, byteArray, source)
 
     fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, source: Lazy<String>, classLoader: ClassLoader) =
-            this.defineClass(typeDeclaration.canonicalName, byteArray, source)
+            this.defineClass(typeDeclaration.canonicalName, byteArray, source, classLoader)
 
 }
