@@ -27,15 +27,13 @@
  */
 package com.github.projectsandstone.api.util
 
-import java.util.*
-
 /**
  * Identifiable object.
  */
 interface Identifiable {
 
     /**
-     * Unique Id of this identifiable object.
+     * Sandstone Id of this identifiable object.
      */
-    val uniqueId: UUID
+    val sandstoneId: SID
 }

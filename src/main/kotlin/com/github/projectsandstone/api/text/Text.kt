@@ -66,10 +66,10 @@ data class Text @JvmOverloads constructor(val color: TextColor = TextColors.NORM
 
     override fun equals(other: Any?): Boolean {
         if (other is Text) {
-            return this.color.equals(other.color)
-                    && this.format.equals(other.format)
+            return this.color == other.color
+                    && this.format == other.format
                     && this.content == other.content
-                    && (this.parent == other.parent || Arrays.deepEquals(this.parent, other.parent))
+                    && Arrays.equals(this.parent, other.parent)
 
         }
 
