@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
