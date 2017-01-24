@@ -29,6 +29,8 @@ package com.github.projectsandstone.api.util.internal.gen.event.listener
 
 import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.bytecode.VISIT_LINES
+import com.github.jonathanxd.codeapi.bytecode.VisitLineType
 import com.github.jonathanxd.codeapi.bytecode.gen.BytecodeGenerator
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
@@ -99,6 +101,8 @@ object MethodListenerGen {
         val source = CodeAPI.sourceOfParts(codeClass)
 
         val generator = BytecodeGenerator()
+
+        generator.options.set(VISIT_LINES, VisitLineType.FOLLOW_CODE_SOURCE)
 
         val bytecodeClass = generator.gen(source)[0]
 
