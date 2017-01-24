@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -47,7 +47,7 @@ object ClassSaver {
         val sourceBytes = source.toByteArray(Charset.forName("UTF-8"))
 
         val saveClass = "$moduleName/class/${className.replace('.', '/')}.class"
-        val saveJava = "$moduleName/java/${className.replace('.', '/')}.java"
+        val saveJava = "$moduleName/disassembled/${className.replace('.', '/')}.disassembled"
 
         val resolvedClass = sandstonePath.resolve(saveClass)
         val resolvedJava = sandstonePath.resolve(saveJava)

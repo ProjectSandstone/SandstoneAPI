@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -28,19 +28,19 @@
 package com.github.projectsandstone.api.util.internal.gen
 
 import com.github.jonathanxd.codeapi.generic.GenericSignature
-import com.github.jonathanxd.codeapi.helper.Helper
-import com.github.jonathanxd.codeapi.types.Generic
-import com.github.jonathanxd.codeapi.types.GenericType
+import com.github.jonathanxd.codeapi.type.Generic
+import com.github.jonathanxd.codeapi.type.GenericType
+import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.iutils.type.TypeInfo
 
 
-fun genericSignFromTypeInfo(typeInfo: TypeInfo<*>): GenericSignature<GenericType> =
+fun genericSignFromTypeInfo(typeInfo: TypeInfo<*>): GenericSignature =
         GenericSignature.create(genericFromTypeInfo(typeInfo))
 
 
-fun genericFromTypeInfo(typeInfo: TypeInfo<*>): Generic {
+fun genericFromTypeInfo(typeInfo: TypeInfo<*>): GenericType {
 
-    var generic = Generic.type(Helper.getJavaType(typeInfo.aClass))
+    var generic = Generic.type(typeInfo.aClass.codeType)
 
     typeInfo.related.forEach {
         generic = generic.of(genericFromTypeInfo(it))

@@ -44,7 +44,7 @@ dependencies {
     // Utilities
     compile "com.flowpowered:flow-math:$flowmath_version"
     compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
-    compile "com.github.JonathanxD:CodeAPI:$codeapi_version"
+    compile "com.github.JonathanxD:CodeAPI-BytecodeWriter:$codeapi_bytecode_version"
     compile "com.github.JonathanxD:CodeAPI-Conversions:$codeapiconversions_version"
     compile "com.github.JonathanxD:AdapterHelper:$adapterhelper_version"
     compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
@@ -53,6 +53,7 @@ dependencies {
 
     // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     // Test
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"

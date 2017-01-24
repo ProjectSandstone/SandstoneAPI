@@ -25,36 +25,43 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.util.internal
 
-import com.github.projectsandstone.api.Platform
+import com.github.jonathanxd.iutils.description.Description
+import com.github.jonathanxd.iutils.description.DescriptionUtil
 import com.github.projectsandstone.api.event.annotation.Name
+import com.github.projectsandstone.api.event.property.Property
+import java.lang.reflect.Method
+import kotlin.reflect.KClass
+import kotlin.reflect.KFunction
+import kotlin.reflect.full.findAnnotation
+import kotlin.reflect.full.valueParameters
+import kotlin.reflect.jvm.jvmErasure
 
-/**
- * Annotated methods that handle events.
- *
- * The method MUST specify the [Event] in the first parameter, other parameters will be filled with
- * properties of [Event], if has no object that matches the parameter type, the method will
- * not be invoked.
- *
- * You **MUST** to use [Name] annotation to provide name of property.
- */
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION)
-annotation class Listener(
-        /**
-         * Ignore this listener if event is cancelled
-         */
-        val ignoreCancelled: Boolean = false,
+val propertyHolderSignatures: List<Description> =
+        Property::class.java.methods.map {
+            DescriptionUtil.from(it)
+        }
 
-        /**
-         * Priority of this listener
-         */
-        val priority: EventPriority = EventPriority.NORMAL,
+val KFunction<*>.parameterNames: List<String>
+    get() = this.valueParameters.map {
+        it.findAnnotation<Name>()?.value ?: it.name ?: throw IllegalStateException("Cannot determine name of parameter $it")
+    }
 
-        /**
-         * Run before modifications (this property has no effect in [Platform]s that doesn't support
-         * modifications).
-         */
-        val beforeModifications: Boolean = false
-)
+fun getImplementation(klass: KClass<*>, kfunc: KFunction<*>): Pair<Class<*>, Method>? {
+    val paramTypes = kfunc.parameters.map { it.type.jvmErasure.java }
+
+    klass.java.classes.filter { it.simpleName == "DefaultImpls" }.forEach { type ->
+        val found = type.methods.find {
+            it.name == kfunc.name
+                    && it.parameters.map { it.type } == paramTypes
+                    && it.returnType == kfunc.returnType.jvmErasure.java
+        }
+
+        found?.let {
+            return Pair(type, it)
+        }
+    }
+
+    return null
+}

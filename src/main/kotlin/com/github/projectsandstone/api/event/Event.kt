@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.projectsandstone.api.event.annotation.Named
+import com.github.projectsandstone.api.event.annotation.Name
 import com.github.projectsandstone.api.event.property.PropertyHolder
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
@@ -37,7 +37,7 @@ import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
  *
  * Has two ways to implement a event, first is creating your own interface that inherit [Event],
  * and creating abstract property methods (getters and setters) and calling [SandstoneEventGen.gen].
- * The second is: Implementing event in an concrete class, and naming constructor parameters with [Named]
+ * The second is: Implementing event in an concrete class, and naming constructor parameters with [Name]
  * annotation.
  *
  * The second way is not recommended.

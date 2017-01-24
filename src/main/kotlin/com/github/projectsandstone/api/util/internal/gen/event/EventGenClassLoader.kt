@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.util.internal.gen.event
 
-import com.github.jonathanxd.codeapi.interfaces.TypeDeclaration
+import com.github.jonathanxd.codeapi.base.TypeDeclaration
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
 import java.util.*
@@ -40,15 +40,15 @@ internal object EventGenClassLoader {
     private val loadedClasses_ = mutableListOf<SandstoneClass<*>>()
     val loadedClasses = Collections.unmodifiableList(loadedClasses_)
 
-    fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>): SandstoneClass<*> {
+    fun defineClass(name: String, byteArray: ByteArray, disassembled: Lazy<String>): SandstoneClass<*> {
         val cl = Sandstone::class.java.classLoader
-        return this.defineClass(name, byteArray, source, cl)
+        return this.defineClass(name, byteArray, disassembled, cl)
     }
 
-    fun defineClass(name: String, byteArray: ByteArray, source: Lazy<String>, classLoader: ClassLoader): SandstoneClass<*> {
+    fun defineClass(name: String, byteArray: ByteArray, disassembled: Lazy<String>, classLoader: ClassLoader): SandstoneClass<*> {
         val definedClass = this.inject(classLoader, name, byteArray)
 
-        val sandstoneClass = SandstoneClass(definedClass, byteArray, source)
+        val sandstoneClass = SandstoneClass(definedClass, byteArray, disassembled)
 
         this.loadedClasses_ += sandstoneClass
 
@@ -61,10 +61,10 @@ internal object EventGenClassLoader {
         return method.invoke(classLoader, name, bytes, 0, bytes.size) as Class<*>
     }
 
-    fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, source: Lazy<String>) =
-            this.defineClass(typeDeclaration.canonicalName, byteArray, source)
+    fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, disassembled: Lazy<String>) =
+            this.defineClass(typeDeclaration.canonicalName, byteArray, disassembled)
 
-    fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, source: Lazy<String>, classLoader: ClassLoader) =
-            this.defineClass(typeDeclaration.canonicalName, byteArray, source, classLoader)
+    fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, disassembled: Lazy<String>, classLoader: ClassLoader) =
+            this.defineClass(typeDeclaration.canonicalName, byteArray, disassembled, classLoader)
 
 }

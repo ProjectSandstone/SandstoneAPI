@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -36,7 +36,7 @@ import com.github.projectsandstone.api.util.exception.EntryNotFoundException
 import com.github.projectsandstone.api.util.exception.EntryNotInitializedException
 
 private val UNINITIALIZED_HANDLER: InvocationHandler =
-        InvocationHandler { any, method, arrayOfAnys, proxyData ->
+        InvocationHandler { _, _, _, _ ->
             throw EntryNotInitializedException("Method invoked on a uninitialized entry!")
         }
 

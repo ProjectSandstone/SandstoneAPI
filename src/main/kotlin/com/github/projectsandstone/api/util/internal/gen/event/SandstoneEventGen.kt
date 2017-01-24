@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -31,7 +31,7 @@ import com.github.jonathanxd.iutils.map.WeakValueHashMap
 import com.github.jonathanxd.iutils.type.Primitive
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.event.Cancellable
-import com.github.projectsandstone.api.event.annotation.Named
+import com.github.projectsandstone.api.event.annotation.Name
 import java.lang.invoke.MethodHandles
 import java.lang.invoke.MethodType
 
@@ -75,7 +75,7 @@ object SandstoneEventGen {
         val constructor = generated.constructors[0]
 
         constructor.parameters.forEach { parameter ->
-            val named = parameter.getDeclaredAnnotation(Named::class.java)
+            val named = parameter.getDeclaredAnnotation(Name::class.java)
                     ?: throw IllegalStateException("Missing parameter name in constructor of '$generated'.")
 
             val propertyValue = if (properties.containsKey(named.value)) properties[named.value] else

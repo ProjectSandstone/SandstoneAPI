@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,20 +27,16 @@
  */
 package com.github.projectsandstone.api.util.internal.gen.event.listener
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.MutableCodeSource
-import com.github.jonathanxd.codeapi.common.CodeArgument
+import com.github.jonathanxd.codeapi.*
+import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.bytecode.gen.BytecodeGenerator
+import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
 import com.github.jonathanxd.codeapi.conversions.createInvocation
 import com.github.jonathanxd.codeapi.conversions.createStaticInvocation
-import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation
-import com.github.jonathanxd.codeapi.literals.Literals
-import com.github.jonathanxd.codeapi.types.Generic
+import com.github.jonathanxd.codeapi.factory.field
+import com.github.jonathanxd.codeapi.literal.Literals
+import com.github.jonathanxd.codeapi.type.Generic
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.EventListener
@@ -50,6 +46,7 @@ import com.github.projectsandstone.api.event.property.GetterProperty
 import com.github.projectsandstone.api.event.property.Property
 import com.github.projectsandstone.api.event.property.PropertyHolder
 import com.github.projectsandstone.api.plugin.PluginContainer
+import com.github.projectsandstone.api.util.codeType
 import com.github.projectsandstone.api.util.internal.Debug
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
 import com.github.projectsandstone.api.util.internal.gen.event.EventGenClassLoader
@@ -58,6 +55,7 @@ import com.github.projectsandstone.api.util.toGeneric
 import com.github.projectsandstone.api.util.toType
 import java.lang.reflect.Method
 import java.lang.reflect.Modifier
+import java.util.*
 
 object MethodListenerGen {
     private val regex = Regex("[^A-Za-z\\\\._$]")
@@ -92,7 +90,7 @@ object MethodListenerGen {
         val eventType = listenerData.eventType
 
         val codeClass = CodeAPI.aClassBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName(name)
                 .withImplementations(Generic.type(EventListener::class.java.toType()).of(eventType.toGeneric()))
                 .withBody(genBody(method, instance, listenerData))
@@ -102,9 +100,11 @@ object MethodListenerGen {
 
         val generator = BytecodeGenerator()
 
-        val bytes = generator.gen(source)[0].bytecode
+        val bytecodeClass = generator.gen(source)[0]
 
-        val definedClass = EventGenClassLoader.defineClass(codeClass, bytes, lazy { PlainSourceGenerator().gen(source) }, (plugin.classLoader as ClassLoader)) as SandstoneClass<EventListener<Event>>
+        val bytes = bytecodeClass.bytecode
+
+        val definedClass = EventGenClassLoader.defineClass(codeClass, bytes, lazy { bytecodeClass.disassembledCode }, (plugin.classLoader as ClassLoader)) as SandstoneClass<EventListener<Event>>
 
         if (Debug.LISTENER_GEN_DEBUG) {
             ClassSaver.save(Sandstone.sandstonePath, "listenergen", definedClass)
@@ -125,10 +125,10 @@ object MethodListenerGen {
         if (!isStatic) {
             val instanceType = instance!!.javaClass.toType()
 
-            source.add(CodeAPI.field(Modifier.PRIVATE or Modifier.FINAL, instanceType, instanceFieldName))
+            source.add(field(EnumSet.of(CodeModifier.PRIVATE, CodeModifier.FINAL), instanceType, instanceFieldName))
             source.add(CodeAPI.constructorBuilder()
-                    .withModifiers(Modifier.PUBLIC)
-                    .withParameter(CodeParameter(instanceFieldName, instanceType))
+                    .withModifiers(CodeModifier.PUBLIC)
+                    .withParameters(CodeParameter(instanceType, instanceFieldName))
                     .withBody(CodeAPI.sourceOfParts(
                             CodeAPI.setThisField(instanceType, instanceFieldName, CodeAPI.accessLocalVariable(instanceType, instanceFieldName))
                     ))
@@ -153,24 +153,24 @@ object MethodListenerGen {
 
             val namedParameters = listenerData.namedParameters
 
-            val arguments = mutableListOf<CodeArgument>()
+            val arguments = mutableListOf<CodePart>()
 
             val accessEventVar = CodeAPI.accessLocalVariable(eventType, eventVariableName)
 
-            arguments.add(CodeAPI.argument(CodeAPI.cast(eventType, namedParameters[0].value.aClass.toType(), accessEventVar)))
+            arguments.add(CodeAPI.cast(eventType, namedParameters[0].value.aClass.toType(), accessEventVar))
 
             namedParameters.forEachIndexed { i, named ->
                 if (i > 0) {
                     val name = named.name
                     val typeInfo = named.value
 
-                    val toAdd: CodeArgument
+                    val toAdd: CodePart
 
                     if (typeInfo.aClass == Property::class.java
                             && typeInfo.related.isNotEmpty()) {
-                        toAdd = CodeArgument(this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.related[0].aClass, true))
+                        toAdd = this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.related[0].aClass, true)
                     } else {
-                        toAdd = CodeArgument(this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.aClass, false))
+                        toAdd = this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.aClass, false)
                     }
 
                     arguments.add(toAdd)
@@ -188,9 +188,9 @@ object MethodListenerGen {
         }
 
         val onEvent = CodeAPI.methodBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withBody(genOnEventBody())
-                .withReturnType(PredefinedTypes.VOID)
+                .withReturnType(Types.VOID)
                 .withName("onEvent")
                 .withParameters(
                         CodeAPI.parameter(eventType, eventVariableName), CodeAPI.parameter(PluginContainer::class.java, pluginContainerVariableName)
@@ -200,36 +200,36 @@ object MethodListenerGen {
         source.add(onEvent)
 
         val isBeforeModsMethod = CodeAPI.methodBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withBody(CodeAPI.sourceOfParts(
-                        CodeAPI.returnValue(PredefinedTypes.BOOLEAN, Literals.BOOLEAN(listenerData.beforeModifications))
+                        CodeAPI.returnValue(Types.BOOLEAN, Literals.BOOLEAN(listenerData.beforeModifications))
                 ))
                 .withName("isBeforeModifications")
-                .withReturnType(Boolean::class.javaPrimitiveType)
+                .withReturnType(Types.BOOLEAN)
                 .build()
 
         source.add(isBeforeModsMethod)
 
         val getPriorityMethod = CodeAPI.methodBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withBody(CodeAPI.sourceOfParts(
                         CodeAPI.returnValue(EventPriority::class.java,
                                 CodeAPI.accessStaticField(EventPriority::class.java, EventPriority::class.java, listenerData.priority.name)
                         )
                 ))
                 .withName("getPriority")
-                .withReturnType(EventPriority::class.java)
+                .withReturnType(EventPriority::class.java.codeType)
                 .build()
 
         source.add(getPriorityMethod)
 
         val ignoreCancelledMethod = CodeAPI.methodBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withBody(CodeAPI.sourceOfParts(
-                        CodeAPI.returnValue(PredefinedTypes.BOOLEAN, Literals.BOOLEAN(listenerData.ignoreCancelled))
+                        CodeAPI.returnValue(Types.BOOLEAN, Literals.BOOLEAN(listenerData.ignoreCancelled))
                 ))
                 .withName("ignoreCancelled")
-                .withReturnType(Boolean::class.javaPrimitiveType)
+                .withReturnType(Types.BOOLEAN)
                 .build()
 
         source.add(ignoreCancelledMethod)
@@ -240,7 +240,7 @@ object MethodListenerGen {
     private fun callGetPropertyDirectOn(target: CodePart, name: String, type: Class<*>, propertyOnly: Boolean): MethodInvocation {
         val getPropertyMethod = CodeAPI.invokeInterface(PropertyHolder::class.java, target, "getProperty",
                 CodeAPI.typeSpec(Property::class.java, Class::class.java, String::class.java),
-                CodeAPI.argument(Literals.CLASS(type)), CodeAPI.argument(Literals.STRING(name))
+                listOf(Literals.CLASS(type), Literals.STRING(name))
         )
 
         if (propertyOnly)
@@ -248,6 +248,7 @@ object MethodListenerGen {
 
         return CodeAPI.invokeInterface(GetterProperty::class.java, CodeAPI.cast(Property::class.java, GetterProperty::class.java, getPropertyMethod),
                 "getValue",
-                CodeAPI.typeSpec(Any::class.java))
+                CodeAPI.typeSpec(Any::class.java),
+                emptyList())
     }
 }

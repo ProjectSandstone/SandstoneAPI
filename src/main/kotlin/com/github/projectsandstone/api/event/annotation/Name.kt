@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -42,4 +42,4 @@ package com.github.projectsandstone.api.event.annotation
         AnnotationTarget.TYPE,
         AnnotationTarget.TYPE_PARAMETER,
         AnnotationTarget.VALUE_PARAMETER)
-annotation class Named(val value: String)
+annotation class Name(val value: String)

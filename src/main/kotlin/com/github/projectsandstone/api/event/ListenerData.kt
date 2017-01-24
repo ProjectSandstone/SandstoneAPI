@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -74,7 +74,7 @@ data class ListenerData(
                 val name: String? = it.getDeclaredAnnotation(com.github.jonathanxd.iutils.annotation.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(javax.inject.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(com.google.inject.name.Named::class.java)?.value
-                        ?: it.getDeclaredAnnotation(com.github.projectsandstone.api.event.annotation.Named::class.java)?.value
+                        ?: it.getDeclaredAnnotation(com.github.projectsandstone.api.event.annotation.Name::class.java)?.value
 
                 return@map com.github.jonathanxd.iutils.`object`.Named(name, typeInfo)
 

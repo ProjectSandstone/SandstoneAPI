@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.util
 
-import com.github.jonathanxd.codeapi.types.CodeType
+import com.github.jonathanxd.codeapi.type.CodeType
 
 inline fun succeed(func: () -> Unit): Boolean {
     try {

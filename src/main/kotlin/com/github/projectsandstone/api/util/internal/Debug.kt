@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -28,13 +28,15 @@
 package com.github.projectsandstone.api.util.internal
 
 object Debug {
+    private const val DEBUG_PROPERTY = "sandstone.debug"
     private const val ADAPTER_GEN_PROPERTY = "sandstone.debug.adapter"
     private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
     private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
 
-    val ADAPTER_GEN_DEBUG = getProperty(ADAPTER_GEN_PROPERTY)
-    val EVENT_GEN_DEBUG = getProperty(EVENT_GEN_PROPERTY)
-    val LISTENER_GEN_DEBUG = getProperty(LISTENER_GEN_PROPERTY)
+    val ADAPTER_GEN_DEBUG = getDebugProperty(ADAPTER_GEN_PROPERTY)
+    val EVENT_GEN_DEBUG = getDebugProperty(EVENT_GEN_PROPERTY)
+    val LISTENER_GEN_DEBUG = getDebugProperty(LISTENER_GEN_PROPERTY)
 
     private fun getProperty(name: String) = System.getProperties()[name]?.equals("true") ?: false
+    private fun getDebugProperty(name: String) = System.getProperties()[name]?.equals("true") ?: System.getProperties()[DEBUG_PROPERTY]?.equals("true") ?: false
 }

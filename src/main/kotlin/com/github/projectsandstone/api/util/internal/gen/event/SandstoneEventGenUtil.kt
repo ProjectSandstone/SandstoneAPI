@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,46 +27,51 @@
  */
 package com.github.projectsandstone.api.util.internal.gen.event
 
-import com.github.jonathanxd.codeapi.CodeAPI
-import com.github.jonathanxd.codeapi.CodePart
-import com.github.jonathanxd.codeapi.CodeSource
-import com.github.jonathanxd.codeapi.MutableCodeSource
-import com.github.jonathanxd.codeapi.builder.IfExpressionHelper
+import com.github.jonathanxd.codeapi.*
+import com.github.jonathanxd.codeapi.base.MethodDeclaration
+import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.base.impl.ConstructorDeclarationImpl
+import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder
+import com.github.jonathanxd.codeapi.bytecode.VISIT_LINES
+import com.github.jonathanxd.codeapi.bytecode.VisitLineType
+import com.github.jonathanxd.codeapi.bytecode.gen.BytecodeGenerator
 import com.github.jonathanxd.codeapi.common.*
-import com.github.jonathanxd.codeapi.gen.value.source.PlainSourceGenerator
-import com.github.jonathanxd.codeapi.gen.visit.bytecode.BytecodeGenerator
-import com.github.jonathanxd.codeapi.helper.Helper
-import com.github.jonathanxd.codeapi.helper.PredefinedTypes
-import com.github.jonathanxd.codeapi.impl.CodeConstructor
-import com.github.jonathanxd.codeapi.impl.CodeMethod
-import com.github.jonathanxd.codeapi.impl.MethodSpecImpl
-import com.github.jonathanxd.codeapi.interfaces.MethodInvocation
-import com.github.jonathanxd.codeapi.literals.Literals
-import com.github.jonathanxd.codeapi.types.CodeType
-import com.github.jonathanxd.codeapi.types.Generic
+import com.github.jonathanxd.codeapi.conversions.toCodeArgument
+import com.github.jonathanxd.codeapi.factory.field
+import com.github.jonathanxd.codeapi.factory.variable
+import com.github.jonathanxd.codeapi.generic.GenericSignature
+import com.github.jonathanxd.codeapi.helper.IfExpressionHelper
+import com.github.jonathanxd.codeapi.literal.Literals
+import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.Generic
+import com.github.jonathanxd.codeapi.util.Alias
+import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.Sandstone
-import com.github.projectsandstone.api.event.annotation.Named
+import com.github.projectsandstone.api.event.annotation.Name
 import com.github.projectsandstone.api.event.property.*
 import com.github.projectsandstone.api.util.extension.codeapi.plusAssign
 import com.github.projectsandstone.api.util.internal.Debug
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
 import com.github.projectsandstone.api.util.internal.gen.genericFromTypeInfo
 import com.github.projectsandstone.api.util.internal.gen.save.ClassSaver
+import com.github.projectsandstone.api.util.internal.getImplementation
+import com.github.projectsandstone.api.util.internal.parameterNames
 import com.github.projectsandstone.api.util.succeed
 import com.github.projectsandstone.api.util.succeedReturn
-import java.lang.reflect.Modifier
 import java.util.*
 import java.util.function.Consumer
 import java.util.function.Supplier
+import kotlin.reflect.full.memberFunctions
+import kotlin.reflect.jvm.jvmErasure
 
 object SandstoneEventGenUtil {
 
     val propertiesFieldName = "#properties"
     val propertiesUnmodName = "immutable#properties"
-    val propertiesFieldType = Generic.type(Helper.getJavaType(Map::class.java))
-            .of(PredefinedTypes.STRING)
-            .of(Helper.getJavaType(com.github.projectsandstone.api.event.property.Property::class.java))
+    val propertiesFieldType = Generic.type(CodeAPI.getJavaType(Map::class.java))
+            .of(Types.STRING)
+            .of(CodeAPI.getJavaType(com.github.projectsandstone.api.event.property.Property::class.java))
 
     private var count: Int = 0
 
@@ -88,7 +93,7 @@ object SandstoneEventGenUtil {
         var codeClassBuilder = CodeAPI
                 .aClassBuilder()
                 .withBody(MutableCodeSource())
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName(name)
 
         if (isItf)
@@ -98,7 +103,7 @@ object SandstoneEventGenUtil {
 
         val codeClass = codeClassBuilder.build()
 
-        val body = codeClass.body.get() as MutableCodeSource
+        val body = codeClass.body as MutableCodeSource
 
 
         val properties = this.getProperties(classType) + additionalProperties
@@ -113,12 +118,16 @@ object SandstoneEventGenUtil {
 
         val codeSource = CodeAPI.sourceOfParts(codeClass)
 
-        val bytes = BytecodeGenerator().gen(codeSource)[0].bytecode
-        val source = lazy {
-            PlainSourceGenerator().gen(codeSource)
-        }
+        val generator = BytecodeGenerator()
 
-        val sandstoneClass = EventGenClassLoader.defineClass(codeClass, bytes, source) as SandstoneClass<T>
+        generator.options.set(VISIT_LINES, VisitLineType.FOLLOW_CODE_SOURCE)
+
+        val bytecodeClass = generator.gen(codeSource)[0]
+
+        val bytes = bytecodeClass.bytecode
+        val disassembled = lazy { bytecodeClass.disassembledCode }
+
+        val sandstoneClass = EventGenClassLoader.defineClass(codeClass, bytes, disassembled) as SandstoneClass<T>
 
         if (Debug.EVENT_GEN_DEBUG) {
             ClassSaver.save(Sandstone.sandstonePath, "eventgen", sandstoneClass)
@@ -129,14 +138,14 @@ object SandstoneEventGenUtil {
 
     private fun check(codeSource: CodeSource) {
 
-        val methodList = mutableListOf<CodeMethod>()
+        val methodList = mutableListOf<MethodDeclaration>()
 
         codeSource.forEach { outer ->
-            if (outer is CodeMethod) {
+            if (outer is MethodDeclaration) {
                 if (methodList.any {
                     it.name == outer.name
-                            && it.returnType.orElse(PredefinedTypes.VOID) == outer.returnType.orElse(PredefinedTypes.VOID)
-                            && it.parameters.map { it.requiredType } == outer.parameters.map { it.requiredType }
+                            && it.returnType == outer.returnType
+                            && it.parameters.map { it.type } == outer.parameters.map { it.type }
                 })
                     throw IllegalStateException("Duplicated method: ${outer.name}")
                 else
@@ -149,15 +158,15 @@ object SandstoneEventGenUtil {
         properties.forEach {
             val name = it.propertyName
 
-            var modifiers = Modifier.PRIVATE
+            val modifiers = EnumSet.of(CodeModifier.PRIVATE)
 
             if (!it.isMutable()) {
-                modifiers = modifiers or Modifier.FINAL
+                modifiers.add(CodeModifier.FINAL)
             }
 
-            val codeType: CodeType = Helper.getJavaType(it.type)
+            val codeType: CodeType = CodeAPI.getJavaType(it.type)
 
-            val field = CodeAPI.field(modifiers, codeType, name)
+            val field = field(modifiers, codeType, name)
 
             body += field
         }
@@ -166,18 +175,18 @@ object SandstoneEventGenUtil {
     }
 
     private fun genPropertyField(type: Class<*>, body: MutableCodeSource, properties: List<PropertyInfo>) {
-        body += CodeAPI.field(Modifier.PRIVATE or Modifier.FINAL,
+        body += field(EnumSet.of(CodeModifier.PRIVATE, CodeModifier.FINAL),
                 propertiesFieldType,
                 propertiesFieldName,
                 CodeAPI.invokeConstructor(HashMap::class.java))
 
-        body += CodeAPI.field(Modifier.PRIVATE or Modifier.FINAL,
+        body += field(EnumSet.of(CodeModifier.PRIVATE, CodeModifier.FINAL),
                 propertiesFieldType,
                 propertiesUnmodName,
                 CodeAPI.invokeStatic(Collections::class.java,
                         "unmodifiableMap",
                         CodeAPI.typeSpec(Map::class.java, Map::class.java),
-                        CodeAPI.argument(CodeAPI.accessThisField(propertiesFieldType, propertiesFieldName))))
+                        listOf(CodeAPI.accessThisField(propertiesFieldType, propertiesFieldName))))
     }
 
     private fun genConstructor(type: Class<*>, body: MutableCodeSource, properties: List<PropertyInfo>) {
@@ -186,21 +195,28 @@ object SandstoneEventGenUtil {
         properties.forEach {
             val name = it.propertyName
 
-            val valueType: CodeType = Helper.getJavaType(it.type)
+            val valueType: CodeType = CodeAPI.getJavaType(it.type)
 
-            parameters += CodeParameter(name, valueType, listOf(
-                    CodeAPI.visibleAnnotation(Named::class.java, mapOf<String, Any>("value" to name))
-            ))
+            parameters += CodeParameter(
+                    name = name,
+                    type = valueType,
+                    annotations = listOf(CodeAPI.visibleAnnotation(Name::class.java, mapOf<String, Any>("value" to name)))
+            )
         }
 
-        val constructor = CodeConstructor(listOf(CodeModifier.PUBLIC), parameters, emptyList(), MutableCodeSource())
+        val constructor = ConstructorDeclarationImpl(
+                modifiers = EnumSet.of(CodeModifier.PUBLIC),
+                parameters = parameters,
+                annotations = emptyList(),
+                body = MutableCodeSource(),
+                genericSignature = GenericSignature.empty())
 
         body += constructor
 
-        val constructorBody = constructor.body.get() as MutableCodeSource
+        val constructorBody = constructor.body as MutableCodeSource
 
         properties.forEach {
-            val valueType: CodeType = Helper.getJavaType(it.type)
+            val valueType: CodeType = CodeAPI.getJavaType(it.type)
 
             constructorBody += CodeAPI.setThisField(valueType, it.propertyName, CodeAPI.accessLocalVariable(valueType, it.propertyName))
         }
@@ -216,14 +232,14 @@ object SandstoneEventGenUtil {
 
         properties.forEach {
             constructorBody += this.invokePut(accessMap,
-                    CodeAPI.argument(Literals.STRING(it.propertyName)),
-                    CodeAPI.argument(this.propertyToSProperty(type, it)))
+                    Literals.STRING(it.propertyName),
+                    this.propertyToSProperty(type, it))
         }
 
     }
 
-    private fun invokePut(accessMap: CodePart, vararg codeArguments: CodeArgument): CodePart {
-        return CodeAPI.invokeInterface(Map::class.java, accessMap, "put", CodeAPI.typeSpec(Any::class.java, Any::class.java, Any::class.java), *codeArguments)
+    private fun invokePut(accessMap: CodePart, vararg arguments: CodePart): CodePart {
+        return CodeAPI.invokeInterface(Map::class.java, accessMap, "put", CodeAPI.typeSpec(Any::class.java, Any::class.java, Any::class.java), listOf(*arguments))
     }
 
     private fun propertyToSProperty(type: Class<*>, property: PropertyInfo): CodePart {
@@ -232,48 +248,62 @@ object SandstoneEventGenUtil {
         val hasSetter = property.hasSetter()
 
         val typeToInvoke =
-                if (hasGetter && hasSetter) Helper.getJavaType(GSPropertyImpl::class.java)
-                else if (hasGetter) Helper.getJavaType(GetterPropertyImpl::class.java)
-                else if (hasSetter) Helper.getJavaType(SetterPropertyImpl::class.java)
-                else Helper.getJavaType(PropertyImpl::class.java)
+                if (hasGetter && hasSetter) CodeAPI.getJavaType(GSPropertyImpl::class.java)
+                else if (hasGetter) CodeAPI.getJavaType(GetterPropertyImpl::class.java)
+                else if (hasSetter) CodeAPI.getJavaType(SetterPropertyImpl::class.java)
+                else CodeAPI.getJavaType(PropertyImpl::class.java)
 
-        val arguments = mutableListOf<CodeArgument>(
-                CodeAPI.argument(Literals.CLASS(property.type), Class::class.java)
+        val arguments = mutableListOf<CodePart>(
+                Literals.CLASS(property.type)
+        )
+
+        val argumentTypes = mutableListOf<CodeType>(
+                Types.CLASS
         )
 
         if (hasGetter) {
-            arguments += CodeAPI.argument(this.invokeGetter(type, property), java.util.function.Supplier::class.java)
+            arguments += this.invokeGetter(type, property)
+            argumentTypes += CodeAPI.getJavaType(Supplier::class.java)
         }
 
         if (hasSetter) {
-            arguments += CodeAPI.argument(this.invokeSetter(type, property), java.util.function.Consumer::class.java)
+            arguments += this.invokeSetter(type, property)
+            argumentTypes += CodeAPI.getJavaType(Consumer::class.java)
         }
 
-        return CodeAPI.invokeConstructor(typeToInvoke, *arguments.toTypedArray())
+        val typeSpec = TypeSpec(Types.VOID, argumentTypes)
+
+        return CodeAPI.invokeConstructor(typeToInvoke, typeSpec, arguments)
     }
 
     private fun invokeGetter(type: Class<*>, property: PropertyInfo): CodePart {
         val propertyType = property.type
         val getterName = property.getterName!!
 
-        val supplierType = Helper.getJavaType(Supplier::class.java)
+        val supplierType = CodeAPI.getJavaType(Supplier::class.java)
 
-        val invocation = Helper.invoke(InvokeType.INVOKE_VIRTUAL,
-                null as CodeType?,
-                Helper.accessThis(),
-                MethodSpecImpl(getterName, propertyType, mutableListOf()))
+        val invocation = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL,
+                Alias.THIS,
+                CodeAPI.accessThis(),
+                getterName,
+                CodeAPI.typeSpec(propertyType),
+                mutableListOf()
+        )
 
-        return CodeAPI.invokeDynamic(InvokeDynamic.invokeDynamicLambda(
-                CodeAPI.fullMethodSpec(supplierType, PredefinedTypes.OBJECT, "get"),
-                CodeAPI.typeSpec(propertyType)),
-                invocation)
+        return CodeAPI.invokeDynamic(
+                InvokeDynamic.LambdaMethodReference(
+                        methodTypeSpec = MethodTypeSpec(supplierType, "get", CodeAPI.typeSpec(Types.OBJECT)),
+                        expectedTypes = CodeAPI.typeSpec(propertyType)
+                ),
+                invocation
+        )
     }
 
     private fun invokeSetter(type: Class<*>, property: PropertyInfo): CodePart {
-        val propertyType = Helper.getJavaType(property.type)
+        val propertyType = CodeAPI.getJavaType(property.type)
         val setterName = property.setterName!!
 
-        val consumerType = Helper.getJavaType(Consumer::class.java)
+        val consumerType = CodeAPI.getJavaType(Consumer::class.java)
 
 
         //val invokeType = InvokeType.get(Helper.getJavaType(type))
@@ -281,18 +311,27 @@ object SandstoneEventGenUtil {
         val invocation: MethodInvocation
 
         //if (invokeType == InvokeType.INVOKE_VIRTUAL) {
-        invocation = CodeAPI.invokeVirtual(setterName, TypeSpec(PredefinedTypes.VOID, propertyType))
+        invocation = CodeAPI.invokeVirtual(Alias.THIS, CodeAPI.accessThis(), setterName,
+                TypeSpec(Types.VOID, listOf(propertyType)),
+                emptyList()
+        )
         /*} else {
-            invocation = CodeAPI.invokeInterface(setterName, TypeSpec(PredefinedTypes.VOID, propertyType))
+            invocation = CodeAPI.invokeInterface(Alias.THIS, CodeAPI.accessThis(), setterName, TypeSpec(PredefinedTypes.VOID, listOf(propertyType)), emptyList())
         }*/
 
-        return CodeAPI.invokeDynamic(InvokeDynamic.invokeDynamicLambda(
-                CodeAPI.fullMethodSpec(consumerType, PredefinedTypes.VOID, "accept", PredefinedTypes.OBJECT),
-                CodeAPI.typeSpec(PredefinedTypes.VOID, propertyType)),
-                invocation)
+        return CodeAPI.invokeDynamic(
+                InvokeDynamic.LambdaMethodReference(
+                        methodTypeSpec = MethodTypeSpec(consumerType, "accept", CodeAPI.constructorTypeSpec(Types.OBJECT)),
+                        expectedTypes = CodeAPI.constructorTypeSpec(propertyType)
+                ),
+                invocation
+        )
     }
 
     private fun genMethods(type: Class<*>, body: MutableCodeSource, properties: List<PropertyInfo>) {
+
+        genDefaultMethodsImpl(body)
+
         properties.forEach {
             val name = it.propertyName
 
@@ -308,21 +347,28 @@ object SandstoneEventGenUtil {
     }
 
     private fun genGetter(type: Class<*>, body: MutableCodeSource, getterName: String, name: String, propertyType: Class<*>?) {
-        val fieldType = propertyType?.let { Helper.getJavaType(it) } ?: getPropertyType(type, name)
+        val fieldType = propertyType?.let { CodeAPI.getJavaType(it) } ?: getPropertyType(type, name)
 
-        val method = CodeMethod(getterName, listOf(CodeModifier.PUBLIC), emptyList(), fieldType, CodeAPI.sourceOfParts(
-                CodeAPI.returnThisField(fieldType, name)
-        ))
+        val method = MethodDeclarationBuilder.builder()
+                .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
+                .withReturnType(fieldType)
+                .withName(getterName)
+                .withBody(CodeAPI.sourceOfParts(CodeAPI.returnThisField(fieldType, name)))
+                .build()
 
         body += method
     }
 
-    private fun genSetter(type: Class<*>, body: MutableCodeSource, getterName: String, name: String, propertyType: Class<*>?) {
-        val fieldType = propertyType?.let { Helper.getJavaType(it) } ?: getPropertyType(type, name)
+    private fun genSetter(type: Class<*>, body: MutableCodeSource, setterName: String, name: String, propertyType: Class<*>?) {
+        val fieldType = propertyType?.let { CodeAPI.getJavaType(it) } ?: getPropertyType(type, name)
 
-        val method = CodeMethod(getterName, listOf(CodeModifier.PUBLIC), listOf(CodeAPI.parameter(fieldType, name)), PredefinedTypes.VOID, CodeAPI.sourceOfParts(
-                CodeAPI.setThisField(fieldType, name, CodeAPI.accessLocalVariable(fieldType, name))
-        ))
+        val method = MethodDeclarationBuilder.builder()
+                .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
+                .withReturnType(Types.VOID)
+                .withParameters(CodeAPI.parameter(fieldType, name))
+                .withName(setterName)
+                .withBody(CodeAPI.sourceOfParts(CodeAPI.setThisField(fieldType, name, CodeAPI.accessLocalVariable(fieldType, name))))
+                .build()
 
         body += method
     }
@@ -332,9 +378,9 @@ object SandstoneEventGenUtil {
         val methodBody = MutableCodeSource()
 
         val method = CodeAPI.methodBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withName("getProperty")
-                .withReturnType(Property::class.java)
+                .withReturnType(Property::class.java.codeType)
                 .withParameters(CodeAPI.parameter(Class::class.java, "type"), CodeAPI.parameter(String::class.java, "name"))
                 .withAnnotations(CodeAPI.annotation(Override::class.java))
                 .withBody(methodBody)
@@ -347,21 +393,21 @@ object SandstoneEventGenUtil {
                         accessMap,
                         "get",
                         CodeAPI.typeSpec(Any::class.java, Any::class.java),
-                        CodeAPI.argument(CodeAPI.accessLocalVariable(String::class.java, "name"))))
+                        listOf(CodeAPI.accessLocalVariable(String::class.java, "name"))))
 
-        methodBody += CodeAPI.field(Property::class.java, "property", propertyAccess)
+        methodBody += variable(Property::class.java.codeType, "property", propertyAccess)
 
         val accessPropertyVar = CodeAPI.accessLocalVariable(Property::class.java, "property")
 
-        val propertyTypeAccess = CodeAPI.invokeInterface(Property::class.java, accessPropertyVar, "getType", CodeAPI.typeSpec(Class::class.java))
+        val propertyTypeAccess = CodeAPI.invokeInterface(Property::class.java.codeType, accessPropertyVar, "getType", CodeAPI.typeSpec(Class::class.java), emptyList())
 
-        methodBody += CodeAPI.ifBlock(IfExpressionHelper.builder()
+        methodBody += CodeAPI.ifStatement(IfExpressionHelper.builder()
                 // Check if property is not null
                 .checkNotNull(accessPropertyVar)
                 // if propertyType.isAssignableFrom(type) return propertyVar else return null
                 .andTrue(CodeAPI.invokeVirtual(
                         Class::class.java, propertyTypeAccess, "isAssignableFrom", CodeAPI.typeSpec(Boolean::class.javaPrimitiveType, Class::class.java),
-                        CodeAPI.argument(CodeAPI.accessLocalVariable(Class::class.java, "type"))
+                        listOf(CodeAPI.accessLocalVariable(Class::class.java, "type"))
                 ))
                 .build(),
                 CodeAPI.sourceOfParts(
@@ -370,7 +416,7 @@ object SandstoneEventGenUtil {
                                 accessPropertyVar
                         )
                 ),
-                CodeAPI.elseBlock(
+                CodeAPI.sourceOfParts(
                         CodeAPI.returnValue(
                                 Property::class.java,
                                 Literals.NULL)
@@ -380,18 +426,20 @@ object SandstoneEventGenUtil {
 
         // hasProperty(Class, String):Boolean
         val hasPropertyMethod = CodeAPI.methodBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withName("hasProperty")
-                .withReturnType(Boolean::class.javaPrimitiveType)
+                .withReturnType(Types.BOOLEAN)
                 .withParameters(CodeAPI.parameter(Class::class.java, "type"), CodeAPI.parameter(String::class.java, "name"))
                 .withAnnotations(CodeAPI.annotation(Override::class.java))
                 .withBody(CodeAPI.sourceOfParts(
-                        CodeAPI.returnValue(Boolean::class.javaPrimitiveType,
+                        CodeAPI.returnValue(Types.BOOLEAN,
                                 CodeAPI.checkNotNull(CodeAPI.invokeVirtual(
                                         "getProperty",
                                         CodeAPI.typeSpec(Property::class.java, Class::class.java, String::class.java),
-                                        CodeAPI.argument(CodeAPI.accessLocalVariable(Class::class.java, "type")),
-                                        CodeAPI.argument(CodeAPI.accessLocalVariable(String::class.java, "name"))
+                                        listOf(
+                                                CodeAPI.accessLocalVariable(Class::class.java, "type"),
+                                                CodeAPI.accessLocalVariable(String::class.java, "name")
+                                        )
                                 ))
                         )
                 ))
@@ -400,12 +448,12 @@ object SandstoneEventGenUtil {
         body += hasPropertyMethod
 
         val getPropertiesMethod = CodeAPI.methodBuilder()
-                .withModifiers(Modifier.PUBLIC)
+                .withModifiers(CodeModifier.PUBLIC)
                 .withName("getProperties")
                 .withReturnType(propertiesFieldType)
                 .withAnnotations(CodeAPI.annotation(Override::class.java))
                 .withBody(CodeAPI.sourceOfParts(
-                        Helper.returnValue(propertiesFieldType, CodeAPI.accessThisField(propertiesFieldType, propertiesUnmodName))
+                        CodeAPI.returnValue(propertiesFieldType, CodeAPI.accessThisField(propertiesFieldType, propertiesUnmodName))
                 ))
                 .build()
 
@@ -473,11 +521,55 @@ object SandstoneEventGenUtil {
         val method = succeedReturn { type.getMethod("get$capitalized") }
 
         if (method != null) {
-            return Helper.getJavaType(method.returnType)
+            return CodeAPI.getJavaType(method.returnType)
         } else {
             throw IllegalArgumentException("Cannot find property with name: $name!")
         }
     }
+
+    internal fun genDefaultMethodsImpl(body: MutableCodeSource) {
+        val funcs = PropertyHolder::class.memberFunctions.map { base ->
+            getImplementation(PropertyHolder::class, base)?.let { Pair(base, it) }
+        }.filterNotNull()
+
+        funcs.forEach {
+            val base = it.first
+            val delegateClass = it.second.first
+            val delegate = it.second.second
+
+            val parameters = base.parameterNames.mapIndexed { i, it ->
+                CodeParameter(delegate.parameters[i + 1].type.codeType, it)
+            }
+
+            val arguments = mutableListOf<CodePart>(CodeAPI.accessThis()) + parameters.map { it.toCodeArgument() }
+
+            val invoke = CodeAPI.invoke(
+                    InvokeType.INVOKE_STATIC,
+                    delegateClass.codeType,
+                    CodeAPI.accessStatic(),
+                    delegate.name,
+                    TypeSpec(delegate.returnType.codeType, delegate.parameters.map { it.type.codeType }),
+                    arguments
+            ).let {
+                if (base.returnType.jvmErasure.java == Void.TYPE)
+                    it
+                else
+                    CodeAPI.returnValue(base.returnType.jvmErasure.codeType, it)
+            }
+
+            body.add(MethodDeclarationBuilder.builder()
+                    .withAnnotations(CodeAPI.overrideAnnotation())
+                    .withModifiers(CodeModifier.PUBLIC, CodeModifier.BRIDGE)
+                    .withName(base.name)
+                    .withReturnType(base.returnType.jvmErasure.codeType)
+                    .withParameters(parameters)
+                    .withBody(CodeAPI.sourceOfParts(invoke))
+                    .build()
+            )
+
+        }
+    }
+
 
     private fun hasMethod(klass: Class<*>, name: String): Boolean {
         return klass.declaredMethods.any { it.name == name } || klass.methods.any { it.name == name }

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,22 +27,26 @@
  */
 package test
 
-import com.flowpowered.math.vector.Vector2i
+import com.github.jonathanxd.iutils.reflection.RClass
+import com.github.jonathanxd.iutils.reflection.Reflection
 import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.constants.SandstonePlugin
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.service.RegisteredProvider
-import com.github.projectsandstone.api.util.extension.flow.math.rangeTo
 import com.github.projectsandstone.api.util.internal.gen.event.PropertyInfo
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 import com.github.projectsandstone.example.MyService
 import com.github.projectsandstone.example.MyServiceImpl
+import java.nio.file.Paths
 
 fun main(args: Array<String>) {
 
     val type = object : ConcreteTypeInfo<ChangeServiceProviderEvent<MyService>>() {}
+
+    Reflection.changeFinalField(RClass.getRClass(Sandstone::class.java), "sandstonePath_", Paths.get("."))
 
     val gen = SandstoneEventGen.gen(type, mapOf(
             "service" to TypeInfo.aEnd(MyService::class.java),
@@ -61,6 +65,7 @@ fun main(args: Array<String>) {
     property.getValue().let(::println)
 
     assert(gen.getProperty(Int::class.java, "propertyV") == null)
+
 
 }
 

@@ -3,7 +3,7 @@
  *
  *         The MIT License (MIT)
  *
- *      Copyright (c) 2016 Sandstone <https://github.com/ProjectSandstone/>
+ *      Copyright (c) 2017 Sandstone <https://github.com/ProjectSandstone/>
  *      Copyright (c) contributors
  *
  *
@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.util
 
-import com.github.jonathanxd.codeapi.helper.Helper
-import com.github.jonathanxd.codeapi.types.CodeType
-import com.github.jonathanxd.codeapi.types.Generic
+import com.github.jonathanxd.codeapi.CodeAPI
+import com.github.jonathanxd.codeapi.type.CodeType
+import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.iutils.type.TypeInfo
 import kotlin.jvm.internal.ClassBasedDeclarationContainer
 import kotlin.reflect.KClass
@@ -50,7 +50,7 @@ val <T : Any> KClass<T>.codeType: CodeType
 /**
  * Convert current java class to CodeAPI type.
  */
-fun <T> Class<T>.toType(): CodeType = Helper.getJavaType(this)
+fun <T> Class<T>.toType(): CodeType = CodeAPI.getJavaType(this)
 
 /**
  * Convert current kotlin class to CodeAPI type.
@@ -66,7 +66,7 @@ fun <T> TypeInfo<T>.toGeneric(): Generic {
 
     var generic = Generic.type(aClass.toType())
 
-    if (related.size > 0) {
+    if (related.isNotEmpty()) {
         generic = generic.of(*related.map { it.toGeneric() }.toTypedArray())
     }
 
