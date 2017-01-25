@@ -75,6 +75,28 @@ object SandstoneEventGenUtil {
 
     private var count: Int = 0
 
+    fun TypeInfo<*>.toStr(): String {
+        if (this.related.isEmpty()) {
+            return this.toFullString()
+        } else {
+            val base = StringBuilder(this.aClass.name)
+
+            base.append("_of_")
+            this.related.forEach {
+                base.append(it.toFullString()
+                        .replace(".", "_")
+                        .replace("<", "_of_")
+                        .replace(">", "__")
+                        .replace(", ", "and")
+                )
+            }
+
+            base.append("__")
+
+            return base.toString()
+        }
+    }
+
     @Suppress("UNCHECKED_CAST")
     fun <T> genImplementation(typeInfo: TypeInfo<T>, additionalProperties: List<PropertyInfo>): SandstoneClass<T> {
 
@@ -82,10 +104,7 @@ object SandstoneEventGenUtil {
         val classType = typeInfo.aClass
         val isItf = classType.isInterface
 
-        val typeInfoLiter = typeInfo.toString()
-                .replace(".", "_")
-                .replace("<", "_of_").replace(">", "__")
-                .replace(", ", "_and_")
+        val typeInfoLiter = typeInfo.toStr()
 
         val name = "${typeInfoLiter}Impl$$count"
         ++count
