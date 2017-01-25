@@ -27,13 +27,14 @@
  */
 package com.github.projectsandstone.api.event.message
 
+import com.github.projectsandstone.api.event.Cancellable
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.text.Text
 
 /**
  * Fired when server receives a message
  */
-interface MessageEvent : Event {
+interface MessageEvent : Event, Cancellable {
 
     var message: Text
 

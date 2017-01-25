@@ -27,12 +27,13 @@
  */
 package com.github.projectsandstone.api.event.command
 
+import com.github.projectsandstone.api.event.Cancellable
 import com.github.projectsandstone.api.event.Event
 
 /**
  * Fired when a command is sent.
  */
-interface CommandSendEvent : Event {
+interface CommandSendEvent : Event, Cancellable {
     /**
      * Command name.
      */

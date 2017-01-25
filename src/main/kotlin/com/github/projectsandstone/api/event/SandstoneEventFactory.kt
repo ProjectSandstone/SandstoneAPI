@@ -39,8 +39,6 @@ import com.github.projectsandstone.api.event.init.*
 import com.github.projectsandstone.api.event.message.MessageChannelEvent
 import com.github.projectsandstone.api.event.message.MessageEvent
 import com.github.projectsandstone.api.event.player.PlayerBlockInteractEvent
-import com.github.projectsandstone.api.event.player.PlayerMessageChannelEvent
-import com.github.projectsandstone.api.event.player.PlayerMessageEvent
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.service.RegisteredProvider
 import com.github.projectsandstone.api.text.Text
@@ -53,6 +51,8 @@ import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
  * Sandstone event implementation factory helper.
  */
 object SandstoneEventFactory {
+
+    private val PLAYER = PropertyInfo(propertyName = "player", type = Player::class.java)
 
     /**
      * Create implementation of a [Event] of type [eventType].
@@ -159,11 +159,11 @@ object SandstoneEventFactory {
     }
 
     @JvmStatic
-    fun createPlayerBlockInteractEvent(player: Player, block: BlockState): PlayerBlockInteractEvent {
+    fun createPlayerBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent {
         return SandstoneEventGen.create(mapOf(
                 "player" to player,
                 "block" to block
-        ))
+        ), listOf(PLAYER))
     }
 
     @JvmStatic
@@ -174,11 +174,11 @@ object SandstoneEventFactory {
     }
 
     @JvmStatic
-    fun createPlayerMessageEvent(player: Player, message: Text): PlayerMessageEvent {
+    fun createPlayerMessageEvent(player: Player, message: Text): MessageEvent {
         return SandstoneEventGen.create(mapOf(
                 "player" to player,
                 "message" to message
-        ))
+        ), listOf(PLAYER))
     }
 
     @JvmStatic
@@ -190,12 +190,12 @@ object SandstoneEventFactory {
     }
 
     @JvmStatic
-    fun createPlayerMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): PlayerMessageChannelEvent {
+    fun createPlayerMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): MessageChannelEvent {
         return SandstoneEventGen.create(mapOf(
                 "entity" to player,
                 "channel" to channel,
                 "message" to message
-        ))
+        ), listOf(PLAYER))
     }
 
 }

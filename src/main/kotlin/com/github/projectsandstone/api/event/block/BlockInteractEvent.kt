@@ -27,7 +27,9 @@
  */
 package com.github.projectsandstone.api.event.block
 
+import com.github.projectsandstone.api.event.Cancellable
+
 /**
  * Fired when a block interaction event occurs.
  */
-interface BlockInteractEvent : BlockEvent
+interface BlockInteractEvent : BlockEvent, Cancellable
