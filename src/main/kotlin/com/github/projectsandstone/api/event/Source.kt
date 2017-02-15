@@ -27,4 +27,15 @@
  */
 package com.github.projectsandstone.api.event
 
+import com.github.projectsandstone.api.event.property.Property
+
+/**
+ * Event source, the [source] may be a player, a plugin, or a object of any type, events that
+ * change the world, like BlockChangeEvent and ExplosionEvent, has a `source`,
+ * this source allow permission plugins (or related plugins) to check, for example,
+ * if the `source` has permission to change the block.
+ *
+ * The source is provided in form of a additional [Event Property][Property]
+ * (see [Event] class for more information about additional properties).
+ */
 data class Source(val source: Any)

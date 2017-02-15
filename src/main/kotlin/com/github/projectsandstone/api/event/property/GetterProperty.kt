@@ -27,6 +27,8 @@
  */
 package com.github.projectsandstone.api.event.property
 
+import java.util.function.Supplier
+
 /**
  * A Property that have a getter method.
  */
@@ -36,5 +38,12 @@ interface GetterProperty<R> : Property<R> {
      * Gets the property value.
      */
     fun getValue(): R
+
+    /**
+     * Default implementation.
+     */
+    class Impl<R>(override val type: Class<R>, val getter: Supplier<R>) : GetterProperty<R> {
+        override fun getValue(): R = this.getter.get()
+    }
 
 }

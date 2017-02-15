@@ -36,6 +36,9 @@ import com.github.projectsandstone.api.text.Text
  */
 interface MessageEvent : Event, Cancellable {
 
+    /**
+     * Message
+     */
     var message: Text
 
 }

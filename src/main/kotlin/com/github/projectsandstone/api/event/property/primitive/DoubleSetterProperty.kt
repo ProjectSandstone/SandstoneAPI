@@ -25,15 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal
+package com.github.projectsandstone.api.event.property.primitive
 
-object Debug {
-    private const val DEBUG_PROPERTY = "sandstone.debug"
-    private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
-    private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
+import com.github.projectsandstone.api.event.property.SetterProperty
+import java.util.function.DoubleConsumer
 
-    val EVENT_GEN_DEBUG = getDebugProperty(EVENT_GEN_PROPERTY)
-    val LISTENER_GEN_DEBUG = getDebugProperty(LISTENER_GEN_PROPERTY)
+/**
+ * Double setter property.
+ *
+ * Avoid boxing and unboxing.
+ */
+interface DoubleSetterProperty : DoubleProperty, SetterProperty<Double> {
 
-    private fun getDebugProperty(name: String) = System.getProperties()[name]?.equals("true") ?: System.getProperties()[DEBUG_PROPERTY]?.equals("true") ?: false
+    override fun setValue(value: Double) = this.setAsDouble(value)
+
+    /**
+     * Set value as double (without boxing)
+     */
+    fun setAsDouble(value: Double)
+
+    class Impl(val setter: DoubleConsumer) : DoubleSetterProperty {
+        override fun setAsDouble(value: Double) = this.setter.accept(value)
+    }
+
 }

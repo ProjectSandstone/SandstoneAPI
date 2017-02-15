@@ -25,13 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.property
+package com.github.projectsandstone.api.event.property.primitive
 
-import java.util.function.Supplier
+import com.github.projectsandstone.api.event.property.Property
 
-class GetterPropertyImpl<R>(override val type: Class<R>, val getter: Supplier<R>) : GetterProperty<R> {
+/**
+ * Boolean property.
+ */
+interface BooleanProperty : Property<Boolean> {
 
-    override fun getValue(): R {
-        return this.getter.get()
-    }
+    override val type: Class<Boolean>
+        get() = java.lang.Boolean.TYPE
+
+    class Impl : BooleanProperty
+
 }

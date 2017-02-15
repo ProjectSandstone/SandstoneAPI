@@ -29,6 +29,10 @@ package com.github.projectsandstone.api.event.property
 
 /**
  * A Property.
+ *
+ * Sandstone provides a primitive specialized version of properties, all these instances extends the
+ * boxed version, the event generator will automatically use primitive specialized version for primitive
+ * types.
  */
 interface Property<R> {
 
@@ -36,5 +40,10 @@ interface Property<R> {
      * Gets type of property value.
      */
     val type: Class<R>
+
+    /**
+     * Default implementation.
+     */
+    class Impl<R>(override val type: Class<R>) : Property<R>
 
 }

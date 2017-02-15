@@ -25,28 +25,56 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package test
 
-import com.github.projectsandstone.api.event.annotation.Name
-import com.github.projectsandstone.api.event.property.PropertyHolder
+import com.github.jonathanxd.iutils.reflection.RClass
+import com.github.jonathanxd.iutils.reflection.Reflection
+import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
+import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.projectsandstone.api.Sandstone
+import com.github.projectsandstone.api.constants.SandstonePlugin
+import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
+import com.github.projectsandstone.api.plugin.PluginContainer
+import com.github.projectsandstone.api.service.RegisteredProvider
+import com.github.projectsandstone.api.util.internal.gen.event.PropertyInfo
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
+import com.github.projectsandstone.example.MyService
+import com.github.projectsandstone.example.MyServiceImpl
+import java.nio.file.Paths
 
-/**
- * [Event].
- *
- * Has two ways to implement a event, first is creating your own interface that inherit [Event],
- * and creating abstract property methods (getters and setters) and calling [SandstoneEventGen.gen].
- * The second is: Implementing event in an concrete class, naming constructor parameters with [Name]
- * annotation and mapping properties to getter and setter (if the property is mutable).
- *
- * The second way is not recommended.
- *
- * Example of a event interface with properties: [ChangeServiceProviderEvent].
- *
- * An [Event] may have additional properties, events with additional properties have different
- * class from events without these additional properties, different additional properties generates
- * different event classes, this happens because [SandstoneEventGen] create fields for additional properties
- * and JVM doesn't allow to add fields to existing classes (this is the nature of static languages).
- */
-interface Event : PropertyHolder
+fun main(args: Array<String>) {
+
+    val type = object : ConcreteTypeInfo<MyEvt>() {}
+
+    Reflection.changeFinalField(RClass.getRClass(Sandstone::class.java), "sandstonePath_", Paths.get("."))
+
+    val gen = SandstoneEventGen.gen(type, mapOf(
+            "amount" to 9.toShort(),
+            "ok" to false,
+            "i" to 10.5F,
+            "d" to 15.4,
+            "l" to 100L
+    ))
+
+    println("Has short amount: ${gen.hasProperty(Short::class.javaPrimitiveType!!, "amount")}")
+
+    val intGetter = gen.getIntGetterProperty("amount")!!
+
+    val asInt = intGetter.getAsInt()
+
+    println("As int: $asInt")
+
+
+
+}
+
+interface MyEvt : Event {
+
+    var amount: Short
+    var ok: Boolean
+    var i: Float
+    var d: Double
+    var l: Long
+
+}

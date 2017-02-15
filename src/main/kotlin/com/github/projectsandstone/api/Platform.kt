@@ -37,9 +37,21 @@ interface Platform {
     /**
      * Platform name.
      *
-     * Bukkit, Sponge, Spigot, etc.
+     * CraftBukkit, SpongeForge, SpongeVanilla, Spigot, etc.
      */
     val platformName: String
+
+    /**
+     * Platform base name.
+     *
+     * Bukkit-based (like Spigot, CraftBukkit, PaperSpigot): Bukkit
+     *
+     * Sponge-based (like SpongeForge and SpongeVanilla): Sponge
+     *
+     * Nukkit-base (like Nukkit?): Nukkit
+     *
+     */
+    val platformBaseName: String
 
     /**
      * Platform version.
@@ -49,7 +61,9 @@ interface Platform {
     val platformVersion: Version
 
     /**
-     * Platform full name representation.
+     * Platform full name representation, the difference between the [platformFullName] and [platformName] is that
+     * [platformName] returns a user-friendly name and [platformFullName] returns a full name retrieved directly from platform
+     * methods.
      */
     val platformFullName: String
 

@@ -42,31 +42,63 @@ data class Selection(val extent: Extent,
                      val from: Vector3d,
                      val to: Vector3d) {
 
+    /**
+     * All chunks inside this selection.
+     */
     val chunks: Collection<Chunk>
         get() = this.extent.getChunks(
                 from = Vector2i(this.from.x.toInt(), this.from.z.toInt()),
                 to = Vector2i(this.to.x.toInt(), this.to.z.toInt()))
 
+    /**
+     * All entities inside this selection.
+     */
     val entities: Collection<Entity>
         get() = this.extent.getEntities(this.from, this.to)
 
+    /**
+     * All blocks inside this selection.
+     */
     val blocks: Collection<BlockState>
         get() = this.extent.getBlocks(this.from.toInt(), this.to.toInt())
 
+    /**
+     * Set all block states inside this selection to [blockState].
+     */
     fun setBlocks(blockState: BlockState) =
             this.extent.setBlocks(this.from.toInt(), this.to.toInt(), blockState)
 
+    /**
+     * Set all block states inside this selection to [blockState] and provide the [source] cause of change.
+     */
     fun setBlocks(blockState: BlockState, source: Source?) =
             this.extent.setBlocks(this.from.toInt(), this.to.toInt(), blockState, source)
 
-    fun setBlocks(stateProvider: (BlockState, Vector3i) -> BlockState) =
+    /**
+     * Set all block states inside this selection to block states provided by [stateProvider].
+     */
+    fun setBlocks(stateProvider: (blockState: BlockState, position: Vector3i) -> BlockState) =
             this.extent.setBlocks(this.from.toInt(), this.to.toInt(), stateProvider)
 
 
-    fun setBlocks(source: Source?, stateProvider: (BlockState, Vector3i) -> BlockState) =
+    /**
+     * Set all block states inside this selection to block states provided by [stateProvider] and provide the [source] cause of change.
+     */
+    fun setBlocks(source: Source?, stateProvider: (blockState: BlockState, position: Vector3i) -> BlockState) =
             this.extent.setBlocks(this.from.toInt(), this.to.toInt(), source, stateProvider)
 
+    /**
+     * Adds [from] and [to] to [Selection.from] and [Selection.to] and return a new instance of [Selection] with these values.
+     */
     fun plus(from: Vector3d, to: Vector3d): Selection {
         return this.copy(this.extent, this.from.add(from), this.to.add(to))
     }
+
+    /**
+     * Subtract [from] and [to] from [Selection.from] and [Selection.to] and return a new instance of [Selection] with these values.
+     */
+    fun minus(from: Vector3d, to: Vector3d): Selection {
+        return this.copy(this.extent, this.from.sub(from), this.to.sub(to))
+    }
+
 }

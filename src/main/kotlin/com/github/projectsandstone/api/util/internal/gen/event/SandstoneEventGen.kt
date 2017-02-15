@@ -83,7 +83,7 @@ object SandstoneEventGen {
 
             val propertyType = propertyValue?.javaClass
 
-            if (propertyType != null && !parameter.type.isAssignableFrom(propertyType)) {
+            if (propertyType != null && !castCheck(propertyType, parameter.type)) { // parameter.type.isAssignableFrom(propertyType)
                 throw ClassCastException("Cannot cast property: '${named.value}' of type '$propertyType' to expected type '${parameter.type}'.")
             }
 
@@ -102,8 +102,9 @@ object SandstoneEventGen {
             else {
                 val property = properties[it.propertyName]
 
-                if (property != null && !it.type.isAssignableFrom(property.javaClass))
+                if (property != null && !castCheck(property.javaClass, it.type)) {
                     throw ClassCastException("Cannot cast provided property '$property' of type '${property.javaClass}' to expected type '${it.type}'")
+                }
             }
 
             return@filter false
@@ -112,6 +113,14 @@ object SandstoneEventGen {
         if (missing.isNotEmpty())
             throw IllegalArgumentException("Missing ${if (missing.size == 1) "property" else "properties"}: '$missing' in provided properties map ($properties)")
     }
+
+    /**
+     * Checks if class [from] can be casted to [to].
+     */
+    private fun castCheck(from: Class<*>, to: Class<*>): Boolean =
+            to.isAssignableFrom(from)
+                    || from.isPrimitive && !to.isPrimitive
+                    || !from.isPrimitive && to.isPrimitive
 
     private fun propertiesToType(anyList: List<Any>): MethodType {
         val classes = mutableListOf<Class<*>>()

@@ -34,7 +34,7 @@ import com.github.projectsandstone.api.util.extension.registry.uninitializedEntr
  * All known item types.
  *
  * This is only a list of all items present in all versions of minecraft (PE and PC),
- * if you wan't to get an [ItemType] that aren't listed here, you must to fetch directly from [Registry].
+ * if you want to get an [ItemType] that aren't listed here, you must to fetch directly from [Registry].
  */
 object ItemTypes {
 

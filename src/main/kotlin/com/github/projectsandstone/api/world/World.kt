@@ -35,7 +35,9 @@ import com.github.projectsandstone.api.world.extent.Extent
 import java.nio.file.Path
 
 /**
- * World
+ * World.
+ *
+ * Multi-platform naming note: Some platforms use the name `Level` instead of `World`.
  */
 interface World : MessageReceiver, Identifiable, Extent {
 

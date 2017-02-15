@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.base.MethodDeclaration
 import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.impl.ConstructorDeclarationImpl
 import com.github.jonathanxd.codeapi.builder.MethodDeclarationBuilder
+import com.github.jonathanxd.codeapi.bytecode.CHECK
 import com.github.jonathanxd.codeapi.bytecode.VISIT_LINES
 import com.github.jonathanxd.codeapi.bytecode.VisitLineType
 import com.github.jonathanxd.codeapi.bytecode.gen.BytecodeGenerator
@@ -50,6 +51,8 @@ import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.annotation.Name
 import com.github.projectsandstone.api.event.property.*
+import com.github.projectsandstone.api.event.property.primitive.*
+import com.github.projectsandstone.api.util.BooleanConsumer
 import com.github.projectsandstone.api.util.extension.codeapi.plusAssign
 import com.github.projectsandstone.api.util.internal.Debug
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
@@ -60,8 +63,7 @@ import com.github.projectsandstone.api.util.internal.parameterNames
 import com.github.projectsandstone.api.util.succeed
 import com.github.projectsandstone.api.util.succeedReturn
 import java.util.*
-import java.util.function.Consumer
-import java.util.function.Supplier
+import java.util.function.*
 import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.jvm.jvmErasure
 
@@ -127,11 +129,11 @@ object SandstoneEventGenUtil {
 
         val properties = this.getProperties(classType) + additionalProperties
 
-        this.genFields(classType, body, properties)
+        this.genFields(body, properties)
         this.genConstructor(classType, body, properties)
         this.genMethods(classType, body, properties)
         // Gen getProperties & getProperty & hasProperty
-        this.genPropertyHolderMethods(classType, body, properties)
+        this.genPropertyHolderMethods(body)
         this.check(body)
 
 
@@ -140,6 +142,7 @@ object SandstoneEventGenUtil {
         val generator = BytecodeGenerator()
 
         generator.options.set(VISIT_LINES, VisitLineType.FOLLOW_CODE_SOURCE)
+        generator.options.set(CHECK, false)
 
         val bytecodeClass = generator.gen(codeSource)[0]
 
@@ -173,7 +176,7 @@ object SandstoneEventGenUtil {
         }
     }
 
-    private fun genFields(type: Class<*>, body: MutableCodeSource, properties: List<PropertyInfo>) {
+    private fun genFields(body: MutableCodeSource, properties: List<PropertyInfo>) {
         properties.forEach {
             val name = it.propertyName
 
@@ -190,10 +193,10 @@ object SandstoneEventGenUtil {
             body += field
         }
 
-        genPropertyField(type, body, properties)
+        genPropertyField(body)
     }
 
-    private fun genPropertyField(type: Class<*>, body: MutableCodeSource, properties: List<PropertyInfo>) {
+    private fun genPropertyField(body: MutableCodeSource) {
         body += field(EnumSet.of(CodeModifier.PRIVATE, CodeModifier.FINAL),
                 propertiesFieldType,
                 propertiesFieldName,
@@ -240,19 +243,17 @@ object SandstoneEventGenUtil {
             constructorBody += CodeAPI.setThisField(valueType, it.propertyName, CodeAPI.accessLocalVariable(valueType, it.propertyName))
         }
 
-        genConstructorPropertiesMap(type, constructorBody, properties)
+        genConstructorPropertiesMap(constructorBody, properties)
 
-        /*constructorBody += CodeAPI.setThisField(Info::class.java, "info",
-                CodeAPI.invokeConstructor(Info::class.java, CodeAPI.argument(Helper.accessThis(), PropertyHolder::class.java)))*/
     }
 
-    private fun genConstructorPropertiesMap(type: Class<*>, constructorBody: MutableCodeSource, properties: List<PropertyInfo>) {
+    private fun genConstructorPropertiesMap(constructorBody: MutableCodeSource, properties: List<PropertyInfo>) {
         val accessMap = CodeAPI.accessThisField(propertiesFieldType, propertiesFieldName)
 
         properties.forEach {
             constructorBody += this.invokePut(accessMap,
                     Literals.STRING(it.propertyName),
-                    this.propertyToSProperty(type, it))
+                    this.propertyToSProperty(it))
         }
 
     }
@@ -261,33 +262,34 @@ object SandstoneEventGenUtil {
         return CodeAPI.invokeInterface(Map::class.java, accessMap, "put", CodeAPI.typeSpec(Any::class.java, Any::class.java, Any::class.java), listOf(*arguments))
     }
 
-    private fun propertyToSProperty(type: Class<*>, property: PropertyInfo): CodePart {
+    private fun propertyToSProperty(property: PropertyInfo): CodePart {
 
         val hasGetter = property.hasGetter()
         val hasSetter = property.hasSetter()
 
-        val typeToInvoke =
-                if (hasGetter && hasSetter) CodeAPI.getJavaType(GSPropertyImpl::class.java)
-                else if (hasGetter) CodeAPI.getJavaType(GetterPropertyImpl::class.java)
-                else if (hasSetter) CodeAPI.getJavaType(SetterPropertyImpl::class.java)
-                else CodeAPI.getJavaType(PropertyImpl::class.java)
+        val typeToInvoke = CodeAPI.getJavaType(this.getTypeToInvoke(hasGetter, hasSetter, property.type))
 
-        val arguments = mutableListOf<CodePart>(
-                Literals.CLASS(property.type)
-        )
+        val arguments = mutableListOf<CodePart>()
+        val argumentTypes = mutableListOf<CodeType>()
 
-        val argumentTypes = mutableListOf<CodeType>(
-                Types.CLASS
-        )
+        if (!property.type.isPrimitive) {
+            arguments.add(Literals.CLASS(property.type))
+            argumentTypes.add(Types.CLASS)
+        }
 
         if (hasGetter) {
-            arguments += this.invokeGetter(type, property)
-            argumentTypes += CodeAPI.getJavaType(Supplier::class.java)
+            val supplierInfo = this.getSupplierType(property.type)
+            val supplierType = supplierInfo.second
+
+            arguments += this.invokeGetter(property.type, supplierInfo, property)
+            argumentTypes += supplierType.codeType
         }
 
         if (hasSetter) {
-            arguments += this.invokeSetter(type, property)
-            argumentTypes += CodeAPI.getJavaType(Consumer::class.java)
+            val consumerType = CodeAPI.getJavaType(this.getConsumerType(property.type))
+
+            arguments += this.invokeSetter(property.type, consumerType,  property)
+            argumentTypes += consumerType
         }
 
         val typeSpec = TypeSpec(Types.VOID, argumentTypes)
@@ -295,53 +297,48 @@ object SandstoneEventGenUtil {
         return CodeAPI.invokeConstructor(typeToInvoke, typeSpec, arguments)
     }
 
-    private fun invokeGetter(type: Class<*>, property: PropertyInfo): CodePart {
+    private fun invokeGetter(type: Class<*>, supplierInfo: Pair<String, Class<*>>, property: PropertyInfo): CodePart {
         val propertyType = property.type
         val getterName = property.getterName!!
 
-        val supplierType = CodeAPI.getJavaType(Supplier::class.java)
+        val supplierType = supplierInfo.second.codeType
+        val realType = this.getCastType(propertyType).codeType
+        val rtype = if(type.isPrimitive) realType /*type.codeType*/ else Types.OBJECT
 
         val invocation = CodeAPI.invoke(InvokeType.INVOKE_VIRTUAL,
                 Alias.THIS,
                 CodeAPI.accessThis(),
                 getterName,
-                CodeAPI.typeSpec(propertyType),
+                CodeAPI.typeSpec(realType/*propertyType*/),
                 mutableListOf()
         )
 
         return CodeAPI.invokeDynamic(
                 InvokeDynamic.LambdaMethodReference(
-                        methodTypeSpec = MethodTypeSpec(supplierType, "get", CodeAPI.typeSpec(Types.OBJECT)),
-                        expectedTypes = CodeAPI.typeSpec(propertyType)
+                        methodTypeSpec = MethodTypeSpec(supplierType, supplierInfo.first, CodeAPI.typeSpec(rtype)),
+                        expectedTypes = CodeAPI.typeSpec(realType /*propertyType*/)
                 ),
                 invocation
         )
     }
 
-    private fun invokeSetter(type: Class<*>, property: PropertyInfo): CodePart {
-        val propertyType = CodeAPI.getJavaType(property.type)
+    private fun invokeSetter(type: Class<*>, consumerType: CodeType, property: PropertyInfo): CodePart {
         val setterName = property.setterName!!
 
-        val consumerType = CodeAPI.getJavaType(Consumer::class.java)
-
-
-        //val invokeType = InvokeType.get(Helper.getJavaType(type))
+        val realType = this.getCastType(property.type).codeType
+        val ptype = if(type.isPrimitive) realType/*type.codeType*/ else Types.OBJECT
 
         val invocation: MethodInvocation
 
-        //if (invokeType == InvokeType.INVOKE_VIRTUAL) {
         invocation = CodeAPI.invokeVirtual(Alias.THIS, CodeAPI.accessThis(), setterName,
-                TypeSpec(Types.VOID, listOf(propertyType)),
+                TypeSpec(Types.VOID, listOf(realType/*propertyType*/)),
                 emptyList()
         )
-        /*} else {
-            invocation = CodeAPI.invokeInterface(Alias.THIS, CodeAPI.accessThis(), setterName, TypeSpec(PredefinedTypes.VOID, listOf(propertyType)), emptyList())
-        }*/
 
         return CodeAPI.invokeDynamic(
                 InvokeDynamic.LambdaMethodReference(
-                        methodTypeSpec = MethodTypeSpec(consumerType, "accept", CodeAPI.constructorTypeSpec(Types.OBJECT)),
-                        expectedTypes = CodeAPI.constructorTypeSpec(propertyType)
+                        methodTypeSpec = MethodTypeSpec(consumerType, "accept", CodeAPI.constructorTypeSpec(ptype)),
+                        expectedTypes = CodeAPI.constructorTypeSpec(realType/*propertyType*/)
                 ),
                 invocation
         )
@@ -376,6 +373,21 @@ object SandstoneEventGenUtil {
                 .build()
 
         body += method
+
+        val castType = this.getCastType(fieldType)
+
+        if(castType != fieldType) {
+            body += MethodDeclarationBuilder.builder()
+                    .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
+                    .withReturnType(castType)
+                    .withName(getterName)
+                    .withBody(CodeAPI.sourceOfParts(
+                            CodeAPI.returnValue(castType,
+                                    CodeAPI.cast(fieldType, castType, CodeAPI.accessThisField(fieldType, name))
+                            )
+                    ))
+                    .build()
+        }
     }
 
     private fun genSetter(type: Class<*>, body: MutableCodeSource, setterName: String, name: String, propertyType: Class<*>?) {
@@ -390,82 +402,21 @@ object SandstoneEventGenUtil {
                 .build()
 
         body += method
+
+        val castType = this.getCastType(fieldType)
+
+        if(castType != fieldType) {
+            body += MethodDeclarationBuilder.builder()
+                    .withModifiers(EnumSet.of(CodeModifier.PUBLIC))
+                    .withReturnType(Types.VOID)
+                    .withParameters(CodeAPI.parameter(castType, name))
+                    .withName(setterName)
+                    .withBody(CodeAPI.sourceOfParts(CodeAPI.setThisField(fieldType, name, CodeAPI.cast(castType, fieldType, CodeAPI.accessLocalVariable(castType, name)))))
+                    .build()
+        }
     }
 
-    private fun genPropertyHolderMethods(type: Class<*>, body: MutableCodeSource, properties: List<PropertyInfo>) {
-
-        val methodBody = MutableCodeSource()
-
-        val method = CodeAPI.methodBuilder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withName("getProperty")
-                .withReturnType(Property::class.java.codeType)
-                .withParameters(CodeAPI.parameter(Class::class.java, "type"), CodeAPI.parameter(String::class.java, "name"))
-                .withAnnotations(CodeAPI.annotation(Override::class.java))
-                .withBody(methodBody)
-                .build()
-
-        val accessMap = CodeAPI.accessThisField(propertiesFieldType, propertiesFieldName)
-
-        val propertyAccess = CodeAPI.cast(Any::class.java, Property::class.java,
-                CodeAPI.invokeInterface(Map::class.java,
-                        accessMap,
-                        "get",
-                        CodeAPI.typeSpec(Any::class.java, Any::class.java),
-                        listOf(CodeAPI.accessLocalVariable(String::class.java, "name"))))
-
-        methodBody += variable(Property::class.java.codeType, "property", propertyAccess)
-
-        val accessPropertyVar = CodeAPI.accessLocalVariable(Property::class.java, "property")
-
-        val propertyTypeAccess = CodeAPI.invokeInterface(Property::class.java.codeType, accessPropertyVar, "getType", CodeAPI.typeSpec(Class::class.java), emptyList())
-
-        methodBody += CodeAPI.ifStatement(IfExpressionHelper.builder()
-                // Check if property is not null
-                .checkNotNull(accessPropertyVar)
-                // if propertyType.isAssignableFrom(type) return propertyVar else return null
-                .andTrue(CodeAPI.invokeVirtual(
-                        Class::class.java, propertyTypeAccess, "isAssignableFrom", CodeAPI.typeSpec(Boolean::class.javaPrimitiveType, Class::class.java),
-                        listOf(CodeAPI.accessLocalVariable(Class::class.java, "type"))
-                ))
-                .build(),
-                CodeAPI.sourceOfParts(
-                        CodeAPI.returnValue(
-                                Property::class.java,
-                                accessPropertyVar
-                        )
-                ),
-                CodeAPI.sourceOfParts(
-                        CodeAPI.returnValue(
-                                Property::class.java,
-                                Literals.NULL)
-                ))
-
-        body += method
-
-        // hasProperty(Class, String):Boolean
-        val hasPropertyMethod = CodeAPI.methodBuilder()
-                .withModifiers(CodeModifier.PUBLIC)
-                .withName("hasProperty")
-                .withReturnType(Types.BOOLEAN)
-                .withParameters(CodeAPI.parameter(Class::class.java, "type"), CodeAPI.parameter(String::class.java, "name"))
-                .withAnnotations(CodeAPI.annotation(Override::class.java))
-                .withBody(CodeAPI.sourceOfParts(
-                        CodeAPI.returnValue(Types.BOOLEAN,
-                                CodeAPI.checkNotNull(CodeAPI.invokeVirtual(
-                                        "getProperty",
-                                        CodeAPI.typeSpec(Property::class.java, Class::class.java, String::class.java),
-                                        listOf(
-                                                CodeAPI.accessLocalVariable(Class::class.java, "type"),
-                                                CodeAPI.accessLocalVariable(String::class.java, "name")
-                                        )
-                                ))
-                        )
-                ))
-                .build()
-
-        body += hasPropertyMethod
-
+    private fun genPropertyHolderMethods(body: MutableCodeSource) {
         val getPropertiesMethod = CodeAPI.methodBuilder()
                 .withModifiers(CodeModifier.PUBLIC)
                 .withName("getProperties")
@@ -510,7 +461,8 @@ object SandstoneEventGenUtil {
             if (this.hasMethod(PropertyHolder::class.java, name))
                 return@forEach
 
-            if (isGet || isIs || isSet) { // hasProperty of PropertyHolder
+            if (isGet || isIs || isSet) {
+                // hasProperty of PropertyHolder
                 // 3 = "get".length & "set".length
                 // 2 = "is".length
                 val propertyName = (if (isGet || isSet) name.substring(3..name.length - 1) else name.substring(2..name.length - 1))
@@ -589,8 +541,99 @@ object SandstoneEventGenUtil {
         }
     }
 
+    private fun getTypeToInvoke(hasGetter: Boolean, hasSetter: Boolean, type: Class<*>): Class<*> =
+            if (hasGetter && hasSetter) when (type) {
+                java.lang.Byte.TYPE,
+                java.lang.Short.TYPE,
+                java.lang.Character.TYPE,
+                java.lang.Integer.TYPE -> IntGSProperty.Impl::class.java
+                java.lang.Boolean.TYPE -> BooleanGSProperty.Impl::class.java
+                java.lang.Double.TYPE,
+                java.lang.Float.TYPE -> DoubleGSProperty.Impl::class.java
+                java.lang.Long.TYPE -> LongGSProperty.Impl::class.java
+                else -> GSProperty.Impl::class.java
+            } else if (hasGetter) when (type) {
+                java.lang.Byte.TYPE,
+                java.lang.Short.TYPE,
+                java.lang.Character.TYPE,
+                java.lang.Integer.TYPE -> IntGetterProperty.Impl::class.java
+                java.lang.Boolean.TYPE -> BooleanGetterProperty.Impl::class.java
+                java.lang.Double.TYPE,
+                java.lang.Float.TYPE -> DoubleGetterProperty.Impl::class.java
+                java.lang.Long.TYPE -> LongGetterProperty.Impl::class.java
+                else -> GetterProperty.Impl::class.java
+            } else if (hasSetter) when (type) {
+                java.lang.Byte.TYPE,
+                java.lang.Short.TYPE,
+                java.lang.Character.TYPE,
+                java.lang.Integer.TYPE -> IntSetterProperty.Impl::class.java
+                java.lang.Boolean.TYPE -> BooleanSetterProperty.Impl::class.java
+                java.lang.Double.TYPE,
+                java.lang.Float.TYPE -> DoubleSetterProperty.Impl::class.java
+                java.lang.Long.TYPE -> LongSetterProperty.Impl::class.java
+                else -> SetterProperty.Impl::class.java
+            } else when (type) {
+                java.lang.Byte.TYPE,
+                java.lang.Short.TYPE,
+                java.lang.Character.TYPE,
+                java.lang.Integer.TYPE -> IntProperty.Impl::class.java
+                java.lang.Boolean.TYPE -> BooleanProperty.Impl::class.java
+                java.lang.Double.TYPE,
+                java.lang.Float.TYPE -> DoubleProperty.Impl::class.java
+                java.lang.Long.TYPE -> LongProperty.Impl::class.java
+                else -> Property.Impl::class.java
+            }
+
+    private fun getSupplierType(type: Class<*>): Pair<String, Class<*>> = when (type) {
+        java.lang.Byte.TYPE,
+        java.lang.Short.TYPE,
+        java.lang.Character.TYPE,
+        java.lang.Integer.TYPE -> "getAsInt" to IntSupplier::class.java
+        java.lang.Boolean.TYPE -> "getAsBoolean" to BooleanSupplier::class.java
+        java.lang.Double.TYPE,
+        java.lang.Float.TYPE -> "getAsDouble" to DoubleSupplier::class.java
+        java.lang.Long.TYPE -> "getAsLong" to LongSupplier::class.java
+        else -> "get" to Supplier::class.java
+    }
+
+    private fun getConsumerType(type: Class<*>): Class<*> = when (type) {
+        java.lang.Byte.TYPE,
+        java.lang.Short.TYPE,
+        java.lang.Character.TYPE,
+        java.lang.Integer.TYPE -> IntConsumer::class.java
+        java.lang.Boolean.TYPE -> BooleanConsumer::class.java
+        java.lang.Double.TYPE,
+        java.lang.Float.TYPE -> DoubleConsumer::class.java
+        java.lang.Long.TYPE -> LongConsumer::class.java
+        else -> Consumer::class.java
+    }
+
+    private fun getCastType(type: Class<*>): Class<*> = when (type) {
+        java.lang.Byte.TYPE,// -> java.lang.Byte.TYPE // Temporary workaround until CodeAPI-BytecodeWriter:hotfix3
+        java.lang.Short.TYPE,// -> java.lang.Short.TYPE // Temporary workaround until CodeAPI-BytecodeWriter:hotfix3
+        java.lang.Character.TYPE,// -> java.lang.Character.TYPE // Temporary workaround until CodeAPI-BytecodeWriter:hotfix3
+        java.lang.Integer.TYPE -> java.lang.Integer.TYPE
+        java.lang.Boolean.TYPE -> java.lang.Boolean.TYPE
+        java.lang.Double.TYPE,
+        java.lang.Float.TYPE -> java.lang.Double.TYPE
+        java.lang.Long.TYPE -> java.lang.Long.TYPE
+        else -> type
+    }
+
+    private fun getCastType(codeType: CodeType): CodeType = when (codeType) {
+        Types.BYTE,
+        Types.SHORT,
+        Types.CHAR,
+        Types.INT -> Types.INT
+        Types.BOOLEAN -> Types.BOOLEAN
+        Types.DOUBLE,
+        Types.FLOAT -> Types.DOUBLE
+        Types.LONG -> Types.LONG
+        else -> codeType
+    }
 
     private fun hasMethod(klass: Class<*>, name: String): Boolean {
         return klass.declaredMethods.any { it.name == name } || klass.methods.any { it.name == name }
     }
+
 }

@@ -25,15 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal
+package com.github.projectsandstone.api.event.property.primitive
 
-object Debug {
-    private const val DEBUG_PROPERTY = "sandstone.debug"
-    private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
-    private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
+import com.github.projectsandstone.api.event.property.Property
 
-    val EVENT_GEN_DEBUG = getDebugProperty(EVENT_GEN_PROPERTY)
-    val LISTENER_GEN_DEBUG = getDebugProperty(LISTENER_GEN_PROPERTY)
+/**
+ * Long property.
+ */
+interface LongProperty : Property<Long> {
 
-    private fun getDebugProperty(name: String) = System.getProperties()[name]?.equals("true") ?: System.getProperties()[DEBUG_PROPERTY]?.equals("true") ?: false
+    override val type: Class<Long>
+        get() = java.lang.Long.TYPE
+
+    class Impl : LongProperty
+
 }

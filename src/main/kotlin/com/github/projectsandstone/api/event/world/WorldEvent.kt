@@ -25,15 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal
+package com.github.projectsandstone.api.event.world
 
-object Debug {
-    private const val DEBUG_PROPERTY = "sandstone.debug"
-    private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
-    private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
+import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.world.World
 
-    val EVENT_GEN_DEBUG = getDebugProperty(EVENT_GEN_PROPERTY)
-    val LISTENER_GEN_DEBUG = getDebugProperty(LISTENER_GEN_PROPERTY)
+/**
+ * Base World event
+ */
+interface WorldEvent : Event {
 
-    private fun getDebugProperty(name: String) = System.getProperties()[name]?.equals("true") ?: System.getProperties()[DEBUG_PROPERTY]?.equals("true") ?: false
+    /**
+     * World
+     */
+    val world: World
+
 }

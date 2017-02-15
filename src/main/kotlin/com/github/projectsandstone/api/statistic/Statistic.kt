@@ -25,15 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal
+package com.github.projectsandstone.api.statistic
 
-object Debug {
-    private const val DEBUG_PROPERTY = "sandstone.debug"
-    private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
-    private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
+import com.github.projectsandstone.api.registry.RegistryEntry
+import com.github.projectsandstone.api.text.Text
 
-    val EVENT_GEN_DEBUG = getDebugProperty(EVENT_GEN_PROPERTY)
-    val LISTENER_GEN_DEBUG = getDebugProperty(LISTENER_GEN_PROPERTY)
+/**
+ * Game statistic
+ */
+interface Statistic : RegistryEntry {
 
-    private fun getDebugProperty(name: String) = System.getProperties()[name]?.equals("true") ?: System.getProperties()[DEBUG_PROPERTY]?.equals("true") ?: false
+    /**
+     * Statistic name
+     */
+    val statisticName: Text
 }

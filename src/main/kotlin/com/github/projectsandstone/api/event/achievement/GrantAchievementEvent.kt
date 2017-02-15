@@ -25,19 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.property
+package com.github.projectsandstone.api.event.achievement
 
-import java.util.function.Consumer
-import java.util.function.Supplier
+import com.github.projectsandstone.api.event.message.MessageChannelEvent
+import com.github.projectsandstone.api.statistic.Achievement
 
-class GSPropertyImpl<R>(override val type: Class<R>, val getter: Supplier<R>, val setter: Consumer<R>) : Property<R>, GSProperty<R> {
+/**
+ * Fired when a achievement being granted
+ */
+interface GrantAchievementEvent : MessageChannelEvent {
 
-    override fun getValue(): R {
-        return this.getter.get()
-    }
-
-    override fun setValue(value: R) {
-        this.setter.accept(value)
-    }
+    /**
+     * Achievement
+     */
+    val achievement: Achievement
 
 }

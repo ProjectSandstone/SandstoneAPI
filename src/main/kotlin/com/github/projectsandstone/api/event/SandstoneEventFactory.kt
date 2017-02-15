@@ -38,9 +38,9 @@ import com.github.projectsandstone.api.event.entity.damage.EntityDamageEvent
 import com.github.projectsandstone.api.event.init.*
 import com.github.projectsandstone.api.event.message.MessageChannelEvent
 import com.github.projectsandstone.api.event.message.MessageEvent
-import com.github.projectsandstone.api.event.player.PlayerBlockInteractEvent
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.service.RegisteredProvider
+import com.github.projectsandstone.api.statistic.Achievement
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageChannel
 import com.github.projectsandstone.api.util.extension.internal.gen.create
@@ -159,7 +159,7 @@ object SandstoneEventFactory {
     }
 
     @JvmStatic
-    fun createPlayerBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent {
+    fun createPBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent {
         return SandstoneEventGen.create(mapOf(
                 "player" to player,
                 "block" to block
@@ -174,7 +174,7 @@ object SandstoneEventFactory {
     }
 
     @JvmStatic
-    fun createPlayerMessageEvent(player: Player, message: Text): MessageEvent {
+    fun createMessageEvent(player: Player, message: Text): MessageEvent {
         return SandstoneEventGen.create(mapOf(
                 "player" to player,
                 "message" to message
@@ -190,12 +190,31 @@ object SandstoneEventFactory {
     }
 
     @JvmStatic
-    fun createPlayerMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): MessageChannelEvent {
+    fun createMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): MessageChannelEvent {
         return SandstoneEventGen.create(mapOf(
-                "entity" to player,
+                "player" to player,
                 "channel" to channel,
                 "message" to message
         ), listOf(PLAYER))
+    }
+
+    @JvmStatic
+    fun createGrantAchievementEvent(achievement: Achievement, channel: MessageChannel?, message: Text) {
+        return SandstoneEventGen.create(mapOf(
+                "achievement" to achievement,
+                "channel" to channel,
+                "message" to message
+        ))
+    }
+
+    @JvmStatic
+    fun createGrantAchievementEvent(player: Player, achievement: Achievement, channel: MessageChannel?, message: Text) {
+        return SandstoneEventGen.create(mapOf(
+                "player" to player,
+                "achievement" to achievement,
+                "channel" to channel,
+                "message" to message
+        ))
     }
 
 }

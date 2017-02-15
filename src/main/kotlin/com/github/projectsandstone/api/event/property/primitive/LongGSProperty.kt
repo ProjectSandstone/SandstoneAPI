@@ -25,15 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal
+package com.github.projectsandstone.api.event.property.primitive
 
-object Debug {
-    private const val DEBUG_PROPERTY = "sandstone.debug"
-    private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
-    private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
+import com.github.projectsandstone.api.event.property.GSProperty
+import java.util.function.LongConsumer
+import java.util.function.LongSupplier
 
-    val EVENT_GEN_DEBUG = getDebugProperty(EVENT_GEN_PROPERTY)
-    val LISTENER_GEN_DEBUG = getDebugProperty(LISTENER_GEN_PROPERTY)
+/**
+ * Long getter and setter property.
+ *
+ * Avoid boxing and unboxing.
+ */
+interface LongGSProperty : LongProperty, LongGetterProperty, LongSetterProperty, GSProperty<Long> {
 
-    private fun getDebugProperty(name: String) = System.getProperties()[name]?.equals("true") ?: System.getProperties()[DEBUG_PROPERTY]?.equals("true") ?: false
+    class Impl(val getter: LongSupplier, val setter: LongConsumer) : LongGSProperty {
+        override fun getAsLong(): Long = this.getter.asLong
+        override fun setAsLong(value: Long) = this.setter.accept(value)
+    }
+
 }

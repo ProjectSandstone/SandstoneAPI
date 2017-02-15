@@ -33,5 +33,9 @@ import com.github.projectsandstone.api.text.channel.MessageChannel
  * Fired when server receives a message on a channel
  */
 interface MessageChannelEvent : MessageEvent {
+
+    /**
+     * Channel
+     */
     var channel: MessageChannel?
 }

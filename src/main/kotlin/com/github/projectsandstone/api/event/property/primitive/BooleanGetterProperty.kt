@@ -25,13 +25,27 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.property
+package com.github.projectsandstone.api.event.property.primitive
 
-import java.util.function.Consumer
+import com.github.projectsandstone.api.event.property.GetterProperty
+import java.util.function.BooleanSupplier
 
-class SetterPropertyImpl<R>(override val type: Class<R>, val setter: Consumer<R>) : SetterProperty<R> {
+/**
+ * Boolean getter property.
+ *
+ * Avoid boxing and unboxing.
+ */
+interface BooleanGetterProperty : BooleanProperty, GetterProperty<Boolean> {
 
-    override fun setValue(value: R) {
-        this.setter.accept(value)
+    override fun getValue(): Boolean = this.getAsBoolean()
+
+    /**
+     * Get value as boolean (without unboxing).
+     */
+    fun getAsBoolean(): Boolean
+
+    class Impl(val getter: BooleanSupplier) : BooleanGetterProperty {
+        override fun getAsBoolean(): Boolean = this.getter.asBoolean
     }
+
 }

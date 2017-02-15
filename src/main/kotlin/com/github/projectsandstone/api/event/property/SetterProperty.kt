@@ -27,6 +27,8 @@
  */
 package com.github.projectsandstone.api.event.property
 
+import java.util.function.Consumer
+
 /**
  * A Property that have setter method.
  */
@@ -34,8 +36,16 @@ interface SetterProperty<R> : Property<R> {
 
     /**
      * Sets the property value.
+     *
      * @param value Property value.
      */
     fun setValue(value: R)
+
+    /**
+     * Default implementation.
+     */
+    class Impl<R>(override val type: Class<R>, val setter: Consumer<R>) : SetterProperty<R> {
+        override fun setValue(value: R) = this.setter.accept(value)
+    }
 
 }

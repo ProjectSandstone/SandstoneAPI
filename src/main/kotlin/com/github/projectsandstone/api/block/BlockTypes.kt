@@ -34,7 +34,7 @@ import com.github.projectsandstone.api.util.extension.registry.uninitializedEntr
  * All known block types.
  *
  * This is only a list of all blocks present in all versions of minecraft (PE and PC),
- * if you wan't to get an [BlockType] that aren't listed here, you must to fetch directly from [Registry].
+ * if you want to get an [BlockType] that aren't listed here, you must to fetch directly from [Registry].
  */
 object BlockTypes {
 

@@ -34,7 +34,7 @@ import com.github.projectsandstone.api.text.style.TextFormats
 import java.util.*
 
 /**
- * Immutable Text representation
+ * Immutable Text representation.
  */
 data class Text @JvmOverloads constructor(val color: TextColor = TextColors.NORMAL,
                                           val format: TextFormat = TextFormats.NORMAL,

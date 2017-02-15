@@ -27,7 +27,20 @@
  */
 package com.github.projectsandstone.api.event.property
 
+import java.util.function.Consumer
+import java.util.function.Supplier
+
 /**
  * A Property that have getter and setter methods.
  */
-interface GSProperty<R> : GetterProperty<R>, SetterProperty<R>
+interface GSProperty<R> : GetterProperty<R>, SetterProperty<R> {
+
+    /**
+     * Default implementation.
+     */
+    class Impl<R>(override val type: Class<R>, val getter: Supplier<R>, val setter: Consumer<R>) : Property<R>, GSProperty<R> {
+        override fun getValue(): R = this.getter.get()
+        override fun setValue(value: R) = this.setter.accept(value)
+    }
+
+}

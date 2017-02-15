@@ -27,14 +27,20 @@
  */
 package com.github.projectsandstone.api.event
 
-/**
- * Created by jonathan on 13/08/16.
- */
+import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
+
 /**
  * A type of [Event] that can be cancelled.
  *
- * If an [Event] is cancelled, all changes must be reverted or simple cancelled.
+ * If an [Event] is cancelled, all changes must be reverted or cancelled.
+ *
+ * [SandstoneEventGen] always generates the [isCancelled] property for [Cancellable] events with `false` as
+ * default value.
  */
 interface Cancellable {
+
+    /**
+     * Is the event cancelled
+     */
     var isCancelled: Boolean
 }
