@@ -58,7 +58,11 @@ internal object EventGenClassLoader {
     private fun inject(classLoader: ClassLoader, name: String, bytes: ByteArray): Class<*> {
         val method = ClassLoader::class.java.getDeclaredMethod("defineClass", String::class.java, ByteArray::class.java, Int::class.javaPrimitiveType, Int::class.javaPrimitiveType)
         method.isAccessible = true
-        return method.invoke(classLoader, name, bytes, 0, bytes.size) as Class<*>
+        try {
+            return method.invoke(classLoader, name, bytes, 0, bytes.size) as Class<*>
+        }catch (t: Throwable) {
+            throw IllegalArgumentException("Cannot inject provided class: $name.", t)
+        }
     }
 
     fun defineClass(typeDeclaration: TypeDeclaration, byteArray: ByteArray, disassembled: Lazy<String>) =

@@ -27,11 +27,11 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.jonathanxd.iutils.type.AbstractTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
 import com.github.projectsandstone.api.entity.living.player.Player
+import com.github.projectsandstone.api.event.achievement.GrantAchievementEvent
 import com.github.projectsandstone.api.event.block.BlockInteractEvent
 import com.github.projectsandstone.api.event.entity.damage.DamageCause
 import com.github.projectsandstone.api.event.entity.damage.EntityDamageEvent
@@ -43,178 +43,68 @@ import com.github.projectsandstone.api.service.RegisteredProvider
 import com.github.projectsandstone.api.statistic.Achievement
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageChannel
-import com.github.projectsandstone.api.util.extension.internal.gen.create
-import com.github.projectsandstone.api.util.internal.gen.event.PropertyInfo
-import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
+import com.github.projectsandstone.api.util.internal.gen.event.EventFactoryClassGen
 
 /**
- * Sandstone event implementation factory helper.
+ * Base interface to create event instances.
+ *
+ * @see EventFactoryClassGen
  */
-object SandstoneEventFactory {
+interface SandstoneEventFactory {
 
-    private val PLAYER = PropertyInfo(propertyName = "player", type = Player::class.java)
+    fun createServerStartingEvent(): ServerStartingEvent
 
-    /**
-     * Create implementation of a [Event] of type [eventType].
-     *
-     * @param eventType Type of event.
-     * @param properties Properties (read the Sandstone wiki to learn about Property System).
-     * @param T event type
-     * @return event instance.
-     */
-    @JvmStatic
-    fun <T : Event> createEvent(eventType: TypeInfo<T>, properties: Map<String, Any>): T {
-        return SandstoneEventGen.gen(eventType, properties)
-    }
+    fun createServerStartedEvent(): ServerStartedEvent
 
-    /**
-     * Create implementation of a [Event] of type [eventType].
-     *
-     * @param eventType Type of event.
-     * @param properties Properties (read the Sandstone wiki to learn about Property System).
-     * @param T event type
-     * @param additionalProperties Additional properties. (Properties that aren't present in [eventType] class).
-     * @return event instance.
-     */
-    @JvmStatic
-    fun <T : Event> createEvent(eventType: TypeInfo<T>, properties: Map<String, Any>, additionalProperties: List<PropertyInfo>): T {
-        return SandstoneEventGen.gen(eventType, properties, additionalProperties)
-    }
+    fun createServerStoppedEvent(): ServerStoppedEvent
 
-    @JvmStatic
-    fun createServerStartingEvent(): ServerStartingEvent {
-        return SandstoneEventGen.create()
-    }
+    fun createServerStoppingEvent(): ServerStoppingEvent
 
-    @JvmStatic
-    fun createServerStartedEvent(): ServerStartedEvent {
-        return SandstoneEventGen.create()
-    }
+    fun createPreInitializationEvent(): PreInitializationEvent
 
-    @JvmStatic
-    fun createServerStoppedEvent(): ServerStoppedEvent {
-        return SandstoneEventGen.create()
-    }
+    fun createInitializationEvent(): InitializationEvent
 
-    @JvmStatic
-    fun createServerStoppingEvent(): ServerStoppingEvent {
-        return SandstoneEventGen.create()
-    }
+    fun createPostInitializationEvent(): PostInitializationEvent
 
-    @JvmStatic
-    fun createPreInitializationEvent(): PreInitializationEvent {
-        return SandstoneEventGen.create()
-    }
-
-    @JvmStatic
-    fun createInitializationEvent(): InitializationEvent {
-        return SandstoneEventGen.create()
-    }
-
-    @JvmStatic
-    fun createPostInitializationEvent(): PostInitializationEvent {
-        return SandstoneEventGen.create()
-    }
-
-    @Suppress("UNCHECKED_CAST")
-    @JvmStatic
     fun <T : Any> createChangeServiceProviderEvent(service: TypeInfo<T>,
                                                    oldProvider: RegisteredProvider<T>?,
-                                                   newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> {
-        return SandstoneEventGen.create(
-                TypeInfo.of(ChangeServiceProviderEvent::class.java)
-                        .of<Any>(service)
-                        .build() as TypeInfo<ChangeServiceProviderEvent<T>>,
-                mutableMapOf("service" to service,
-                        "oldProvider" to oldProvider,
-                        "newProvider" to newProvider)
-        )
-    }
+                                                   newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T>
 
-    @JvmStatic
     fun <T : Any> createChangeServiceProviderEvent(service: Class<T>,
                                                    oldProvider: RegisteredProvider<T>?,
-                                                   newProvider: RegisteredProvider<T>)
-            : ChangeServiceProviderEvent<T> = this.createChangeServiceProviderEvent(TypeInfo.aEnd(service), oldProvider, newProvider)
+                                                   newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> =
+            createChangeServiceProviderEvent(TypeInfo.aEnd(service), oldProvider, newProvider)
 
-    @JvmStatic
-    inline fun <reified T : Any> createChangeServiceProviderEvent(oldProvider: RegisteredProvider<T>?,
-                                                                  newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> {
-        return this.createChangeServiceProviderEvent(object : AbstractTypeInfo<T>() {}, oldProvider, newProvider)
+    fun createEntityDamageEvent(damageCause: DamageCause, entity: Entity): EntityDamageEvent
+
+    fun createBlockInteractEvent(block: BlockState): BlockInteractEvent
+
+    fun createPlayerBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent
+
+    fun createMessageEvent(message: Text): MessageEvent
+
+    fun createMessageEvent(player: Player, message: Text): MessageEvent
+
+    fun createMessageChannelEvent(channel: MessageChannel?, message: Text): MessageChannelEvent
+
+    fun createMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): MessageChannelEvent
+
+    fun createGrantAchievementEvent(achievement: Achievement, channel: MessageChannel?, message: Text): GrantAchievementEvent
+
+    fun createGrantAchievementEvent(player: Player, achievement: Achievement, channel: MessageChannel?, message: Text): GrantAchievementEvent
+
+    companion object {
+
+        private var instance_: SandstoneEventFactory? = null
+
+        val instance: SandstoneEventFactory
+            get() = if (instance_ != null)
+                instance_!!
+            else
+                EventFactoryClassGen.create(SandstoneEventFactory::class.java).let {
+                    instance_ = it
+                    return it
+                }
+
     }
-
-    @JvmStatic
-    fun createEntityDamageEvent(damageCause: DamageCause, entity: Entity): EntityDamageEvent {
-        return SandstoneEventGen.create(mapOf(
-                "damageCause" to damageCause,
-                "entity" to entity
-        ))
-    }
-
-    @JvmStatic
-    fun createBlockInteractEvent(block: BlockState): BlockInteractEvent {
-        return SandstoneEventGen.create(mapOf(
-                "block" to block
-        ))
-    }
-
-    @JvmStatic
-    fun createPBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent {
-        return SandstoneEventGen.create(mapOf(
-                "player" to player,
-                "block" to block
-        ), listOf(PLAYER))
-    }
-
-    @JvmStatic
-    fun createMessageEvent(message: Text): MessageEvent {
-        return SandstoneEventGen.create(mapOf(
-                "message" to message
-        ))
-    }
-
-    @JvmStatic
-    fun createMessageEvent(player: Player, message: Text): MessageEvent {
-        return SandstoneEventGen.create(mapOf(
-                "player" to player,
-                "message" to message
-        ), listOf(PLAYER))
-    }
-
-    @JvmStatic
-    fun createMessageChannelEvent(channel: MessageChannel?, message: Text): MessageChannelEvent {
-        return SandstoneEventGen.create(mapOf(
-                "channel" to channel,
-                "message" to message
-        ))
-    }
-
-    @JvmStatic
-    fun createMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): MessageChannelEvent {
-        return SandstoneEventGen.create(mapOf(
-                "player" to player,
-                "channel" to channel,
-                "message" to message
-        ), listOf(PLAYER))
-    }
-
-    @JvmStatic
-    fun createGrantAchievementEvent(achievement: Achievement, channel: MessageChannel?, message: Text) {
-        return SandstoneEventGen.create(mapOf(
-                "achievement" to achievement,
-                "channel" to channel,
-                "message" to message
-        ))
-    }
-
-    @JvmStatic
-    fun createGrantAchievementEvent(player: Player, achievement: Achievement, channel: MessageChannel?, message: Text) {
-        return SandstoneEventGen.create(mapOf(
-                "player" to player,
-                "achievement" to achievement,
-                "channel" to channel,
-                "message" to message
-        ))
-    }
-
 }

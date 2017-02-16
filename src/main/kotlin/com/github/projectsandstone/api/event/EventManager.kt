@@ -96,55 +96,6 @@ interface EventManager {
                                ignoreCancelled: Boolean = false,
                                isBeforeModifications: Boolean = false)
 
-
-    /**
-     * Dispatch an event of type [eventType] to all listener that list to the event.
-     *
-     * @param eventType Type of event.
-     * @param properties Properties of this event.
-     * @param pluginContainer Plugin that created this event.
-     * @param isBeforeModifications True if this dispatch is occurring before modifications,
-     * false otherwise (default: false).
-     */
-    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer, isBeforeModifications: Boolean) {
-        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), pluginContainer, isBeforeModifications)
-    }
-
-    /**
-     * Dispatch an event of type [eventType] to all listener that list to the event.
-     *
-     * @param eventType Type of event.
-     * @param properties Properties of this event.
-     * @param pluginContainer Plugin that created this event.
-     */
-    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, pluginContainer: PluginContainer) {
-        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), pluginContainer)
-    }
-
-    /**
-     * Dispatch an event of type [eventType] to all listener that list to the event.
-     *
-     * @param eventType Type of event.
-     * @param properties Properties of this event.
-     * @param plugin Plugin instance
-     * @param isBeforeModifications True if this dispatch is occurring before modifications,
-     * false otherwise (default: false).
-     */
-    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any, isBeforeModifications: Boolean) {
-        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), Sandstone.pluginManager.getRequiredPlugin(plugin), isBeforeModifications)
-    }
-
-    /**
-     * Dispatch an event of type [eventType] to all listener that list to the event.
-     *
-     * @param eventType Type of event.
-     * @param properties Properties of this event.
-     * @param plugin Plugin instance
-     */
-    fun <T : Event> dispatch(eventType: TypeInfo<T>, properties: Map<String, Any>, plugin: Any) {
-        this.dispatch(SandstoneEventFactory.createEvent(eventType, properties), Sandstone.pluginManager.getRequiredPlugin(plugin))
-    }
-
     /**
      * Dispatch an [Event] to all [EventListener]s that listen to the [event].
      *

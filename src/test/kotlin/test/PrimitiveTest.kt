@@ -30,18 +30,21 @@ package test
 import com.github.jonathanxd.iutils.reflection.RClass
 import com.github.jonathanxd.iutils.reflection.Reflection
 import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
-import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.Sandstone
-import com.github.projectsandstone.api.constants.SandstonePlugin
+import com.github.projectsandstone.api.block.BlockState
+import com.github.projectsandstone.api.block.BlockType
+import com.github.projectsandstone.api.block.BlockTypes
+import com.github.projectsandstone.api.entity.living.player.Player
 import com.github.projectsandstone.api.event.Event
-import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
-import com.github.projectsandstone.api.plugin.PluginContainer
-import com.github.projectsandstone.api.service.RegisteredProvider
-import com.github.projectsandstone.api.util.internal.gen.event.PropertyInfo
+import com.github.projectsandstone.api.event.SandstoneEventFactory
+import com.github.projectsandstone.api.text.Text
+import com.github.projectsandstone.api.util.SID
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
-import com.github.projectsandstone.example.MyService
-import com.github.projectsandstone.example.MyServiceImpl
+import com.github.projectsandstone.api.world.Location
+import com.github.projectsandstone.api.world.World
+import org.junit.Assert
 import java.nio.file.Paths
+import java.util.*
 
 fun main(args: Array<String>) {
 
@@ -65,7 +68,50 @@ fun main(args: Array<String>) {
 
     println("As int: $asInt")
 
+    val fakePlayer = TestPlayer()
 
+    val iter = SandstoneEventFactory.instance.createPlayerBlockInteractEvent(fakePlayer, object : BlockState {
+        override val type: BlockType
+            get() = BlockTypes.BEDROCK
+
+    })
+
+    val player = iter.getGetterProperty(Player::class.java, "player")!!
+
+    Assert.assertEquals("XZ", player.getValue())
+}
+
+class TestPlayer : Player {
+
+    override val sandstoneId: SID
+        get() = SID.UuidSid(UUID.randomUUID())
+
+    override val location: Location<World>
+        get() = TODO("not implemented")
+
+    override val name: String
+        get() = "XZ"
+
+    override fun sendMessage(text: Text) {
+
+    }
+
+    override fun teleport(location: Location<*>) {
+
+    }
+
+    override val isOnline: Boolean
+        get() = true
+
+    override fun kick() {
+    }
+
+    override val player: Player?
+        get() = this
+
+    override fun kick(reason: Text) {
+
+    }
 
 }
 
