@@ -1,14 +1,14 @@
-ext.kotlin_version = '1.1.0-beta-18'
+ext.kotlin_version = '1.1.0-rc-91'
 ext.dokka_version = '0.9.10'
 
 ext.guice_version = '4.1.0'
 ext.flowmath_version = '1.0.3'
 
 ext.jwiutils_version = '3.5.2'
-ext.codeapi_bytecode_version = '3.0.3-hotfix6'
-ext.codeapiconversions_version = '1.2.1'
-ext.adapterhelper_version = '1.5.0-a'
-ext.codeproxy_version = '2.0'
+ext.codeapi_bytecode_version = '3.1.0'
+ext.codeapiconversions_version = '1.2.2'
+ext.adapterhelper_version = '1.5.1'
+ext.codeproxy_version = '2.0-kt-rc'
 ext.jsr305_version = '3.0.1'
 ext.fastclasspathscanner_version = "2.0.9"
 
