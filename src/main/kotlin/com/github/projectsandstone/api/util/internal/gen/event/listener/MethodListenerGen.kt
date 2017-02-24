@@ -270,7 +270,7 @@ object MethodListenerGen {
                 // Else
                 CodeAPI.source(
                         Pop,
-                        Literals.NULL
+                        elsePart
                 ))
 
     }
