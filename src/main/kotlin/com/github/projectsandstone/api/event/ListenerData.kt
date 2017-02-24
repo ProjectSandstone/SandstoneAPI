@@ -27,9 +27,11 @@
  */
 package com.github.projectsandstone.api.event
 
+import com.github.jonathanxd.codeapi.conversions.kotlinParameters
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.iutils.type.TypeUtil
 import com.github.projectsandstone.api.Platform
+import com.github.projectsandstone.api.event.annotation.NullableProperty
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.lang.reflect.Method
@@ -71,7 +73,12 @@ data class ListenerData(
 
             val listenerAnnotation = method.getDeclaredAnnotation(Listener::class.java)
 
-            val namedParameters = method.parameters.map {
+            val ktParameters = method.kotlinParameters
+
+            val namedParameters = method.parameters.mapIndexed { i, it ->
+
+                val isNullable = if(ktParameters != null) ktParameters[i].type.isMarkedNullable else false
+
                 val typeInfo = TypeUtil.toReference(it.parameterizedType)
 
                 val name: String? = it.getDeclaredAnnotation(com.github.jonathanxd.iutils.annotation.Named::class.java)?.value
@@ -79,7 +86,7 @@ data class ListenerData(
                         ?: it.getDeclaredAnnotation(com.google.inject.name.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(com.github.projectsandstone.api.event.annotation.Name::class.java)?.value
 
-                return@map LParameter(name ?: it.name, it.annotations.toList(), typeInfo, it.isAnnotationPresent(Nullable::class.java) || it.isAnnotationPresent(javax.annotation.Nullable::class.java) || !it.isAnnotationPresent(NotNull::class.java))
+                return@mapIndexed LParameter(name ?: it.name, it.annotations.toList(), typeInfo, it.isAnnotationPresent(NullableProperty::class.java) || isNullable)
 
             }.toList()
 
