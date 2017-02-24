@@ -27,10 +27,10 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.jonathanxd.iutils.`object`.Named
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.iutils.type.TypeUtil
 import com.github.projectsandstone.api.Platform
+import org.jetbrains.annotations.Nullable
 import java.lang.reflect.Method
 
 /**
@@ -59,9 +59,11 @@ data class ListenerData(
         val beforeModifications: Boolean = false,
 
         /**
-         * Named parameters types.
+         * Method parameters
          */
-        val namedParameters: List<Named<TypeInfo<*>>>) {
+        val parameters: List<LParameter>) {
+
+    data class LParameter internal constructor(val name: String, val annotations: List<Annotation>, val type: TypeInfo<*>, val isNullable: Boolean)
 
     companion object {
         fun fromMethod(method: Method): ListenerData {
@@ -76,7 +78,7 @@ data class ListenerData(
                         ?: it.getDeclaredAnnotation(com.google.inject.name.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(com.github.projectsandstone.api.event.annotation.Name::class.java)?.value
 
-                return@map com.github.jonathanxd.iutils.`object`.Named(name, typeInfo)
+                return@map LParameter(name ?: it.name, it.annotations.toList(), typeInfo, method.isAnnotationPresent(Nullable::class.java))
 
             }.toList()
 
@@ -86,7 +88,7 @@ data class ListenerData(
                     ignoreCancelled = listenerAnnotation.ignoreCancelled,
                     priority = listenerAnnotation.priority,
                     beforeModifications = listenerAnnotation.beforeModifications,
-                    namedParameters = namedParameters)
+                    parameters = namedParameters)
         }
     }
 }

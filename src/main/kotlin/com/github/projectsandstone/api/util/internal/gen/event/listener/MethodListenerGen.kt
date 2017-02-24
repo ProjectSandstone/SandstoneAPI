@@ -29,6 +29,7 @@ package com.github.projectsandstone.api.util.internal.gen.event.listener
 
 import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.base.Typed
 import com.github.jonathanxd.codeapi.base.impl.ReturnImpl
 import com.github.jonathanxd.codeapi.bytecode.VISIT_LINES
 import com.github.jonathanxd.codeapi.bytecode.VisitLineType
@@ -43,6 +44,7 @@ import com.github.jonathanxd.codeapi.factory.field
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.codeapi.util.Stack
+import com.github.jonathanxd.codeapi.util.codeType
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.EventListener
@@ -52,7 +54,6 @@ import com.github.projectsandstone.api.event.property.GetterProperty
 import com.github.projectsandstone.api.event.property.Property
 import com.github.projectsandstone.api.event.property.PropertyHolder
 import com.github.projectsandstone.api.plugin.PluginContainer
-import com.github.projectsandstone.api.util.codeType
 import com.github.projectsandstone.api.util.internal.Debug
 import com.github.projectsandstone.api.util.internal.gen.SandstoneClass
 import com.github.projectsandstone.api.util.internal.gen.event.EventGenClassLoader
@@ -160,26 +161,26 @@ object MethodListenerGen {
         fun genOnEventBody(): CodeSource {
             val body = MutableCodeSource()
 
-            val namedParameters = listenerData.namedParameters
+            val parameters = listenerData.parameters
 
             val arguments = mutableListOf<CodePart>()
 
             val accessEventVar = CodeAPI.accessLocalVariable(eventType, eventVariableName)
 
-            arguments.add(CodeAPI.cast(eventType, namedParameters[0].value.aClass.toType(), accessEventVar))
+            arguments.add(CodeAPI.cast(eventType, parameters[0].type.aClass.toType(), accessEventVar))
 
-            namedParameters.forEachIndexed { i, named ->
+            parameters.forEachIndexed { i, param ->
                 if (i > 0) {
-                    val name = named.name
-                    val typeInfo = named.value
+                    val name = param.name
+                    val typeInfo = param.type
 
                     val toAdd: CodePart
 
                     if (typeInfo.aClass == Property::class.java
                             && typeInfo.related.isNotEmpty()) {
-                        toAdd = this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.related[0].aClass, true)
+                        toAdd = this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.related[0].aClass, true, param.isNullable)
                     } else {
-                        toAdd = this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.aClass, false)
+                        toAdd = this.callGetPropertyDirectOn(accessEventVar, name, typeInfo.aClass, false, param.isNullable)
                     }
 
                     arguments.add(toAdd)
@@ -246,17 +247,33 @@ object MethodListenerGen {
         return source
     }
 
-    private fun callGetPropertyDirectOn(target: CodePart, name: String, type: Class<*>, propertyOnly: Boolean): CodePart {
-        val getPropertyMethod = CodeAPI.invokeInterface(PropertyHolder::class.java, target, "getProperty",
-                CodeAPI.typeSpec(Property::class.java, Class::class.java, String::class.java),
+    private fun callGetPropertyDirectOn(target: CodePart, name: String, type: Class<*>, propertyOnly: Boolean, isNullable: Boolean): CodePart {
+        val getPropertyMethod = CodeAPI.invokeInterface(PropertyHolder::class.java, target,
+                if(propertyOnly) "getProperty" else "getGetterProperty",
+                CodeAPI.typeSpec(if(propertyOnly) Property::class.java else GetterProperty::class.java, Class::class.java, String::class.java),
                 listOf(Literals.CLASS(type), Literals.STRING(name))
         )
 
-        val getPropMethod = CodeAPI.ifStatement(CodeAPI.checkNotNull(Dup(getPropertyMethod)), CodeAPI.source(Stack), CodeAPI.source(Pop, ReturnImpl(Types.VOID, Literals.NULL)))
+        val elsePart = if(isNullable) Literals.NULL else CodeAPI.returnVoid()
 
-        return CodeAPI.invokeInterface(GetterProperty::class.java, CodeAPI.cast(Property::class.java, GetterProperty::class.java, getPropMethod),
-            "getValue",
-            CodeAPI.typeSpec(Any::class.java),
-            emptyList())
+        val getPropMethod = checkNull(getPropertyMethod, elsePart)
+
+        if(propertyOnly)
+            return getPropMethod
+
+        return CodeAPI.ifStatement(CodeAPI.checkNotNull(Dup(getPropMethod, GetterProperty::class.codeType)),
+                // Body
+                CodeAPI.source(CodeAPI.invokeInterface(GetterProperty::class.java, Stack,
+                        "getValue",
+                        CodeAPI.typeSpec(Any::class.java),
+                        emptyList())),
+                // Else
+                CodeAPI.source(
+                        Pop,
+                        Literals.NULL
+                ))
+
     }
+
+    private fun checkNull(part: Typed, else_: CodePart) = CodeAPI.ifStatement(CodeAPI.checkNotNull(Dup(part)), CodeAPI.source(Stack), CodeAPI.source(Pop, else_))
 }

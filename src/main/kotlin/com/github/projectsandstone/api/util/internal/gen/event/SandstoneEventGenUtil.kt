@@ -64,6 +64,7 @@ import com.github.projectsandstone.api.util.internal.getImplementation
 import com.github.projectsandstone.api.util.internal.parameterNames
 import com.github.projectsandstone.api.util.succeed
 import com.github.projectsandstone.api.util.succeedReturn
+import java.lang.Void
 import java.util.*
 import java.util.function.*
 import kotlin.reflect.full.memberFunctions
@@ -527,7 +528,7 @@ object SandstoneEventGenUtil {
                     TypeSpec(delegate.returnType.codeType, delegate.parameters.map { it.type.codeType }),
                     arguments
             ).let {
-                if (base.returnType.jvmErasure.java == Void.TYPE)
+                if (base.returnType.jvmErasure.java == java.lang.Void.TYPE)
                     it
                 else
                     CodeAPI.returnValue(base.returnType.jvmErasure.codeType, it)
