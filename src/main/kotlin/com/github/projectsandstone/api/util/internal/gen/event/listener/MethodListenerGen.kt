@@ -252,14 +252,11 @@ object MethodListenerGen {
                 listOf(Literals.CLASS(type), Literals.STRING(name))
         )
 
-        val get = if (propertyOnly)
-            getPropertyMethod
-        else
-            CodeAPI.invokeInterface(GetterProperty::class.java, CodeAPI.cast(Property::class.java, GetterProperty::class.java, getPropertyMethod),
-                "getValue",
-                CodeAPI.typeSpec(Any::class.java),
-                emptyList())
+        val getPropMethod = CodeAPI.ifStatement(CodeAPI.checkNotNull(Dup(getPropertyMethod)), CodeAPI.source(Stack), CodeAPI.source(Pop, ReturnImpl(Types.VOID, Literals.NULL)))
 
-        return CodeAPI.ifStatement(CodeAPI.checkNotNull(Dup(get)), CodeAPI.source(Stack), CodeAPI.source(Pop, ReturnImpl(Types.VOID, Literals.NULL)))
+        return CodeAPI.invokeInterface(GetterProperty::class.java, CodeAPI.cast(Property::class.java, GetterProperty::class.java, getPropMethod),
+            "getValue",
+            CodeAPI.typeSpec(Any::class.java),
+            emptyList())
     }
 }
