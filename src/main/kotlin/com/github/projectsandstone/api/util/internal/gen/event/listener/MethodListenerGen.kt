@@ -29,8 +29,10 @@ package com.github.projectsandstone.api.util.internal.gen.event.listener
 
 import com.github.jonathanxd.codeapi.*
 import com.github.jonathanxd.codeapi.base.MethodInvocation
+import com.github.jonathanxd.codeapi.base.impl.ReturnImpl
 import com.github.jonathanxd.codeapi.bytecode.VISIT_LINES
 import com.github.jonathanxd.codeapi.bytecode.VisitLineType
+import com.github.jonathanxd.codeapi.bytecode.extra.Pop
 import com.github.jonathanxd.codeapi.bytecode.gen.BytecodeGenerator
 import com.github.jonathanxd.codeapi.common.CodeModifier
 import com.github.jonathanxd.codeapi.common.CodeParameter
@@ -39,6 +41,7 @@ import com.github.jonathanxd.codeapi.conversions.createStaticInvocation
 import com.github.jonathanxd.codeapi.factory.field
 import com.github.jonathanxd.codeapi.literal.Literals
 import com.github.jonathanxd.codeapi.type.Generic
+import com.github.jonathanxd.codeapi.util.Stack
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.EventListener
@@ -242,18 +245,20 @@ object MethodListenerGen {
         return source
     }
 
-    private fun callGetPropertyDirectOn(target: CodePart, name: String, type: Class<*>, propertyOnly: Boolean): MethodInvocation {
+    private fun callGetPropertyDirectOn(target: CodePart, name: String, type: Class<*>, propertyOnly: Boolean): CodePart {
         val getPropertyMethod = CodeAPI.invokeInterface(PropertyHolder::class.java, target, "getProperty",
                 CodeAPI.typeSpec(Property::class.java, Class::class.java, String::class.java),
                 listOf(Literals.CLASS(type), Literals.STRING(name))
         )
 
-        if (propertyOnly)
-            return getPropertyMethod
-
-        return CodeAPI.invokeInterface(GetterProperty::class.java, CodeAPI.cast(Property::class.java, GetterProperty::class.java, getPropertyMethod),
+        val get: CodePart = if (propertyOnly)
+            getPropertyMethod
+        else
+            CodeAPI.invokeInterface(GetterProperty::class.java, CodeAPI.cast(Property::class.java, GetterProperty::class.java, getPropertyMethod),
                 "getValue",
                 CodeAPI.typeSpec(Any::class.java),
                 emptyList())
+
+        return CodeAPI.ifStatement(CodeAPI.checkNotNull(get), CodeAPI.source(Stack), CodeAPI.source(Pop, ReturnImpl(Types.VOID, Literals.NULL)))
     }
 }

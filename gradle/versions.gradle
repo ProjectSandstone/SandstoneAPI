@@ -5,7 +5,7 @@ ext.guice_version = '4.1.0'
 ext.flowmath_version = '1.0.3'
 
 ext.jwiutils_version = '3.5.2'
-ext.codeapi_bytecode_version = '3.1.0'
+ext.codeapi_bytecode_version = '3.1.0-3.1.2'
 ext.codeapiconversions_version = '1.2.2'
 ext.adapterhelper_version = '1.5.1'
 ext.codeproxy_version = '2.0-kt-rc'
