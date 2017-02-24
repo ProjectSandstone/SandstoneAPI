@@ -95,6 +95,7 @@ object MethodListenerGen {
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName(name)
                 .withImplementations(Generic.type(EventListener::class.java.toType()).of(eventType.toGeneric()))
+                .withSuperClass(Types.OBJECT)
                 .withBody(genBody(method, instance, listenerData))
                 .build()
 
