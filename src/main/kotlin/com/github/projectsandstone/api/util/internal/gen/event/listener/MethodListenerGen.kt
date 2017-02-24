@@ -70,12 +70,12 @@ object MethodListenerGen {
 
         return if (!isStatic) {
             try {
-                klass.classLoader.loadClass(instance!!.javaClass.canonicalName)
+                klass.classLoader.loadClass(instance!!::class.java.canonicalName)
             } catch (e: ClassNotFoundException) {
-                throw IllegalStateException("Cannot lookup for Plugin class: '${instance!!.javaClass}' from class loader: '${klass.classLoader}'")
+                throw IllegalStateException("Cannot lookup for Plugin class: '${instance!!::class.java}' from class loader: '${klass.classLoader}'")
             }
 
-            klass.getConstructor(instance.javaClass).newInstance(instance)
+            klass.getConstructor(instance::class.java).newInstance(instance)
         } else {
             klass.newInstance()
         }
@@ -127,7 +127,7 @@ object MethodListenerGen {
         val isStatic = Modifier.isStatic(method.modifiers)
 
         if (!isStatic) {
-            val instanceType = instance!!.javaClass.toType()
+            val instanceType = instance!!::class.java.toType()
 
             source.add(field(EnumSet.of(CodeModifier.PRIVATE, CodeModifier.FINAL), instanceType, instanceFieldName))
             source.add(CodeAPI.constructorBuilder()
@@ -185,7 +185,7 @@ object MethodListenerGen {
             if (isStatic) {
                 body.add(method.createStaticInvocation(arguments))
             } else {
-                body.add(method.createInvocation(CodeAPI.accessThisField(instance!!.javaClass.toType(), instanceFieldName), arguments))
+                body.add(method.createInvocation(CodeAPI.accessThisField(instance!!::class.java.toType(), instanceFieldName), arguments))
             }
 
             return body

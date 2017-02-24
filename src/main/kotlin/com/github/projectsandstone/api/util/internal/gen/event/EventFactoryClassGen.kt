@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.util.internal.gen.event
 import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.CodePart
 import com.github.jonathanxd.codeapi.MutableCodeSource
+import com.github.jonathanxd.codeapi.Types
 import com.github.jonathanxd.codeapi.builder.ClassDeclarationBuilder
 import com.github.jonathanxd.codeapi.bytecode.VISIT_LINES
 import com.github.jonathanxd.codeapi.bytecode.VisitLineType
@@ -90,6 +91,7 @@ object EventFactoryClassGen {
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName("${factoryClass.canonicalName}\$Impl")
                 .withImplementations(factoryClass.codeType)
+                .withSuperClass(Types.OBJECT)
                 .withBody(body)
                 .build()
 

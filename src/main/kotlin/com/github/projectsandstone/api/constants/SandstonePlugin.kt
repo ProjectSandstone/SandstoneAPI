@@ -62,7 +62,7 @@ object SandstonePlugin : PluginContainer {
 
     override val file: Path?
         get() = try {
-            Paths.get(this.javaClass.protectionDomain.codeSource.location.toURI())
+            Paths.get(this::class.java.protectionDomain.codeSource.location.toURI())
         } catch (throwable: Throwable) {
             null
         }

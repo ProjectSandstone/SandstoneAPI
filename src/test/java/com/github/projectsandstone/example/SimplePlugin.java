@@ -30,11 +30,19 @@ package com.github.projectsandstone.example;
 import com.google.inject.Inject;
 
 import com.github.projectsandstone.api.Game;
+import com.github.projectsandstone.api.Sandstone;
+import com.github.projectsandstone.api.entity.living.player.Player;
 import com.github.projectsandstone.api.event.Listener;
+import com.github.projectsandstone.api.event.SandstoneEventFactory;
+import com.github.projectsandstone.api.event.annotation.Name;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
+import com.github.projectsandstone.api.event.message.MessageEvent;
+import com.github.projectsandstone.api.event.player.PlayerEvent;
+import com.github.projectsandstone.api.event.property.GetterProperty;
 import com.github.projectsandstone.api.logging.Logger;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.api.plugin.PluginDefinition;
+import com.github.projectsandstone.api.text.Text;
 import com.github.projectsandstone.api.util.version.Schemes;
 
 /**
@@ -58,6 +66,39 @@ public class SimplePlugin {
         logger.info("Simple plugin initialized!");
 
         game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
+
+        MessageEvent test = Sandstone.getEventFactory().createMessageEvent(Text.of("Test"));
+
+        game.getEventManager().dispatch(test, this);
+
+        boolean cancelled = test.isCancelled();
+
+        if(!cancelled) {
+            logger.info("Message sent!!!");
+        }
     }
 
+
+    @Listener
+    public void playerChat(MessageEvent event) {
+        // Property:
+        GetterProperty<Player> property = event.getGetterProperty(Player.class, "player");
+        if(property != null) {
+            Player player = property.getValue();
+            // ...
+        }
+
+        // PlayerEvent
+
+        if(event instanceof PlayerEvent) {
+            PlayerEvent playerEvent = (PlayerEvent) event;
+            Player player = playerEvent.getPlayer();
+        }
+    }
+
+    // Function parameter
+    @Listener
+    public void playerChat(MessageEvent event, @Name("player") Player player) {
+        // ...
+    }
 }

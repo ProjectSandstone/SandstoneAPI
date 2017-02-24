@@ -33,9 +33,6 @@ import com.github.projectsandstone.api.plugin.PluginContainer
 import java.lang.reflect.Method
 
 /**
- * Created by jonathan on 13/08/16.
- */
-/**
  * Event manager.
  *
  * [EventManager] register
@@ -104,7 +101,6 @@ interface EventManager {
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
-    @Throws(Throwable::class)
     fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
 
     /**
@@ -115,7 +111,6 @@ interface EventManager {
      * @param isBeforeModifications True if this dispatch is occurring before modifications,
      * false otherwise (default: false).
      */
-    @Throws(Throwable::class)
     fun <T : Event> dispatch(event: T, plugin: Any, isBeforeModifications: Boolean) {
         this.dispatch(event, Sandstone.pluginManager.getRequiredPlugin(plugin), isBeforeModifications)
     }
@@ -126,7 +121,6 @@ interface EventManager {
      * @param event [Event] to dispatch do listeners.
      * @param plugin Plugin instance.
      */
-    @Throws(Throwable::class)
     fun <T : Event> dispatch(event: T, plugin: Any) {
         this.dispatch(event, Sandstone.pluginManager.getRequiredPlugin(plugin))
     }
@@ -137,7 +131,6 @@ interface EventManager {
      * @param event [Event] to dispatch do listeners.
      * @param pluginContainer Plugin that created this event.
      */
-    @Throws(Throwable::class)
     fun <T : Event> dispatch(event: T, pluginContainer: PluginContainer) {
         this.dispatch(event, pluginContainer, true)
         this.dispatch(event, pluginContainer, false)
@@ -156,7 +149,6 @@ interface EventManager {
      * false otherwise (default: false).
      */
     @Suppress("UNCHECKED_CAST")
-    @Throws(Throwable::class)
     fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer, isBeforeModifications: Boolean)
 
     /**
@@ -170,7 +162,6 @@ interface EventManager {
      * false otherwise (default: false).
      */
     @Suppress("UNCHECKED_CAST")
-    @Throws(Throwable::class)
     fun <T : Event> dispatchAsync(event: T, plugin: Any, isBeforeModifications: Boolean) {
         this.dispatchAsync(event, Sandstone.pluginManager.getRequiredPlugin(plugin), isBeforeModifications)
     }
@@ -182,11 +173,8 @@ interface EventManager {
      *
      * @param event [Event] to dispatch do listeners.
      * @param plugin Plugin instance
-     * @param isBeforeModifications True if this dispatch is occurring before modifications,
-     * false otherwise (default: false).
      */
     @Suppress("UNCHECKED_CAST")
-    @Throws(Throwable::class)
     fun <T : Event> dispatchAsync(event: T, plugin: Any) {
         this.dispatchAsync(event, Sandstone.pluginManager.getRequiredPlugin(plugin))
     }
@@ -199,7 +187,6 @@ interface EventManager {
      * @param event [Event] to dispatch do listeners.
      * @param pluginContainer Plugin that created this event.
      */
-    @Throws(Throwable::class)
     fun <T : Event> dispatchAsync(event: T, pluginContainer: PluginContainer) {
         this.dispatchAsync(event, pluginContainer, false)
         this.dispatchAsync(event, pluginContainer, true)

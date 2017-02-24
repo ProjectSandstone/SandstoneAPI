@@ -81,7 +81,7 @@ object SandstoneEventGen {
             val propertyValue = if (properties.containsKey(named.value)) properties[named.value] else
                 throw IllegalArgumentException("Missing property '$named' in provided properties map ($properties)")
 
-            val propertyType = propertyValue?.javaClass
+            val propertyType = propertyValue?.let { it::class.java }
 
             if (propertyType != null && !castCheck(propertyType, parameter.type)) { // parameter.type.isAssignableFrom(propertyType)
                 throw ClassCastException("Cannot cast property: '${named.value}' of type '$propertyType' to expected type '${parameter.type}'.")
@@ -102,8 +102,8 @@ object SandstoneEventGen {
             else {
                 val property = properties[it.propertyName]
 
-                if (property != null && !castCheck(property.javaClass, it.type)) {
-                    throw ClassCastException("Cannot cast provided property '$property' of type '${property.javaClass}' to expected type '${it.type}'")
+                if (property != null && !castCheck(property::class.java, it.type)) {
+                    throw ClassCastException("Cannot cast provided property '$property' of type '${property::class.java}' to expected type '${it.type}'")
                 }
             }
 
@@ -128,10 +128,10 @@ object SandstoneEventGen {
         anyList.forEach { value ->
             val type: Class<*>
 
-            if (value.javaClass.isPrimitive) {
-                type = Primitive.unbox(value.javaClass)
+            if (value::class.java.isPrimitive) {
+                type = Primitive.unbox(value::class.java)
             } else {
-                type = value.javaClass
+                type = value::class.java
             }
 
             classes += type

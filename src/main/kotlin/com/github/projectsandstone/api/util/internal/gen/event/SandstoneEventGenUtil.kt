@@ -49,7 +49,9 @@ import com.github.jonathanxd.codeapi.util.Alias
 import com.github.jonathanxd.codeapi.util.codeType
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.Sandstone
+import com.github.projectsandstone.api.entity.living.player.Player
 import com.github.projectsandstone.api.event.annotation.Name
+import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.event.property.*
 import com.github.projectsandstone.api.event.property.primitive.*
 import com.github.projectsandstone.api.util.BooleanConsumer
@@ -117,17 +119,20 @@ object SandstoneEventGenUtil {
                 .withModifiers(CodeModifier.PUBLIC)
                 .withQualifiedName(name)
 
-        if (isItf)
+        if (isItf) {
             codeClassBuilder = codeClassBuilder.withImplementations(type)
-        else
+            codeClassBuilder = codeClassBuilder.withSuperClass(Types.OBJECT)
+        } else
             codeClassBuilder = codeClassBuilder.withSuperClass(type)
+
+        val properties = this.getProperties(classType) + additionalProperties
+
+        if(this.hasPlayerProperty(properties))
+            codeClassBuilder = codeClassBuilder.withImplementations(codeClassBuilder.implementations + PlayerEvent::class.java.codeType)
 
         val codeClass = codeClassBuilder.build()
 
         val body = codeClass.body as MutableCodeSource
-
-
-        val properties = this.getProperties(classType) + additionalProperties
 
         this.genFields(body, properties)
         this.genConstructor(classType, body, properties)
@@ -636,4 +641,6 @@ object SandstoneEventGenUtil {
         return klass.declaredMethods.any { it.name == name } || klass.methods.any { it.name == name }
     }
 
+    private fun hasPlayerProperty(properties: List<PropertyInfo>) =
+            properties.any {it.propertyName == "player" && it.type == Player::class.java}
 }

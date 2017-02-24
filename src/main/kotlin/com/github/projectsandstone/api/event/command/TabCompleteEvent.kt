@@ -25,36 +25,29 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.event.command
 
-import com.github.projectsandstone.api.Platform
-import com.github.projectsandstone.api.event.annotation.Name
+import com.github.projectsandstone.api.event.Cancellable
+import com.github.projectsandstone.api.event.Event
 
 /**
- * Mark function to handle an event.
- *
- * The method MUST specify the [Event] in the first parameter, other parameters will be filled with
- * properties of [Event], if has no object that matches the parameter type, the method will
- * not be invoked.
- *
- * You **MUST** to use [Name] annotation to provide name of property.
+ * Fired when a player send tab complete request.
  */
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FUNCTION)
-annotation class Listener(
-        /**
-         * Ignore this listener if event is cancelled
-         */
-        val ignoreCancelled: Boolean = false,
+interface TabCompleteEvent : Event, Cancellable {
 
-        /**
-         * Priority of this listener
-         */
-        val priority: EventPriority = EventPriority.NORMAL,
+    /**
+     * Tab request message
+     */
+    val message: String
 
-        /**
-         * Run before modifications (this property has no effect in [Platform]s that doesn't support
-         * modifications).
-         */
-        val beforeModifications: Boolean = false
-)
+    /**
+     * Current completions
+     */
+    val currentCompletions: List<String>
+
+    /**
+     * Completions
+     */
+    val completions: MutableList<String>
+
+}

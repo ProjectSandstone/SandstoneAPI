@@ -28,6 +28,7 @@
 package com.github.projectsandstone.api
 
 import com.github.projectsandstone.api.event.EventManager
+import com.github.projectsandstone.api.event.SandstoneEventFactory
 import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.logging.LoggerFactory
 import com.github.projectsandstone.api.plugin.PluginManager
@@ -117,6 +118,13 @@ object Sandstone {
         get() = this.game.eventManager
 
     /**
+     * [SandstoneEventFactory]: Factory of sandstone event instance.
+     */
+    @JvmStatic
+    val eventFactory: SandstoneEventFactory
+        get() = SandstoneEventFactory.instance
+
+    /**
      * *Sandstone* [EventManager]
      */
     @JvmStatic
@@ -136,4 +144,5 @@ object Sandstone {
     @JvmStatic
     val worlds: List<World>
         get() = this.game.server.worlds
+
 }

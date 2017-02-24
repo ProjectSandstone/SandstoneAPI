@@ -37,6 +37,7 @@ import com.github.projectsandstone.api.block.BlockTypes
 import com.github.projectsandstone.api.entity.living.player.Player
 import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.SandstoneEventFactory
+import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.util.SID
 import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
@@ -78,7 +79,8 @@ fun main(args: Array<String>) {
 
     val player = iter.getGetterProperty(Player::class.java, "player")!!
 
-    Assert.assertEquals("XZ", player.getValue())
+    Assert.assertEquals("XZ", player.getValue().name)
+    Assert.assertTrue(iter is PlayerEvent)
 }
 
 class TestPlayer : Player {
