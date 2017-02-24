@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.event
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.iutils.type.TypeUtil
 import com.github.projectsandstone.api.Platform
+import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 import java.lang.reflect.Method
 
@@ -78,7 +79,7 @@ data class ListenerData(
                         ?: it.getDeclaredAnnotation(com.google.inject.name.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(com.github.projectsandstone.api.event.annotation.Name::class.java)?.value
 
-                return@map LParameter(name ?: it.name, it.annotations.toList(), typeInfo, method.isAnnotationPresent(Nullable::class.java))
+                return@map LParameter(name ?: it.name, it.annotations.toList(), typeInfo, method.isAnnotationPresent(Nullable::class.java) || method.isAnnotationPresent(javax.annotation.Nullable::class.java) || !method.isAnnotationPresent(NotNull::class.java))
 
             }.toList()
 
