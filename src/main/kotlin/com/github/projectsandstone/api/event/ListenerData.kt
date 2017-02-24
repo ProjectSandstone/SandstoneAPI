@@ -79,7 +79,7 @@ data class ListenerData(
                         ?: it.getDeclaredAnnotation(com.google.inject.name.Named::class.java)?.value
                         ?: it.getDeclaredAnnotation(com.github.projectsandstone.api.event.annotation.Name::class.java)?.value
 
-                return@map LParameter(name ?: it.name, it.annotations.toList(), typeInfo, method.isAnnotationPresent(Nullable::class.java) || method.isAnnotationPresent(javax.annotation.Nullable::class.java) || !method.isAnnotationPresent(NotNull::class.java))
+                return@map LParameter(name ?: it.name, it.annotations.toList(), typeInfo, it.isAnnotationPresent(Nullable::class.java) || it.isAnnotationPresent(javax.annotation.Nullable::class.java) || !it.isAnnotationPresent(NotNull::class.java))
 
             }.toList()
 
