@@ -32,6 +32,7 @@ import com.github.jonathanxd.codeapi.base.MethodInvocation
 import com.github.jonathanxd.codeapi.base.impl.ReturnImpl
 import com.github.jonathanxd.codeapi.bytecode.VISIT_LINES
 import com.github.jonathanxd.codeapi.bytecode.VisitLineType
+import com.github.jonathanxd.codeapi.bytecode.extra.Dup
 import com.github.jonathanxd.codeapi.bytecode.extra.Pop
 import com.github.jonathanxd.codeapi.bytecode.gen.BytecodeGenerator
 import com.github.jonathanxd.codeapi.common.CodeModifier
@@ -251,7 +252,7 @@ object MethodListenerGen {
                 listOf(Literals.CLASS(type), Literals.STRING(name))
         )
 
-        val get: CodePart = if (propertyOnly)
+        val get = if (propertyOnly)
             getPropertyMethod
         else
             CodeAPI.invokeInterface(GetterProperty::class.java, CodeAPI.cast(Property::class.java, GetterProperty::class.java, getPropertyMethod),
@@ -259,6 +260,6 @@ object MethodListenerGen {
                 CodeAPI.typeSpec(Any::class.java),
                 emptyList())
 
-        return CodeAPI.ifStatement(CodeAPI.checkNotNull(get), CodeAPI.source(Stack), CodeAPI.source(Pop, ReturnImpl(Types.VOID, Literals.NULL)))
+        return CodeAPI.ifStatement(CodeAPI.checkNotNull(Dup(get)), CodeAPI.source(Stack), CodeAPI.source(Pop, ReturnImpl(Types.VOID, Literals.NULL)))
     }
 }
