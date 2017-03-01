@@ -38,6 +38,7 @@ import java.nio.file.Path
  * These changes is only reflected during instance definition ([Injector.getInstance]).
  */
 interface PluginDefinition {
+
     /**
      * Plugin unique id.
      *
@@ -77,12 +78,17 @@ interface PluginDefinition {
     /**
      * Authors of plugin
      */
-    var authors: Array<String>?
+    var authors: Array<String>
 
     /**
      * Plugin dependencies.
      */
     val dependencies: Array<DependencyContainer>?
+
+    /**
+     * Plugin dependencies state.
+     */
+    val dependenciesState: Array<DependencyState>
 
     /**
      * True if this plugin uses platform dependant functions.

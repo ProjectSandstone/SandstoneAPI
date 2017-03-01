@@ -69,7 +69,7 @@ interface PluginContainer {
     /**
      * Authors of plugin
      */
-    val authors: Array<String>?
+    val authors: Array<String>
 
     /**
      * Plugin dependencies.
