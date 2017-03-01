@@ -45,7 +45,7 @@ import java.nio.file.Path
  * Plugin File loading process:
  *
  * - Call [PluginLoader.loadFile], set state to [PluginState.ABOUT_TO_LOAD], add to a [List] of [PluginContainer].
- * - Loop plugin list, call [loadPlugin], [loadPlugin] will call [PluginLoader.load].
+ * - Loop plugin list, call [queue], [queue] will call [PluginLoader.load].
  *
  */
 interface PluginManager {
@@ -67,19 +67,10 @@ interface PluginManager {
      * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
      */
     @Throws(MissingDependencyException::class, CircularDependencyException::class)
-    fun loadPlugins(classes: Array<String>): List<PluginContainer>
+    fun loadPlugin(classes: Array<String>): List<PluginContainer>
 
     /**
-     * Load all plugins that aren't loaded yet.
-     *
-     * @throws MissingDependencyException
-     * @return True if any plugin was loaded successfully.
-     */
-    @Throws(MissingDependencyException::class, CircularDependencyException::class)
-    fun loadAllPlugins(): Boolean
-
-    /**
-     * Load plugin from file specified in [file]
+     * Load plugin of [file].
      *
      * Exceptions is not necessarily throw-ed, this exceptions can be logged.
      *
@@ -87,19 +78,58 @@ interface PluginManager {
      */
     @Throws(SecurityException::class, IOException::class, OutOfMemoryError::class,
             MissingDependencyException::class, CircularDependencyException::class)
-    fun loadPlugin(file: Path): List<PluginContainer>
+    fun loadFile(file: Path): List<PluginContainer>
 
     /**
-     * Load all plugins in [directory].
+     * Load all plugins of [directory].
      *
      * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
      */
     @Throws(SecurityException::class, IOException::class, NotDirectoryException::class, DependencyException::class)
-    fun loadPlugins(directory: Path): List<PluginContainer> {
+    fun loadAll(directory: Path): List<PluginContainer> {
         return Files.newDirectoryStream(directory).flatMap {
-            this.loadPlugin(it)
+            this.loadFile(it)
         }.filterNotNull()
     }
+
+    /**
+     * Add all plugins found in [classes] to plugin loading queue.
+     *
+     * @param classes Classes of plugin.
+     * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
+     */
+    fun queue(classes: Array<String>): List<PluginContainer>
+
+    /**
+     * Add plugin of [file] to `plugin loading queue`.
+     *
+     * Exceptions is not necessarily throw-ed, this exceptions can be logged.
+     *
+     * @return Loaded [PluginContainer]s, a plugin file can contains multiple [Plugin] annotations.
+     */
+    @Throws(SecurityException::class, IOException::class)
+    fun queueFile(file: Path): List<PluginContainer>
+
+    /**
+     * Add all plugins of [directory] to `plugin loading queue`.
+     *
+     * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
+     */
+    @Throws(SecurityException::class, IOException::class, NotDirectoryException::class)
+    fun queueAll(directory: Path): List<PluginContainer> {
+        return Files.newDirectoryStream(directory).flatMap {
+            this.queueFile(it)
+        }.filterNotNull()
+    }
+
+    /**
+     * Load all plugins in `plugin loading queue`.
+     *
+     * @throws DependencyException
+     * @return True if any plugin was loaded successfully.
+     */
+    @Throws(DependencyException::class)
+    fun loadAllPlugins(): Boolean
 
     /**
      * Get the plugin, if found, return the [PluginContainer] of plugin, otherwise return null
