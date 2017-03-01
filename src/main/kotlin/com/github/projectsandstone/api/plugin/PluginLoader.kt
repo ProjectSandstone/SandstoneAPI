@@ -31,16 +31,7 @@ import com.github.projectsandstone.api.util.exception.PluginLoadException
 import java.nio.file.Path
 
 /**
- * These interfaces methods is called by [PluginManager].
- *
- * Dependency resolution is the second operation of loading process. (The first is set [PluginContainer.state] to [PluginState.LOADING])
- *
- * The implementation of PluginLoader must only parse plugin annotation in files ([loadFile])
- * and do plugin load tasks ([load]), like: Class Loading, Instantiation, Plugin Registry,
- * Logger Registry, etc.
- *
- * If a plugin fail to load, all plugins that depends on the failed plugin (as required dependency) should not
- * be loaded and the [PluginContainer.state] set to [PluginState.FAILED].
+ * Loader of [PluginContainers][PluginContainer]. This class check dependencies and load [PluginContainers][PluginContainer].
  */
 interface PluginLoader {
 
@@ -48,24 +39,6 @@ interface PluginLoader {
      * Plugin Manager instance
      */
     val pluginManager: PluginManager
-
-    /**
-     * Load plugin [file].
-     *
-     * @param file Plugin file
-     * @return [PluginContainer] created from [Plugin] annotations found in [file].
-     */
-    @Throws(PluginLoadException::class)
-    fun loadFile(file: Path): List<PluginContainer>
-
-    /**
-     * Load plugin classes
-     *
-     * @param classes Plugin classes
-     * @return [PluginContainer] create from [Plugin] annotations found in [classes]
-     */
-    @Throws(PluginLoadException::class)
-    fun loadClasses(classes: Array<String>): List<PluginContainer>
 
     /**
      * Load [plugin] classes. Must be called AFTER dependency resolution.

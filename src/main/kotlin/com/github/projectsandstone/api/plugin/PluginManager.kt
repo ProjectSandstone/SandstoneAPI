@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.plugin
 import com.github.projectsandstone.api.util.exception.CircularDependencyException
 import com.github.projectsandstone.api.util.exception.DependencyException
 import com.github.projectsandstone.api.util.exception.MissingDependencyException
+import com.github.projectsandstone.api.util.exception.PluginLoadException
 import java.io.IOException
 import java.nio.file.Files
 import java.nio.file.NotDirectoryException
@@ -44,7 +45,7 @@ import java.nio.file.Path
  *
  * Plugin File loading process:
  *
- * - Call [PluginLoader.loadFile], set state to [PluginState.ABOUT_TO_LOAD], add to a [List] of [PluginContainer].
+ * - Call [PluginLoader.createContainers], set state to [PluginState.ABOUT_TO_LOAD], add to a [List] of [PluginContainer].
  * - Loop plugin list, call [queue], [queue] will call [PluginLoader.load].
  *
  */
@@ -93,43 +94,9 @@ interface PluginManager {
     }
 
     /**
-     * Add all plugins found in [classes] to plugin loading queue.
-     *
-     * @param classes Classes of plugin.
-     * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
+     * Load all [pluginContainers]. You can create [PluginContainers][PluginContainer] using [createContainers] method.
      */
-    fun queue(classes: Array<String>): List<PluginContainer>
-
-    /**
-     * Add plugin of [file] to `plugin loading queue`.
-     *
-     * Exceptions is not necessarily throw-ed, this exceptions can be logged.
-     *
-     * @return Loaded [PluginContainer]s, a plugin file can contains multiple [Plugin] annotations.
-     */
-    @Throws(SecurityException::class, IOException::class)
-    fun queueFile(file: Path): List<PluginContainer>
-
-    /**
-     * Add all plugins of [directory] to `plugin loading queue`.
-     *
-     * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
-     */
-    @Throws(SecurityException::class, IOException::class, NotDirectoryException::class)
-    fun queueAll(directory: Path): List<PluginContainer> {
-        return Files.newDirectoryStream(directory).flatMap {
-            this.queueFile(it)
-        }.filterNotNull()
-    }
-
-    /**
-     * Load all plugins in `plugin loading queue`.
-     *
-     * @throws DependencyException
-     * @return True if any plugin was loaded successfully.
-     */
-    @Throws(DependencyException::class)
-    fun loadAllPlugins(): Boolean
+    fun loadAll(pluginContainers: List<PluginContainer>)
 
     /**
      * Gets a plugin that failed to load.
@@ -196,5 +163,23 @@ interface PluginManager {
      * @return [Set] containing all loaded plugins.
      */
     fun getPlugins(): Set<PluginContainer>
+
+    /**
+     * Create [PluginContainers][PluginContainer] for all [Plugin] annotations found in [file].
+     *
+     * @param file Plugin file
+     * @return [PluginContainer] created from [Plugin] annotations found in [file].
+     */
+    @Throws(PluginLoadException::class)
+    fun createContainers(file: Path): List<PluginContainer>
+
+    /**
+     * Create [PluginContainers][PluginContainer] for plugin classes.
+     *
+     * @param classes Plugin classes
+     * @return [PluginContainer] create from [Plugin] annotations found in [classes].
+     */
+    @Throws(PluginLoadException::class)
+    fun createContainers(classes: Array<String>): List<PluginContainer>
 
 }
