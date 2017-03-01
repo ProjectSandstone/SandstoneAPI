@@ -31,10 +31,21 @@ package com.github.projectsandstone.api.plugin
  * Hold information about [dependencyContainer] state.
  */
 data class DependencyState(val dependencyContainer: DependencyContainer, val state: State) {
+
     /**
      * State of dependency
      */
     enum class State {
+
+        /**
+         * Dependency is present.
+         */
+        PRESENT,
+
+        /**
+         * Dependency failed to load.
+         */
+        FAILED,
 
         /**
          * Dependency is missing.
@@ -44,7 +55,7 @@ data class DependencyState(val dependencyContainer: DependencyContainer, val sta
         /**
          * Dependency is incompatible (only if matches [DependencyContainer.incompatibleVersions])
          */
-        INCOMPATIBLE,
+        INCOMPATIBLE
     }
 
 }
