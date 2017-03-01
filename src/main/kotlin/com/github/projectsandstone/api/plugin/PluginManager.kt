@@ -67,7 +67,7 @@ interface PluginManager {
      * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
      */
     @Throws(MissingDependencyException::class, CircularDependencyException::class)
-    fun loadPlugin(classes: Array<String>): List<PluginContainer>
+    fun loadPlugins(classes: Array<String>): List<PluginContainer>
 
     /**
      * Load plugin of [file].
