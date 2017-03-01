@@ -132,6 +132,14 @@ interface PluginManager {
     fun loadAllPlugins(): Boolean
 
     /**
+     * Gets a plugin that failed to load.
+     *
+     * @param id Id of plugin
+     * @return The [PluginContainer] of plugin that failed to load, or null if plugin isn't loaded.
+     */
+    fun getFailedPlugin(id: String): PluginContainer?
+
+    /**
      * Get the plugin, if found, return the [PluginContainer] of plugin, otherwise return null
      *
      * @param id Id of plugin
