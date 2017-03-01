@@ -38,7 +38,12 @@ import com.github.projectsandstone.api.event.entity.damage.EntityDamageEvent
 import com.github.projectsandstone.api.event.init.*
 import com.github.projectsandstone.api.event.message.MessageChannelEvent
 import com.github.projectsandstone.api.event.message.MessageEvent
+import com.github.projectsandstone.api.event.plugin.PluginLoadFailedEvent
+import com.github.projectsandstone.api.event.plugin.PluginLoadedEvent
+import com.github.projectsandstone.api.event.plugin.PluginLoadingEvent
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
+import com.github.projectsandstone.api.plugin.PluginContainer
+import com.github.projectsandstone.api.plugin.PluginManager
 import com.github.projectsandstone.api.service.RegisteredProvider
 import com.github.projectsandstone.api.statistic.Achievement
 import com.github.projectsandstone.api.text.Text
@@ -65,6 +70,12 @@ interface SandstoneEventFactory {
     fun createInitializationEvent(): InitializationEvent
 
     fun createPostInitializationEvent(): PostInitializationEvent
+
+    fun createPluginLoadingEvent(pluginManager: PluginManager, pluginContainer: PluginContainer): PluginLoadingEvent
+
+    fun createPluginLoadedEvent(pluginManager: PluginManager, pluginContainer: PluginContainer): PluginLoadedEvent
+
+    fun createPluginLoadFailedEvent(pluginManager: PluginManager, pluginContainer: PluginContainer, reason: PluginLoadFailedEvent.Reason): PluginLoadFailedEvent
 
     fun <T : Any> createChangeServiceProviderEvent(service: TypeInfo<T>,
                                                    oldProvider: RegisteredProvider<T>?,
