@@ -35,16 +35,14 @@ import com.github.projectsandstone.api.util.exception.DependencyException
 interface DependencyResolver {
 
     /**
+     * Gets the comparator that sorts plugins by dependency order.
+     */
+    val comparator: Comparator<PluginContainer>
+
+    /**
      * Plugin Manager instance
      */
     val pluginManager: PluginManager
-
-    /**
-     * Create dependency [Set]
-     *
-     * @return A [Set] that order [PluginContainer]s by dependency hierarchy.
-     */
-    fun createDependencySet(): MutableSet<PluginContainer>
 
     /**
      * Gets a list of all dependency states of [pluginContainer].
