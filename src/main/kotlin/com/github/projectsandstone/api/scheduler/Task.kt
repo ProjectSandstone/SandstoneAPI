@@ -30,7 +30,7 @@ package com.github.projectsandstone.api.scheduler
 import java.time.Duration
 
 /**
- * Created by jonathan on 27/08/16.
+ * Sandstone task, this class represents a task that may have been submitted or not.
  */
 interface Task {
 

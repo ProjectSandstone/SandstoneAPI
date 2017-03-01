@@ -25,68 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.event.plugin
 
-import com.github.projectsandstone.api.event.EventManager
+import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.plugin.PluginManager
-import com.github.projectsandstone.api.registry.Registry
-import com.github.projectsandstone.api.scheduler.Scheduler
-import com.github.projectsandstone.api.service.ServiceManager
-import com.github.projectsandstone.api.util.edition.GameEdition
-import java.nio.file.Path
 
 /**
- * Represents a [Game] instance.
+ * Base event class of all events that may happen during plugin loading process.
  */
-interface Game {
+interface PluginEvent : Event {
 
     /**
-     * Implementing platform
-     */
-    val platform: Platform
-
-    /**
-     * Game Server
-     */
-    val server: Server
-
-    /**
-     * *Sandstone* plugin manager.
+     * Plugin manager.
      */
     val pluginManager: PluginManager
 
     /**
-     * *Sandstone* service manager.
+     * Plugin container involved in loading process.
      */
-    val serviceManager: ServiceManager
+    val pluginContainer: PluginContainer
 
-    /**
-     * *Sandstone* event manager.
-     */
-    val eventManager: EventManager
-
-    /**
-     * *Sandstone* Scheduler
-     */
-    val scheduler: Scheduler
-
-    /**
-     * Root Game Path
-     */
-    val gamePath: Path
-
-    /**
-     * Game save path
-     */
-    val savePath: Path
-
-    /**
-     * Game registry
-     */
-    val registry: Registry
-
-    /**
-     * Game edition
-     */
-    val edition: GameEdition
 }

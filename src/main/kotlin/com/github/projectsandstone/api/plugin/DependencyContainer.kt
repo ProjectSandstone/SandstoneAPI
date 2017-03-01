@@ -31,6 +31,7 @@ package com.github.projectsandstone.api.plugin
  * Information about [PluginContainer] dependencies.
  */
 interface DependencyContainer {
+
     /**
      * Id of dependency plugin.
      */
@@ -54,4 +55,5 @@ interface DependencyContainer {
      * True dependency is required, false otherwise. *Default value is true*.
      */
     val isRequired: Boolean
+
 }

@@ -29,8 +29,19 @@ package com.github.projectsandstone.api.scheduler
 
 import java.util.concurrent.RunnableScheduledFuture
 
+/**
+ * A [RunnableScheduledFuture] managed by [Sandstone Scheduler Manager][Scheduler]
+ */
 interface ScheduledFutureTask<V> : RunnableScheduledFuture<V> {
+
+    /**
+     * Sandstone task related to this [RunnableScheduledFuture].
+     */
     val task: Task
 
+    /**
+     * Submitted Sandstone task related to this [RunnableScheduledFuture].
+     */
     val submittedTask: SubmittedTask
+
 }

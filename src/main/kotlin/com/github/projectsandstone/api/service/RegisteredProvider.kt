@@ -30,7 +30,7 @@ package com.github.projectsandstone.api.service
 import com.github.projectsandstone.api.plugin.PluginContainer
 
 /**
- * Created by jonathan on 13/08/16.
+ * A registered service provider.
  */
 interface RegisteredProvider<T : Any> {
 

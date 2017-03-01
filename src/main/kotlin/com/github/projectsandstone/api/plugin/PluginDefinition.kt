@@ -113,4 +113,5 @@ interface PluginDefinition {
      * Plugin class loader.
      */
     val classLoader: PluginClassLoader
+
 }

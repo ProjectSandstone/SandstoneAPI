@@ -51,7 +51,7 @@ enum class LogLevel {
      *
      * An error message is a fatal problem that need special attention.
      *
-     * Error messages will be logged normally and saved to 'logs/plugins/YOUR_PLUGIN_ID/'.
+     * This may or may not crash the game, the behavior depends on the platform.
      */
     ERROR,
 
@@ -60,7 +60,7 @@ enum class LogLevel {
      *
      * An exception is an unexpected problem that need special attention.
      *
-     * Exception messages will be logged normally and saved to 'logs/plugins/YOUR_PLUGIN_ID/'.
+     * This may or may not crash the game, the behavior depends on the platform.
      */
     EXCEPTION
 }

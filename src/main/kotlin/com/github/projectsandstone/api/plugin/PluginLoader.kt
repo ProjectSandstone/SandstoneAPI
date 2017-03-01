@@ -31,15 +31,16 @@ import com.github.projectsandstone.api.util.exception.PluginLoadException
 import java.nio.file.Path
 
 /**
- * Created by jonathan on 13/08/16.
- */
-/**
- * These interfaces methods is called by [PluginManager],
- * all plugins MUST only be loaded AFTER dependency resolution.
+ * These interfaces methods is called by [PluginManager].
+ *
+ * Dependency resolution is the second operation of loading process. (The first is set [PluginContainer.state] to [PluginState.LOADING])
  *
  * The implementation of PluginLoader must only parse plugin annotation in files ([loadFile])
  * and do plugin load tasks ([load]), like: Class Loading, Instantiation, Plugin Registry,
  * Logger Registry, etc.
+ *
+ * If a plugin fail to load, all plugins that depends on the failed plugin (as required dependency) should not
+ * be loaded and the [PluginContainer.state] set to [PluginState.FAILED].
  */
 interface PluginLoader {
 

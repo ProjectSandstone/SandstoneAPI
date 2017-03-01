@@ -28,19 +28,24 @@
 package com.github.projectsandstone.api.scheduler
 
 /**
- * Created by jonathan on 27/08/16.
- */
-/**
- * Represents submitted task
+ * Represents a [Task] submitted to [Sandstone Scheduler Manager][Scheduler].
  */
 interface SubmittedTask {
+
     /**
      * Submitted task
      */
     val task: Task
 
     /**
+     * Is this task cancelled.
+     */
+    val isCancelled: Boolean
+
+    /**
      * Cancel task, the task will be not cancelled immediately if [isRunning] or is not [isSubmitted].
+     *
+     * When the task get cancelled, the property [isCancelled] will be set to true.
      */
     fun cancel()
 

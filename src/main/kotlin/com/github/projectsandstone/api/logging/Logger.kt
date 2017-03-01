@@ -29,6 +29,8 @@ package com.github.projectsandstone.api.logging
 
 /**
  * Logging interface.
+ *
+ * Normally implementations will wrap this [Logger] into platform logging system.
  */
 interface Logger {
 

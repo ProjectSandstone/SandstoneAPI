@@ -31,6 +31,7 @@ package com.github.projectsandstone.api.world
  * An object that can be located in world and teleported to a [Location]
  */
 interface Locatable {
+
     /**
      * Location of the object in the world
      */
@@ -40,4 +41,5 @@ interface Locatable {
      * Teleport object to another location
      */
     fun teleport(location: Location<*>)
+
 }

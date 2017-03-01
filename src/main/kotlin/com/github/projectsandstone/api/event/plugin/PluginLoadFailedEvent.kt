@@ -25,68 +25,47 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.event.plugin
 
-import com.github.projectsandstone.api.event.EventManager
-import com.github.projectsandstone.api.plugin.PluginManager
-import com.github.projectsandstone.api.registry.Registry
-import com.github.projectsandstone.api.scheduler.Scheduler
-import com.github.projectsandstone.api.service.ServiceManager
-import com.github.projectsandstone.api.util.edition.GameEdition
-import java.nio.file.Path
+import com.github.projectsandstone.api.plugin.DependencyContainer
+import com.github.projectsandstone.api.plugin.PluginContainer
 
 /**
- * Represents a [Game] instance.
+ * Fired when a plugin fails to be loaded.
  */
-interface Game {
+interface PluginLoadFailedEvent : PluginEvent {
 
     /**
-     * Implementing platform
+     * Reason of failure.
      */
-    val platform: Platform
+    val reason: Reason
 
     /**
-     * Game Server
+     * Reason of failure.
      */
-    val server: Server
+    sealed class Reason {
 
-    /**
-     * *Sandstone* plugin manager.
-     */
-    val pluginManager: PluginManager
+        /**
+         * Failed because some dependencies is missing.
+         *
+         * @param dependencies Missing dependencies.
+         */
+        data class MissingDependencies(val dependencies: List<DependencyContainer>) : Reason()
 
-    /**
-     * *Sandstone* service manager.
-     */
-    val serviceManager: ServiceManager
+        /**
+         * Failed because an exception occurred during initialization.
+         *
+         * @param exception Exception occurred during initialization.
+         */
+        data class Exception(val exception: Throwable) : Reason()
 
-    /**
-     * *Sandstone* event manager.
-     */
-    val eventManager: EventManager
+        /**
+         * Failed because other plugin failed to be loaded.
+         *
+         * @param pluginContainer Plugin that failed to be loaded.
+         */
+        data class OtherPluginFailed(val pluginContainer: PluginContainer)
 
-    /**
-     * *Sandstone* Scheduler
-     */
-    val scheduler: Scheduler
+    }
 
-    /**
-     * Root Game Path
-     */
-    val gamePath: Path
-
-    /**
-     * Game save path
-     */
-    val savePath: Path
-
-    /**
-     * Game registry
-     */
-    val registry: Registry
-
-    /**
-     * Game edition
-     */
-    val edition: GameEdition
 }

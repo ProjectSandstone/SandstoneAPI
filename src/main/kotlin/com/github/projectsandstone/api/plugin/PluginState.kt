@@ -31,6 +31,7 @@ package com.github.projectsandstone.api.plugin
  * State of [PluginContainer].
  */
 enum class PluginState {
+
     /**
      * Plugin is waiting to be loaded.
      *
@@ -41,14 +42,14 @@ enum class PluginState {
     /**
      * Plugin is loading.
      *
-     * Defined when [PluginLoader] start loading classes in [PluginContainer.file].
+     * Defined when [PluginLoader] start loading classes in [PluginContainer.file], before dependency resolution.
      */
     LOADING,
 
     /**
-     * Plugins is loaded.
+     * Plugin is loaded.
      *
-     * Defined when [PluginLoader] finish the loading process.
+     * Defined when [PluginLoader] finish the loading process, after dependency resolution.
      */
     LOADED,
 
@@ -56,6 +57,8 @@ enum class PluginState {
      * Plugin loading failed.
      *
      * Defined when [PluginLoader] throws any exception during the [LOADING] phase.
+     *
+     * All other plugins that depends on this plugin (as required dependency) will fail to load.
      */
     FAILED
 

@@ -30,15 +30,15 @@ package com.github.projectsandstone.api.logging
 import com.github.projectsandstone.api.plugin.PluginContainer
 
 /**
- * Create [Logger] for [PluginContainer]s.
+ * Create [Logger] for a [PluginContainer].
  */
 interface LoggerFactory {
 
     /**
-     * Create logger for plugin [pluginContainer]
+     * Create logger for [pluginContainer]
      *
-     * @param pluginContainer Container of plugin
-     * @return Logger for [pluginContainer]
+     * @param pluginContainer Container of plugin.
+     * @return Logger for [pluginContainer].
      */
     fun createLogger(pluginContainer: PluginContainer): Logger
 

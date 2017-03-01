@@ -82,8 +82,8 @@ object SandstonePlugin : PluginContainer {
     override val classLoader: PluginClassLoader = SandstonePluginClassLoader
     override val mainClass: String = "com.github.projectsandstone.api.Sandstone"
 
-
     private object SandstonePluginClassLoader : PluginClassLoader {
+
         override val file: Path?
             get() = SandstonePlugin.file
 
@@ -99,4 +99,5 @@ object SandstonePlugin : PluginContainer {
         override val pluginContainers: List<PluginContainer> = listOf(SandstonePlugin)
 
     }
+
 }

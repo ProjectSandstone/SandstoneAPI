@@ -35,10 +35,11 @@ import java.util.*
  *
  * [SID] is always persistent for Players, for other game elements, it may not be persistent.
  *
+ * The persistence depends on the Platform.
  */
 sealed class SID : Comparable<SID> {
 
-    class IntSid(val int: Int) : SID() {
+    data class IntSid(val int: Int) : SID() {
         override fun compareTo(other: SID): Int =
                 if (other is IntSid) {
                     this.int.compareTo(other.int)
@@ -51,9 +52,9 @@ sealed class SID : Comparable<SID> {
         override fun toString(): String = this.int.toString()
     }
 
-    class LongSid(val long: Long) : SID() {
+    data class LongSid(val long: Long) : SID() {
         override fun compareTo(other: SID): Int =
-                if(other is LongSid) {
+                if (other is LongSid) {
                     this.long.compareTo(other.long)
                 } else {
                     -1
@@ -65,9 +66,9 @@ sealed class SID : Comparable<SID> {
         override fun toString(): String = this.long.toString()
     }
 
-    class DoubleSid(val double: Double) : SID() {
+    data class DoubleSid(val double: Double) : SID() {
         override fun compareTo(other: SID): Int =
-                if(other is DoubleSid) {
+                if (other is DoubleSid) {
                     this.double.compareTo(other.double)
                 } else {
                     -1
@@ -78,9 +79,9 @@ sealed class SID : Comparable<SID> {
         override fun toString(): String = this.double.toString()
     }
 
-    class StringSid(val string: String) : SID() {
+    data class StringSid(val string: String) : SID() {
         override fun compareTo(other: SID): Int =
-                if(other is StringSid) {
+                if (other is StringSid) {
                     this.string.compareTo(other.string)
                 } else {
                     -1
@@ -92,9 +93,9 @@ sealed class SID : Comparable<SID> {
 
     }
 
-    class UuidSid(val uuid: UUID): SID() {
+    data class UuidSid(val uuid: UUID) : SID() {
         override fun compareTo(other: SID): Int =
-                if(other is UuidSid) {
+                if (other is UuidSid) {
                     this.uuid.compareTo(other.uuid)
                 } else {
                     -1
@@ -128,6 +129,12 @@ sealed class SID : Comparable<SID> {
          */
         @JvmStatic
         fun Double.sid() = DoubleSid(this)
+
+        /**
+         * Convert [String] to Sandstone Id ([SID])
+         */
+        @JvmStatic
+        fun String.sid() = StringSid(this)
 
         /**
          * Convert [UUID] to Sandstone Id ([SID])

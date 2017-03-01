@@ -30,7 +30,7 @@ package com.github.projectsandstone.api.plugin
 import java.nio.file.Path
 
 /**
- * Created by jonathan on 17/08/16.
+ * Class loader of the plugin, classes that extends this interface may also extends [ClassLoader].
  */
 interface PluginClassLoader {
 

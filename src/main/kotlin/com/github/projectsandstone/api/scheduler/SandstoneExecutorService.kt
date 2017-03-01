@@ -32,7 +32,7 @@ import java.util.concurrent.ScheduledExecutorService
 import java.util.concurrent.TimeUnit
 
 /**
- * Created by jonathan on 27/08/16.
+ * A [ScheduledExecutorService] backed by Sandstone [Sandstone Scheduler Manager][Scheduler].
  */
 interface SandstoneExecutorService : ScheduledExecutorService {
 

@@ -110,4 +110,5 @@ interface PluginContainer {
      * Main class of this plugin.
      */
     val mainClass: String
+
 }

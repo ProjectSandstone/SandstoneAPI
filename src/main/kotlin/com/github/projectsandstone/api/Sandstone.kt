@@ -38,9 +38,10 @@ import com.github.projectsandstone.api.world.World
 import java.nio.file.Path
 
 /**
- * Created by jonathan on 12/08/16.
+ * Singleton class that provide important instances.
+ *
+ * We recommend to use Guice Instance Injection.
  */
-
 object Sandstone {
 
     @JvmStatic

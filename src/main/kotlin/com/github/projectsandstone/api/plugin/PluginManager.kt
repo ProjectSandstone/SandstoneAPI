@@ -36,17 +36,16 @@ import java.nio.file.NotDirectoryException
 import java.nio.file.Path
 
 /**
- * Created by jonathan on 12/08/16.
- */
-/**
+ *
+ * Load and manages all plugins.
+ *
  * Implementations MUST check dependencies using [dependencyResolver].
  * After dependency resolution, implementation MUST call [pluginLoader] [PluginLoader.load] method.
  *
- * Plugin File loading process: Call [PluginLoader.loadFile], set state to
- * [PluginState.ABOUT_TO_LOAD], add to a [List] of [PluginContainer].
+ * Plugin File loading process:
  *
- * Loop plugin list, call [loadPlugin], [loadPlugin] set plugin state to [PluginState.LOADING],
- * check dependencies using [DependencyResolver.checkDependencies], and finally call [PluginLoader.load]
+ * - Call [PluginLoader.loadFile], set state to [PluginState.ABOUT_TO_LOAD], add to a [List] of [PluginContainer].
+ * - Loop plugin list, call [loadPlugin], [loadPlugin] will call [PluginLoader.load].
  *
  */
 interface PluginManager {
@@ -71,16 +70,7 @@ interface PluginManager {
     fun loadPlugins(classes: Array<String>): List<PluginContainer>
 
     /**
-     * Load a [PluginContainer].
-     *
-     * @throws MissingDependencyException
-     * @return True if [pluginContainer] was loaded successfully, else otherwise. (Errors will be logged to console).
-     */
-    @Throws(MissingDependencyException::class, CircularDependencyException::class)
-    fun loadPlugin(pluginContainer: PluginContainer): Boolean
-
-    /**
-     * Load all plugins that aren't loaded.
+     * Load all plugins that aren't loaded yet.
      *
      * @throws MissingDependencyException
      * @return True if any plugin was loaded successfully.
@@ -168,4 +158,5 @@ interface PluginManager {
      * @return [Set] containing all loaded plugins.
      */
     fun getPlugins(): Set<PluginContainer>
+
 }

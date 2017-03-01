@@ -54,7 +54,11 @@ annotation class Dependency(
         val incompatibleVersions: String = "",
 
         /**
-         * True dependency is required, false otherwise. *Default value is true*.
+         * True if the dependency is required, false otherwise. *Default value is true*.
+         *
+         * The server may or may not start, the behavior depends on platform. If the server starts,
+         * this plugin will not be loaded, and all other plugins that depends on this plugin (as required dependency) will
+         * not be loaded.
          */
         val isRequired: Boolean = true
 )

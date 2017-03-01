@@ -30,6 +30,9 @@ package com.github.projectsandstone.api.block
 import com.github.projectsandstone.api.item.ItemType
 import com.github.projectsandstone.api.registry.RegistryEntry
 
+/**
+ * Type of the block
+ */
 interface BlockType : RegistryEntry {
 
     /**

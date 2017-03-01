@@ -28,9 +28,9 @@
 package com.github.projectsandstone.api.service
 
 /**
- * Manage all [RegisteredProvider]s, services must be registered only during the post-initialization.
+ * Manages all [RegisteredProviders][RegisteredProvider], services must be registered only during the post-initialization.
  *
- * You can get a service using method [provide] or [watch]
+ * You can get a service using method [provide] or [watch].
  */
 interface ServiceManager {
 

@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.block
 
 /**
- * Represents state of blocks.
+ * Represents state of a block.
  */
 interface BlockState {
 

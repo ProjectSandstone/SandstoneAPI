@@ -29,8 +29,11 @@ package com.github.projectsandstone.api
 
 import com.github.projectsandstone.api.world.World
 
-
+/**
+ * Server instance.
+ */
 interface Server {
+
     /**
      * Server bound ip, or empty if not specified
      */

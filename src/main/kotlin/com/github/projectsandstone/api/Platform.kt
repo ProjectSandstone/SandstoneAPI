@@ -30,7 +30,7 @@ package com.github.projectsandstone.api
 import com.github.projectsandstone.api.util.version.Version
 
 /**
- * Created by jonathan on 12/08/16.
+ * Represents the Platform that the API is implemented.
  */
 interface Platform {
 
