@@ -74,7 +74,12 @@ interface PluginContainer {
     /**
      * Plugin dependencies.
      */
-    val dependencies: Array<DependencyContainer>?
+    val dependencies: Array<DependencyContainer>
+
+    /**
+     * State of dependencies of this [PluginContainer].
+     */
+    val dependenciesState: Array<DependencyState>
 
     /**
      * True if this plugin uses platform dependant functions.

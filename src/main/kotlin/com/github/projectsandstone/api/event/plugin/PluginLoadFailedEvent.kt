@@ -27,7 +27,6 @@
  */
 package com.github.projectsandstone.api.event.plugin
 
-import com.github.projectsandstone.api.plugin.DependencyContainer
 import com.github.projectsandstone.api.plugin.PluginContainer
 
 /**
@@ -46,11 +45,12 @@ interface PluginLoadFailedEvent : PluginEvent {
     sealed class Reason {
 
         /**
-         * Failed because some dependencies is missing.
+         * Failed because of dependency resolution failed, because of a missing dependency or
+         * because an dependency plugin failed to load.
          *
-         * @param dependencies Missing dependencies.
+         * Use [PluginContainer.dependenciesState] to get dependencies state.
          */
-        data class MissingDependencies(val dependencies: List<DependencyContainer>) : Reason()
+        object DependencyResolutionFailed : Reason()
 
         /**
          * Failed because an exception occurred during initialization.
@@ -58,13 +58,6 @@ interface PluginLoadFailedEvent : PluginEvent {
          * @param exception Exception occurred during initialization.
          */
         data class Exception(val exception: Throwable) : Reason()
-
-        /**
-         * Failed because other plugin failed to be loaded.
-         *
-         * @param pluginContainer Plugin that failed to be loaded.
-         */
-        data class OtherPluginFailed(val pluginContainer: PluginContainer)
 
     }
 

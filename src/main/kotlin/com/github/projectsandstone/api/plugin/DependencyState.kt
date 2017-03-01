@@ -28,28 +28,23 @@
 package com.github.projectsandstone.api.plugin
 
 /**
- * Information about [PluginContainer] dependencies.
+ * Hold information about [dependencyContainer] state.
  */
-interface DependencyContainer {
-
+data class DependencyState(val dependencyContainer: DependencyContainer, val state: State) {
     /**
-     * Id of dependency plugin.
+     * State of dependency
      */
-    val id: String
+    enum class State {
 
-    /**
-     * Version of dependency (*Regex*).
-     */
-    val version: String
+        /**
+         * Dependency is missing.
+         */
+        MISSING,
 
-    /**
-     * Incompatible versions (*Regex*).
-     */
-    val incompatibleVersions: String
-
-    /**
-     * True dependency is required, false otherwise. *Default value is true*.
-     */
-    val isRequired: Boolean
+        /**
+         * Dependency is incompatible (only if matches [DependencyContainer.incompatibleVersions])
+         */
+        INCOMPATIBLE,
+    }
 
 }

@@ -47,11 +47,11 @@ interface DependencyResolver {
     fun createDependencySet(): MutableSet<PluginContainer>
 
     /**
-     * Gets a list of all missing dependency.
+     * Gets a list of all dependency states of [pluginContainer].
      *
-     * @return List of all missing dependencies of [pluginContainer].
+     * @return List of all dependency states of [pluginContainer].
      */
-    fun getMissingDependencies(pluginContainer: PluginContainer): List<DependencyContainer>
+    fun getDependenciesState(pluginContainer: PluginContainer): List<DependencyState>
 
     /**
      * Resolve dependencies of [pluginContainer].
