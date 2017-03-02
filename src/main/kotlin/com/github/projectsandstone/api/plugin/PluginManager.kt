@@ -174,6 +174,19 @@ interface PluginManager {
     fun createContainers(file: Path): List<PluginContainer>
 
     /**
+     * Create [PluginContainers][PluginContainer] for all [Plugin] annotations found all files in [path].
+     *
+     * @param file Plugin file
+     * @return [PluginContainer] created from [Plugin] annotations found in all files in [path].
+     */
+    @Throws(PluginLoadException::class)
+    fun createContainersFromPath(path: Path): List<PluginContainer> {
+        return Files.newDirectoryStream(path).flatMap {
+            createContainers(it)
+        }.filterNotNull()
+    }
+
+    /**
      * Create [PluginContainers][PluginContainer] for plugin classes.
      *
      * @param classes Plugin classes
