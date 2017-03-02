@@ -29,10 +29,7 @@ package com.github.projectsandstone.api.constants
 
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.logging.Logger
-import com.github.projectsandstone.api.plugin.DependencyContainer
-import com.github.projectsandstone.api.plugin.PluginClassLoader
-import com.github.projectsandstone.api.plugin.PluginContainer
-import com.github.projectsandstone.api.plugin.PluginState
+import com.github.projectsandstone.api.plugin.*
 import com.github.projectsandstone.api.util.version.Version
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -51,11 +48,14 @@ object SandstonePlugin : PluginContainer {
     override val description: String?
         get() = Constants.SANDSTONE_PLUGIN_DESCRIPTION
 
-    override val authors: Array<String>?
+    override val authors: Array<String>
         get() = Constants.AUTHORS
 
-    override val dependencies: Array<DependencyContainer>?
-        get() = arrayOf()
+    override val dependencies: Array<DependencyContainer>
+        get() = emptyArray()
+
+    override val dependenciesState: Array<DependencyState>
+        get() = emptyArray()
 
     override val usePlatformInternals: Boolean
         get() = true
