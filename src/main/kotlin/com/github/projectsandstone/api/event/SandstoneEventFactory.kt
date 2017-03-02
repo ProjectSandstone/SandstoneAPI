@@ -49,6 +49,7 @@ import com.github.projectsandstone.api.statistic.Achievement
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageChannel
 import com.github.projectsandstone.api.util.internal.gen.event.EventFactoryClassGen
+import java.util.concurrent.Future
 
 /**
  * Base interface to create event instances.
@@ -117,5 +118,11 @@ interface SandstoneEventFactory {
                     return it
                 }
 
+
+        fun createAsync(): Future<SandstoneEventFactory> {
+            return EventFactoryClassGen.createAsync(SandstoneEventFactory::class.java, {
+                instance_ = it
+            })
+        }
     }
 }

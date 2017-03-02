@@ -56,6 +56,9 @@ import com.github.projectsandstone.api.util.internal.gen.event.EventFactoryClass
 import com.github.projectsandstone.api.util.internal.gen.save.ClassSaver
 import com.github.projectsandstone.api.util.internal.getImplementation
 import com.github.projectsandstone.api.util.internal.parameterNames
+import java.util.concurrent.Callable
+import java.util.concurrent.Executors
+import java.util.concurrent.Future
 import kotlin.reflect.jvm.jvmErasure
 import kotlin.reflect.jvm.kotlinFunction
 
@@ -75,7 +78,31 @@ import kotlin.reflect.jvm.kotlinFunction
  */
 object EventFactoryClassGen {
 
+    private val threadPool = Executors.newCachedThreadPool()
 
+    /**
+     * Asynchronously create [factoryClass] instance, only use this method if plugins
+     * will be initialized later.
+     */
+    fun <T : Any> createAsync(factoryClass: Class<T>): Future<T> = threadPool.submit(Callable<T> {
+        return@Callable this.create(factoryClass)
+    })
+
+    /**
+     * Asynchronously create [factoryClass] instance, only use this method if plugins
+     * will be initialized later. [end] is called when instance creation finished.
+     *
+     */
+    fun <T : Any> createAsync(factoryClass: Class<T>, end: (instance: T) -> Unit): Future<T> = threadPool.submit(Callable<T> {
+        return@Callable this.create(factoryClass).let {
+            end(it)
+            it
+        }
+    })
+
+    /**
+     * Create [factoryClass] instance invoking generated event classes constructor.
+     */
     fun <T : Any> create(factoryClass: Class<T>): T {
         val superClass = factoryClass.superclass
 
