@@ -49,6 +49,7 @@ import com.github.projectsandstone.api.statistic.Achievement
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageChannel
 import com.github.projectsandstone.api.util.internal.gen.event.EventFactoryClassGen
+import com.google.common.util.concurrent.Futures
 import java.util.concurrent.Future
 
 /**
@@ -108,11 +109,15 @@ interface SandstoneEventFactory {
     companion object {
 
         private var instance_: SandstoneEventFactory? = null
+        private var async: Future<SandstoneEventFactory>? = null
 
         val instance: SandstoneEventFactory
-            get() = if (instance_ != null)
+            get() = if (instance_ != null) {
+                if (async != null)
+                    async = null
+
                 instance_!!
-            else
+            } else if (async != null) async!!.get() else
                 EventFactoryClassGen.create(SandstoneEventFactory::class.java).let {
                     instance_ = it
                     return it
@@ -120,9 +125,19 @@ interface SandstoneEventFactory {
 
 
         fun createAsync(): Future<SandstoneEventFactory> {
-            return EventFactoryClassGen.createAsync(SandstoneEventFactory::class.java, {
-                instance_ = it
-            })
+            return if (instance_ != null)
+                return Futures.immediateFuture(instance_)
+            else
+                if (async != null)
+                    async!!
+                else
+                    EventFactoryClassGen.createAsync(SandstoneEventFactory::class.java, {
+                        instance_ = it
+                        async = null
+                    }).let {
+                        async = it
+                        return@let it
+                    }
         }
     }
 }
