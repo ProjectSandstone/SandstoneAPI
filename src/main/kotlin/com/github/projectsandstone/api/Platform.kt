@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,6 +27,7 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.projectsandstone.api.platform.PlatformObjectConverter
 import com.github.projectsandstone.api.util.version.Version
 
 /**
@@ -73,7 +74,15 @@ interface Platform {
     val minecraftVersion: Version
 
     /**
-     * Return true if is a platform internal class
+     * Platform object converter.
+     */
+    val platformObjectConverter: PlatformObjectConverter
+
+    /**
+     * Returns true if [class name][name] is a class of platform.
      */
     fun isInternalClass(name: String?): Boolean
+
+
+
 }

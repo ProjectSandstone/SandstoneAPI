@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -35,14 +35,14 @@ import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.block.BlockType
 import com.github.projectsandstone.api.block.BlockTypes
 import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.event.SandstoneEventFactory
 import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.util.SID
-import com.github.projectsandstone.api.util.internal.gen.event.SandstoneEventGen
 import com.github.projectsandstone.api.world.Location
 import com.github.projectsandstone.api.world.World
+import com.github.projectsandstone.eventsys.event.Event
+import com.github.projectsandstone.eventsys.gen.event.CommonEventGenerator
 import org.junit.Assert
 import java.nio.file.Paths
 import java.util.*
@@ -53,13 +53,13 @@ fun main(args: Array<String>) {
 
     Reflection.changeFinalField(RClass.getRClass(Sandstone::class.java), "sandstonePath_", Paths.get("."))
 
-    val gen = SandstoneEventGen.gen(type, mapOf(
-            "amount" to 9.toShort(),
-            "ok" to false,
-            "i" to 10.5F,
-            "d" to 15.4,
-            "l" to 100L
-    ))
+    val gen = CommonEventGenerator().createFactory(MyFactory::class.java).createMyEvt(
+            9.toShort(),
+            false,
+            10.5F,
+            15.4,
+            100L
+    )
 
     println("Has short amount: ${gen.hasProperty(Short::class.javaPrimitiveType!!, "amount")}")
 
@@ -71,7 +71,7 @@ fun main(args: Array<String>) {
 
     val fakePlayer = TestPlayer()
 
-    val iter = SandstoneEventFactory.instance.createPlayerBlockInteractEvent(fakePlayer, object : BlockState {
+    val iter = CommonEventGenerator().createFactory(SandstoneEventFactory::class.java).createPlayerBlockInteractEvent(fakePlayer, object : BlockState {
         override val type: BlockType
             get() = BlockTypes.BEDROCK
 
@@ -125,4 +125,8 @@ interface MyEvt : Event {
     var d: Double
     var l: Long
 
+}
+
+interface MyFactory {
+    fun createMyEvt(amount: Short, ok: Boolean, i: Float, d: Double, l: Long): MyEvt
 }

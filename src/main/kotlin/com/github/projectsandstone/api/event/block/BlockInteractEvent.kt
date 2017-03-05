@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.event.block
 
-import com.github.projectsandstone.api.event.Cancellable
+import com.github.projectsandstone.api.event.action.InteractEvent
 
 /**
- * Fired when a block interaction event occurs.
+ * Fired when a block interaction occurs.
  */
-interface BlockInteractEvent : BlockEvent, Cancellable
+interface BlockInteractEvent : BlockEvent, InteractEvent

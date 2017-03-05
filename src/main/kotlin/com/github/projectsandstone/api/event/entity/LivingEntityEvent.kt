@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,34 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.event.entity
 
-import com.github.jonathanxd.iutils.type.TypeInfo
-import java.lang.invoke.MethodHandle
+import com.github.projectsandstone.api.entity.living.LivingEntity
 
 /**
- * Method event listener. This Listener holds a method that will be invoked.
+ * Base class of living entity events.
  */
-interface MethodEventListener : EventListener<Event> {
+interface LivingEntityEvent : EntityEvent {
 
     /**
-     * Method to invoke
+     * Living entity affected by this event
      */
-    val method: MethodHandle
-
-    /**
-     * Instance to call method.
-     */
-    val instance: Any?
-
-    /**
-     * Parameters
-     */
-    val parameters: Array<TypeInfo<*>>
-
-    /**
-     * Type of event (first parameter of [method])
-     */
-    val eventType: TypeInfo<Event>
+    override val entity: LivingEntity
 
 }

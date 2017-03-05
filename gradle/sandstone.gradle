@@ -48,6 +48,7 @@ dependencies {
     compile "com.github.JonathanxD:CodeAPI-Conversions:$codeapiconversions_version"
     compile "com.github.JonathanxD:AdapterHelper:$adapterhelper_version"
     compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
+    compile "com.github.ProjectSandstone:EventSys:$eventsys_version"
     compile "com.google.code.findbugs:jsr305:$jsr305_version"
     compile "io.github.lukehutch:fast-classpath-scanner:$fastclasspathscanner_version"
 
@@ -128,8 +129,8 @@ license {
     strictCheck true
 
     mapping {
-        java = 'JAVADOC_STYLE'
-        kt = 'JAVADOC_STYLE'
+        java = 'SLASHSTAR_STYLE'
+        kt = 'SLASHSTAR_STYLE'
     }
 }
 

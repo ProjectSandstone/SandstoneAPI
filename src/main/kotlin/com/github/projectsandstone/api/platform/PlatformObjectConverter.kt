@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,18 +25,39 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.property.primitive
+package com.github.projectsandstone.api.platform
 
-import com.github.projectsandstone.api.event.property.Property
+import com.github.jonathanxd.adapterhelper.AdapterBase
 
 /**
- * Boolean property.
+ * Converts a object of Sandstone to platform object.
+ *
+ * This is a interface to *AdapterHelper* API.
  */
-interface BooleanProperty : Property<Boolean> {
+interface PlatformObjectConverter {
 
-    override val type: Class<Boolean>
-        get() = java.lang.Boolean.TYPE
+    /**
+     * Converts [sandstoneObject] to a platform dependent version of this object.
+     *
+     * @return Platform version of this object, or null if this object cannot be converted.
+     */
+    fun <T> convertObject(sandstoneObject: T): Any? where T : Any, T : AdapterBase<*>
 
-    class Impl : BooleanProperty
+    /**
+     * Converts [sandstoneObject] to a platform dependent version of this object.
+     *
+     * @param expectedType Platform type that are expected to return.
+     * @return Platform version of this object, or null if this object cannot be converted.
+     */
+    fun <T, U : Any> convertObject(sandstoneObject: T, expectedType: Class<U>): U? where T : Any, T : AdapterBase<*>
 
+    /**
+     * Returns true if [objectType] can be converted to a platform type.
+     */
+    fun isConvertible(objectType: Class<*>): Boolean
+
+    /**
+     * Returns true if [objectType] can be converted to [platformType].
+     */
+    fun isConvertible(objectType: Class<*>, platformType: Class<*>): Boolean
 }

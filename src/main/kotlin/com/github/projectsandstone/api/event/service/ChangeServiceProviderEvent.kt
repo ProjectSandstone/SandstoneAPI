@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -28,9 +28,8 @@
 package com.github.projectsandstone.api.event.service
 
 import com.github.jonathanxd.iutils.type.TypeInfo
-import com.github.projectsandstone.api.event.Event
-import com.github.projectsandstone.api.event.annotation.TypeRef
 import com.github.projectsandstone.api.service.RegisteredProvider
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Fired when a service provider is changed.
@@ -42,7 +41,6 @@ interface ChangeServiceProviderEvent<T : Any> : Event {
     /**
      * Service Class
      */
-    @TypeRef("T")
     val service: TypeInfo<T>
 
     /**

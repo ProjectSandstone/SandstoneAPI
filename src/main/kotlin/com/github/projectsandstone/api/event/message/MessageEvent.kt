@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.event.message
 
-import com.github.projectsandstone.api.event.Cancellable
-import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.text.Text
+import com.github.projectsandstone.eventsys.event.Cancellable
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Fired when server receives a message

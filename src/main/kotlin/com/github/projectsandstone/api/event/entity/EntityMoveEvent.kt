@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,18 +25,23 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event
+package com.github.projectsandstone.api.event.entity
+
+import com.flowpowered.math.vector.Vector3d
 
 /**
- * Order [EventListener]s, implementation MUST compare two [EventPriority] instances.
+ * Fired when a [TileEntity] moves.
  */
-enum class EventPriority {
-    FIRST,
-    LOWEST,
-    LOW,
-    NORMAL,
-    HIGH,
-    HIGHEST,
-    LAST;
+interface EntityMoveEvent : LivingEntityEvent {
+
+    /**
+     * Origin location.
+     */
+    val from: Vector3d
+
+    /**
+     * Target location.
+     */
+    val to: Vector3d
 
 }

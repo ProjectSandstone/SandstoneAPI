@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,21 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.annotation
+package com.github.projectsandstone.api.event.action
 
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.FIELD,
-        AnnotationTarget.PROPERTY,
-        AnnotationTarget.ANNOTATION_CLASS,
-        AnnotationTarget.CLASS,
-        AnnotationTarget.CONSTRUCTOR,
-        AnnotationTarget.EXPRESSION,
-        AnnotationTarget.FILE,
-        AnnotationTarget.FUNCTION,
-        AnnotationTarget.LOCAL_VARIABLE,
-        AnnotationTarget.PROPERTY_GETTER,
-        AnnotationTarget.PROPERTY_SETTER,
-        AnnotationTarget.TYPE,
-        AnnotationTarget.TYPE_PARAMETER,
-        AnnotationTarget.VALUE_PARAMETER)
-annotation class Name(val value: String)
+import com.flowpowered.math.vector.Vector3d
+import com.github.projectsandstone.eventsys.event.Cancellable
+import com.github.projectsandstone.eventsys.event.Event
+
+interface InteractEvent : Event, Cancellable {
+
+    /**
+     * Interaction point (may be null).
+     */
+    val point: Vector3d?
+
+}

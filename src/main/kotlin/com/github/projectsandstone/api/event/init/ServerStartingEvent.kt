@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.event.init
 
 import com.github.projectsandstone.api.Server
-import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Server starts world loading, all plugin services may be working in this phase,

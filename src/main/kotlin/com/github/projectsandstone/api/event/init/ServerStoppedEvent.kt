@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.event.init
 
-import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * All worlds are saved, no players online, nothing to do here.

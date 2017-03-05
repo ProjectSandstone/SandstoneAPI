@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,7 +27,8 @@
  */
 package com.github.projectsandstone.api.event.init
 
-import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.world.World
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Server finished all tasks. Worlds are available in this phase.
@@ -37,6 +38,6 @@ import com.github.projectsandstone.api.event.Event
  */
 interface ServerStartedEvent : Event {
 
-    //TODO: fun getLoadedWorlds(): List<World>
+    val loadedWorlds: List<World>
 
 }

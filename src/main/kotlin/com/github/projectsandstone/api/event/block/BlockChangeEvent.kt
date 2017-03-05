@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,24 +25,41 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.annotation
+package com.github.projectsandstone.api.event.block
 
-import com.github.jonathanxd.iutils.type.TypeInfo
-import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
+import com.github.projectsandstone.api.block.BlockState
+import com.github.projectsandstone.api.util.Transaction
+import com.github.projectsandstone.eventsys.event.Cancellable
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
- * *Sandstone Event Manager* supports Generic Types, but Java has no Full-Reification (Java only
- * reifies generic types if the type is explicit specified) and Event Implementation Generator
- * erases all types, to work-around this limitation, you must to specify a explicit type reference of a generic type.
- *
- * *Event Manager* Supports only [Class] and [TypeInfo].
- *
- * Example of usage:
- *
- * [ChangeServiceProviderEvent].
- *
- * @param value Type name.
+ * Fired when a group of block states change to another group of states.
  */
-@Retention(AnnotationRetention.RUNTIME)
-@Target(AnnotationTarget.PROPERTY, AnnotationTarget.FIELD, AnnotationTarget.FUNCTION)
-annotation class TypeRef(val value: String)
+interface BlockChangeEvent : Event, Cancellable {
+
+    /**
+     * Transaction of blocks to change
+     */
+    val transactions: List<Transaction<BlockState>>
+
+    /**
+     * Blocks changed as result of being burnt.
+     */
+    interface Burn : BlockChangeEvent
+
+    /**
+     * Fired when blocks are added to world.
+     */
+    interface Place : BlockChangeEvent
+
+    /**
+     * Fired when blocks are removed from the world.
+     */
+    interface Break : BlockChangeEvent
+
+    /**
+     * Fired when blocks are modified.
+     */
+    interface Modify : BlockChangeEvent
+
+}

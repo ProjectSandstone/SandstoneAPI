@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,7 +27,8 @@
  */
 package com.github.projectsandstone.api.event
 
-import com.github.projectsandstone.api.event.property.Property
+import com.github.projectsandstone.eventsys.event.property.Property
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Event source, the [source] may be a player, a plugin, or a object of any type, events that

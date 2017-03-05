@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,17 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal
+package com.github.projectsandstone.api.util
 
-object Debug {
-    private const val DEBUG_PROPERTY = "sandstone.debug"
-    private const val FACTORY_GEN_PROPERTY = "sandstone.debug.factorygen"
-    private const val EVENT_GEN_PROPERTY = "sandstone.debug.eventgen"
-    private const val LISTENER_GEN_PROPERTY = "sandstone.debug.listenergen"
+/**
+ * Represents an transaction.
+ *
+ * @property original Original instance.
+ * @property replacement Original replacement instance.
+ * @property custom Custom replacement.
+ * @property valid Is the transaction valid.
+ */
+data class Transaction<T : Any>(val original: T, val replacement: T, var custom: T? = null, var valid: Boolean = true) {
 
-    val EVENT_GEN_DEBUG = getDebugProperty(EVENT_GEN_PROPERTY)
-    val FACTORY_GEN_DEBUG = getDebugProperty(FACTORY_GEN_PROPERTY)
-    val LISTENER_GEN_DEBUG = getDebugProperty(LISTENER_GEN_PROPERTY)
+    /**
+     * Final replacement of transaction.
+     */
+    val final: T
+        get() = this.custom ?: this.replacement
 
-    private fun getDebugProperty(name: String) = System.getProperties()[name]?.equals("true") ?: System.getProperties()[DEBUG_PROPERTY]?.equals("true") ?: false
 }

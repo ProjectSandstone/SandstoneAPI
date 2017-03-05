@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -28,6 +28,7 @@
 package com.github.projectsandstone.api.event
 
 import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
 import com.github.projectsandstone.api.entity.living.player.Player
@@ -38,6 +39,7 @@ import com.github.projectsandstone.api.event.entity.damage.EntityDamageEvent
 import com.github.projectsandstone.api.event.init.*
 import com.github.projectsandstone.api.event.message.MessageChannelEvent
 import com.github.projectsandstone.api.event.message.MessageEvent
+import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.event.plugin.PluginLoadFailedEvent
 import com.github.projectsandstone.api.event.plugin.PluginLoadedEvent
 import com.github.projectsandstone.api.event.plugin.PluginLoadingEvent
@@ -48,20 +50,19 @@ import com.github.projectsandstone.api.service.RegisteredProvider
 import com.github.projectsandstone.api.statistic.Achievement
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageChannel
-import com.github.projectsandstone.api.util.internal.gen.event.EventFactoryClassGen
+import com.github.projectsandstone.api.world.World
+import com.github.projectsandstone.eventsys.event.annotation.Extension
 import com.google.common.util.concurrent.Futures
 import java.util.concurrent.Future
 
 /**
  * Base interface to create event instances.
- *
- * @see EventFactoryClassGen
  */
 interface SandstoneEventFactory {
 
     fun createServerStartingEvent(): ServerStartingEvent
 
-    fun createServerStartedEvent(): ServerStartedEvent
+    fun createServerStartedEvent(loadedWorlds: List<World>): ServerStartedEvent
 
     fun createServerStoppedEvent(): ServerStoppedEvent
 
@@ -88,22 +89,26 @@ interface SandstoneEventFactory {
                                                    newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> =
             createChangeServiceProviderEvent(TypeInfo.aEnd(service), oldProvider, newProvider)
 
-    fun createEntityDamageEvent(damageCause: DamageCause, entity: Entity): EntityDamageEvent
+    fun createEntityDamageEvent(damageCause: DamageCause, entities: List<Entity>, world: World): EntityDamageEvent
 
     fun createBlockInteractEvent(block: BlockState): BlockInteractEvent
 
+    @Extension(implement = PlayerEvent::class)
     fun createPlayerBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent
 
     fun createMessageEvent(message: Text): MessageEvent
 
+    @Extension(implement = PlayerEvent::class)
     fun createMessageEvent(player: Player, message: Text): MessageEvent
 
     fun createMessageChannelEvent(channel: MessageChannel?, message: Text): MessageChannelEvent
 
+    @Extension(implement = PlayerEvent::class)
     fun createMessageChannelEvent(player: Player, channel: MessageChannel?, message: Text): MessageChannelEvent
 
     fun createGrantAchievementEvent(achievement: Achievement, channel: MessageChannel?, message: Text): GrantAchievementEvent
 
+    @Extension(implement = PlayerEvent::class)
     fun createGrantAchievementEvent(player: Player, achievement: Achievement, channel: MessageChannel?, message: Text): GrantAchievementEvent
 
     companion object {
@@ -118,7 +123,7 @@ interface SandstoneEventFactory {
 
                 instance_!!
             } else if (async != null) async!!.get() else
-                EventFactoryClassGen.create(SandstoneEventFactory::class.java).let {
+                Sandstone.eventManager.eventGenerator.createFactory(SandstoneEventFactory::class.java).let {
                     instance_ = it
                     return it
                 }
@@ -126,15 +131,18 @@ interface SandstoneEventFactory {
 
         fun createAsync(): Future<SandstoneEventFactory> {
             return if (instance_ != null)
-                return Futures.immediateFuture(instance_)
+                Futures.immediateFuture(instance_)
             else
-                if (async != null)
-                    async!!
-                else
-                    EventFactoryClassGen.createAsync(SandstoneEventFactory::class.java, {
-                        instance_ = it
+                if (async != null) {
+                    val asc = async!!
+                    if (asc.isDone) {
+                        instance_ = asc.get()
                         async = null
-                    }).let {
+                    }
+
+                    asc
+                } else
+                    Sandstone.eventManager.eventGenerator.createFactoryAsync(SandstoneEventFactory::class.java).let {
                         async = it
                         return@let it
                     }

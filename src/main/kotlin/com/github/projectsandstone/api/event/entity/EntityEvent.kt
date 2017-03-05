@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -28,11 +28,16 @@
 package com.github.projectsandstone.api.event.entity
 
 import com.github.projectsandstone.api.entity.Entity
-import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.event.world.WorldEvent
 
-interface EntityEvent : Event {
+/**
+ * Base class of entity event.
+ */
+interface EntityEvent : WorldEvent {
+
     /**
-     * Main entity related to event
+     * Entity affected by this event
      */
     val entity: Entity
+
 }

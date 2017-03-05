@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -28,11 +28,17 @@
 package com.github.projectsandstone.api.event.block
 
 import com.github.projectsandstone.api.block.BlockState
-import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.api.event.world.WorldEvent
+import com.github.projectsandstone.eventsys.event.Cancellable
 
 /**
- * Base class of all events related to [BlockState].
+ * Base class of all events related to a single [BlockState].
  */
-interface BlockEvent : Event {
+interface BlockEvent : WorldEvent, Cancellable {
+
+    /**
+     * State of the block.
+     */
     val block: BlockState
+
 }

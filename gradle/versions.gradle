@@ -5,10 +5,11 @@ ext.guice_version = '4.1.0'
 ext.flowmath_version = '1.0.3'
 
 ext.jwiutils_version = '3.6.0'
-ext.codeapi_bytecode_version = '3.2.0-3.2.0-a'
+ext.codeapi_bytecode_version = '3.2.5-3.2.0-a'
 ext.codeapiconversions_version = '1.2.2-a'
-ext.adapterhelper_version = '1.5.1-a'
+ext.adapterhelper_version = '1.5.4'
 ext.codeproxy_version = '2.0-kt-ca'
+ext.eventsys_version = "1.0.2-a"
 ext.jsr305_version = '3.0.1'
 ext.fastclasspathscanner_version = "2.0.9"
 

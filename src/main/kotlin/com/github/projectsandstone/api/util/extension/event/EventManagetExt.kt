@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -29,19 +29,4 @@ package com.github.projectsandstone.api.util.extension.event
 
 import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
-import com.github.projectsandstone.api.event.Event
-import com.github.projectsandstone.api.event.EventListener
-import com.github.projectsandstone.api.event.EventManager
 
-/**
- * Register the listener to [Event] [T].
- *
- * @param T Event type
- * @param plugin Plugin instance
- * @param eventListener Event Listener instance.
- */
-inline fun <reified T : Event> EventManager.registerListener(plugin: Any, eventListener: EventListener<T>) {
-    val typeInfo: TypeInfo<T> = object : ConcreteTypeInfo<T>() {}
-
-    this.registerListener(plugin, typeInfo, eventListener)
-}

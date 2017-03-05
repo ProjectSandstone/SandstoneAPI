@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,10 +27,9 @@
  */
 package com.github.projectsandstone.api.event.entity.damage
 
-import com.github.projectsandstone.api.event.Cancellable
 import com.github.projectsandstone.api.event.entity.EntityEvent
 
-interface EntityDamageEvent : EntityEvent, Cancellable {
+interface EntityDamageEvent : EntityEvent {
     /**
      * Damage cause.
      */

@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,6 +27,8 @@
  */
 package com.github.projectsandstone.api.text
 
+import com.github.jonathanxd.adapterhelper.AdapterBase
+import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.text.style.TextColor
 import com.github.projectsandstone.api.text.style.TextColors
 import com.github.projectsandstone.api.text.style.TextFormat

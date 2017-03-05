@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,11 +27,11 @@
  */
 package com.github.projectsandstone.api.event.world
 
-import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.world.World
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
- * Base World event
+ * Base class of all events that affects a single [world].
  */
 interface WorldEvent : Event {
 

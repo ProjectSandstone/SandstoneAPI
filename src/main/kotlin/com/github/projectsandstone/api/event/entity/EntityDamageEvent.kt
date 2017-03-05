@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,27 +25,54 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.property.primitive
-
-import com.github.projectsandstone.api.event.property.SetterProperty
-import com.github.projectsandstone.api.util.BooleanConsumer
+package com.github.projectsandstone.api.event.entity
 
 /**
- * Boolean setter property.
- *
- * Avoid boxing and unboxing.
+ * Fired when an entity is damaged
  */
-interface BooleanSetterProperty : BooleanProperty, SetterProperty<Boolean> {
+interface EntityDamageEvent : EntityEvent {
 
-    override fun setValue(value: Boolean) = this.setAsBoolean(value)
+    val cause: Cause
 
-    /**
-     * Set value as boolean (without boxing)
-     */
-    fun setAsBoolean(value: Boolean)
+    var damage: Double
+    val originalDamage: Double
 
-    class Impl(val setter: BooleanConsumer) : BooleanSetterProperty {
-        override fun setAsBoolean(value: Boolean) = this.setter.accept(value)
+    val modifiers: MutableMap<DamageModifier, Double>
+    val originalModifiers: Map<DamageModifier, Double>
+
+    val modifierFunctions: MutableList<Pair<DamageModifier, (Double) -> Double>>
+    val originalModifierFunctions: List<Pair<DamageModifier, (Double) -> Double>>
+
+    fun setDamage(damage: Double, modifier: DamageModifier)
+    fun getDamage(modifier: DamageModifier): Double
+    fun isApplicable(modifier: DamageModifier): Boolean
+
+    enum class DamageModifier {
+        ABSORPTION,
+        ARMOR,
+        BASE,
+        BLOCKING,
+        HARD_HAT,
+        MAGIC,
+        RESISTANCE
+    }
+
+    enum class Cause {
+        DROWNING,
+        CONTACT,
+        CRAMMING,
+        ENTITY_ATTACK,
+        EXPLOSION,
+        FALL,
+        FIRE,
+        KINETIC_ENERGY,
+        HOT_FLOOR,
+        LAVA,
+        MAGIC,
+        PROJECTILE,
+        SUICIDE,
+        VOID,
+        WITHER
     }
 
 }

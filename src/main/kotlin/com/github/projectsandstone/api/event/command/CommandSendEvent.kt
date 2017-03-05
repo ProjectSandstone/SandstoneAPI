@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,13 +27,12 @@
  */
 package com.github.projectsandstone.api.event.command
 
-import com.github.projectsandstone.api.event.Cancellable
-import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Fired when a command is sent.
  */
-interface CommandSendEvent : Event, Cancellable {
+interface CommandSendEvent : Event {
     /**
      * Command name.
      */

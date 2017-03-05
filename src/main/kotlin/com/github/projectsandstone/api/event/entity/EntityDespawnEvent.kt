@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,10 +25,22 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.internal.gen.event
+package com.github.projectsandstone.api.event.entity
 
-data class PropertyInfo @JvmOverloads constructor(val propertyName: String, val getterName: String? = null, val setterName: String? = null, val type: Class<*>) {
-    fun hasGetter() = this.getterName != null
-    fun hasSetter() = this.setterName != null
-    fun isMutable() = this.setterName != null
+import com.github.projectsandstone.api.entity.living.LivingEntity
+
+/**
+ * Fired when a entity de-spawn (killed or removed from the world).
+ */
+interface EntityDespawnEvent : EntityEvent {
+
+    interface Death : EntityDespawnEvent, LivingEntityEvent {
+
+        /**
+         * Killer source entity.
+         */
+        val killer: LivingEntity?
+
+    }
+
 }

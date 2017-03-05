@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -25,27 +25,51 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.property.primitive
+package com.github.projectsandstone.api.event.entity
 
-import com.github.projectsandstone.api.event.property.GetterProperty
-import java.util.function.BooleanSupplier
-
-/**
- * Boolean getter property.
- *
- * Avoid boxing and unboxing.
- */
-interface BooleanGetterProperty : BooleanProperty, GetterProperty<Boolean> {
-
-    override fun getValue(): Boolean = this.getAsBoolean()
+interface EntitySpawnEvent : EntityEvent {
 
     /**
-     * Get value as boolean (without unboxing).
+     * Reason of mob spawning.
      */
-    fun getAsBoolean(): Boolean
+    val cause: Cause
 
-    class Impl(val getter: BooleanSupplier) : BooleanGetterProperty {
-        override fun getAsBoolean(): Boolean = this.getter.asBoolean
+    enum class Cause {
+
+        /**
+         * Natural mob spawning
+         */
+        NATURAL,
+
+        /**
+         * Spawned from a build of a player.
+         */
+        BUILD,
+
+        /**
+         * Mob spawner.
+         */
+        SPAWNER,
+
+        /**
+         * Creative spawn egg
+         */
+        SPAWN_EGG,
+
+        /**
+         * Projectiles (like chicken eggs and ender pearl)
+         */
+        PROJECTILE,
+
+        /**
+         * Custom spawning.
+         */
+        CUSTOM,
+
+        /**
+         * Unknown spawn reason.
+         */
+        UNKNOWN
     }
 
 }

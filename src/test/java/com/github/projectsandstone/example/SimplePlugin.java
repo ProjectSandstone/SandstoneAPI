@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -31,19 +31,21 @@ import com.google.inject.Inject;
 
 import com.github.projectsandstone.api.Game;
 import com.github.projectsandstone.api.Sandstone;
+import com.github.projectsandstone.api.block.BlockState;
+import com.github.projectsandstone.api.block.BlockTypes;
 import com.github.projectsandstone.api.entity.living.player.Player;
-import com.github.projectsandstone.api.event.Listener;
-import com.github.projectsandstone.api.event.SandstoneEventFactory;
-import com.github.projectsandstone.api.event.annotation.Name;
+import com.github.projectsandstone.api.event.block.BlockInteractEvent;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
 import com.github.projectsandstone.api.event.message.MessageEvent;
 import com.github.projectsandstone.api.event.player.PlayerEvent;
-import com.github.projectsandstone.api.event.property.GetterProperty;
 import com.github.projectsandstone.api.logging.Logger;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.api.plugin.PluginDefinition;
 import com.github.projectsandstone.api.text.Text;
 import com.github.projectsandstone.api.util.version.Schemes;
+import com.github.projectsandstone.eventsys.event.annotation.Listener;
+import com.github.projectsandstone.eventsys.event.annotation.Name;
+import com.github.projectsandstone.eventsys.event.property.GetterProperty;
 
 /**
  * Created by jonathan on 13/08/16.
@@ -73,7 +75,7 @@ public class SimplePlugin {
 
         boolean cancelled = test.isCancelled();
 
-        if(!cancelled) {
+        if (!cancelled) {
             logger.info("Message sent!!!");
         }
     }
@@ -83,14 +85,14 @@ public class SimplePlugin {
     public void playerChat(MessageEvent event) {
         // Property:
         GetterProperty<Player> property = event.getGetterProperty(Player.class, "player");
-        if(property != null) {
+        if (property != null) {
             Player player = property.getValue();
             // ...
         }
 
         // PlayerEvent
 
-        if(event instanceof PlayerEvent) {
+        if (event instanceof PlayerEvent) {
             PlayerEvent playerEvent = (PlayerEvent) event;
             Player player = playerEvent.getPlayer();
         }
@@ -100,5 +102,16 @@ public class SimplePlugin {
     @Listener
     public void playerChat(MessageEvent event, @Name("player") Player player) {
         // ...
+    }
+
+
+    // Function parameter
+    @Listener
+    public void playerInteract(BlockInteractEvent event, @Name("player") Player player) {
+        BlockState block = event.getBlock();
+
+        if (block.getType() == BlockTypes.LAVA) {
+            player.sendMessage(Text.of("Wow, this is too hot!!!"));
+        }
     }
 }

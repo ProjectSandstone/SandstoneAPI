@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,9 +27,7 @@
  */
 package com.github.projectsandstone.api.event.world
 
-import com.github.projectsandstone.api.event.Cancellable
-
 /**
  * Fired when world is loaded.
  */
-interface WorldLoadEvent : WorldEvent, Cancellable
+interface WorldLoadEvent : WorldEvent

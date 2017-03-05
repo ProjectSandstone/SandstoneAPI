@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.event.plugin
 
-import com.github.projectsandstone.api.event.Event
 import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.plugin.PluginManager
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Base event class of all events that may happen during plugin loading process.

@@ -1,4 +1,4 @@
-/**
+/*
  *      SandstoneAPI - Minecraft Server Modding API
  *
  *         The MIT License (MIT)
@@ -27,13 +27,12 @@
  */
 package com.github.projectsandstone.api.event.command
 
-import com.github.projectsandstone.api.event.Cancellable
-import com.github.projectsandstone.api.event.Event
+import com.github.projectsandstone.eventsys.event.Event
 
 /**
  * Fired when a player send tab complete request.
  */
-interface TabCompleteEvent : Event, Cancellable {
+interface TabCompleteEvent : Event {
 
     /**
      * Tab request message
