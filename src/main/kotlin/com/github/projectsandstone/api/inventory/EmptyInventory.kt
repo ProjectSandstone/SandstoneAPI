@@ -25,27 +25,9 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.entity.living.player
-
-import com.github.projectsandstone.api.entity.living.Human
-import com.github.projectsandstone.api.inventory.Carrier
-import com.github.projectsandstone.api.text.Text
-import com.github.projectsandstone.api.text.channel.MessageReceiver
+package com.github.projectsandstone.api.inventory
 
 /**
- * A Minecraft Player
+ * Empty inventory.
  */
-interface Player : Human, MessageReceiver, User, Carrier {
-
-    /**
-     * Kick the player
-     */
-    fun kick()
-
-    /**
-     * Kick the player
-     *
-     * @param reason Reason of the kick
-     */
-    fun kick(reason: Text)
-}
+interface EmptyInventory : Inventory

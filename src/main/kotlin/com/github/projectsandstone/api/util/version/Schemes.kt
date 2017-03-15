@@ -28,13 +28,47 @@
 package com.github.projectsandstone.api.util.version
 
 /**
- * Created by jonathan on 27/08/16.
+ * Version schemes
  */
 object Schemes {
     @JvmStatic
     internal lateinit var semVerScheme_: VersionScheme
 
+    /**
+     * Semantic versioning scheme.
+     */
     @JvmStatic
     val semVerScheme: VersionScheme
         get() = this.semVerScheme_
+
+
+    /**
+     * Default version scheme, always returns false for [VersionScheme.isCompatible].
+     */
+    @JvmStatic
+    val commonVersionScheme: VersionScheme = CommonVersionScheme
+
+    /**
+     * Alphabetic ordered version scheme.
+     */
+    @JvmStatic
+    val alphabeticScheme: VersionScheme = AlphabeticVersionScheme
+
+    internal object CommonVersionScheme : VersionScheme {
+        override fun compare(o1: Version?, o2: Version?): Int = -1
+
+        override fun isCompatible(version1: Version, version2: Version): Boolean = false
+    }
+
+    internal object AlphabeticVersionScheme : VersionScheme {
+
+        override fun isCompatible(version1: Version, version2: Version): Boolean =
+                version1.versionScheme == version2.versionScheme && version1.versionString == version2.versionString
+
+        override fun compare(o1: Version, o2: Version): Int =
+                if (o1.versionScheme != o2.versionScheme) -1
+                else o1.versionString.compareTo(o2.versionString)
+
+    }
+
 }

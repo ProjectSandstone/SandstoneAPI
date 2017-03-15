@@ -33,17 +33,36 @@ import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.util.extension.flow.math.minus
 import com.github.projectsandstone.api.util.extension.flow.math.plus
 import com.github.projectsandstone.api.world.extent.Extent
+import java.lang.ref.WeakReference
 
 /**
  * Immutable [Location] representation.
  *
  * A [Location] is a position in a [Extent].
  */
-data class Location<out E : Extent>(val extent: E, val position: Vector3d) {
+data class Location<out E : Extent>(val extent_: WeakReference<out E>, val position: Vector3d) {
 
+    constructor(extent: E, position: Vector3d) : this(WeakReference(extent), position.toDouble())
     constructor(extent: E, position: Vector3i) : this(extent, position.toDouble())
 
     constructor(extent: E, x: Double, y: Double, z: Double) : this(extent, Vector3d(x, y, z))
+
+    /**
+     * Gets the extent
+     */
+    val extent: E
+        get() = this.extent_.get() ?: throw IllegalStateException("Extent is not loaded.")
+
+    /**
+     * Gets the extent or null if the [extent] is not loaded
+     */
+    val extentOrNull: E?
+        get() = this.extent_.get()
+
+    /**
+     * Returns true if [extent_] is loaded.
+     */
+    fun isLoaded(): Boolean = this.extent_.get() != null
 
     /**
      * Change [Location.extent] and [Location.E] to a new [extent] and [V].
@@ -67,7 +86,7 @@ data class Location<out E : Extent>(val extent: E, val position: Vector3d) {
      * @return New [Location] with new calculated values.
      */
     fun plus(x: Double, y: Double, z: Double): Location<E> {
-        return this.copy(this.extent, position = this.position.add(x, y, z))
+        return this.copy(this.extent_, position = this.position.add(x, y, z))
     }
 
     /**
@@ -77,7 +96,7 @@ data class Location<out E : Extent>(val extent: E, val position: Vector3d) {
      * @return New [Location] with new calculated values.
      */
     operator fun plus(position: Vector3d): Location<E> {
-        return this.copy(this.extent, this.position + position)
+        return this.copy(this.extent_, this.position + position)
     }
 
     /**
@@ -89,7 +108,7 @@ data class Location<out E : Extent>(val extent: E, val position: Vector3d) {
      * @return New [Location] with new calculated values.
      */
     fun minus(x: Double, y: Double, z: Double): Location<E> {
-        return this.copy(extent = this.extent, position = this.position.sub(x, y, z))
+        return this.copy(extent_ = this.extent_, position = this.position.sub(x, y, z))
     }
 
     /**
@@ -99,7 +118,7 @@ data class Location<out E : Extent>(val extent: E, val position: Vector3d) {
      * @return New [Location] with new calculated values.
      */
     operator fun minus(position: Vector3d): Location<E> {
-        return this.copy(extent = this.extent, position = this.position - position)
+        return this.copy(extent_ = this.extent_, position = this.position - position)
     }
 
 

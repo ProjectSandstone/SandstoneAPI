@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.constants
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.plugin.*
+import com.github.projectsandstone.api.util.version.Schemes
 import com.github.projectsandstone.api.util.version.Version
 import java.nio.file.Path
 import java.nio.file.Paths

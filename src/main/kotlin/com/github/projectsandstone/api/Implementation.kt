@@ -25,27 +25,37 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.entity.living.player
+package com.github.projectsandstone.api
 
-import com.github.projectsandstone.api.entity.living.Human
-import com.github.projectsandstone.api.inventory.Carrier
-import com.github.projectsandstone.api.text.Text
-import com.github.projectsandstone.api.text.channel.MessageReceiver
+import com.github.projectsandstone.api.util.version.Version
 
 /**
- * A Minecraft Player
+ * SandstoneAPI implementation.
  */
-interface Player : Human, MessageReceiver, User, Carrier {
+interface Implementation {
 
     /**
-     * Kick the player
+     * Name of the implementation
      */
-    fun kick()
+    val name: String
 
     /**
-     * Kick the player
-     *
-     * @param reason Reason of the kick
+     * Full name of implementation, example: `SandstoneBukkit-1.0.0-API1.0.0-MC1.10.2`
      */
-    fun kick(reason: Text)
+    val fullName: String
+
+    /**
+     * Version of the implementation
+     */
+    val version: Version
+
+    /**
+     * Version of Minecraft where the implementation is designed.
+     */
+    val designedMcVersion: Version
+
+    /**
+     * API version where the platform is designed.
+     */
+    val designedApiVersion: Version
 }

@@ -44,5 +44,5 @@ object Constants {
     val SANDSTONE_PLUGIN_DESCRIPTION = "Minecraft Server Modding API."
 
     @JvmStatic
-    val AUTHORS = arrayOf("ProjectSandstone team.")
+    val AUTHORS = arrayOf("ProjectSandstone Team.")
 }

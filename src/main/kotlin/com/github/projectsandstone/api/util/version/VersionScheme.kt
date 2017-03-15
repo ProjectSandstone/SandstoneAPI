@@ -27,10 +27,8 @@
  */
 package com.github.projectsandstone.api.util.version
 
-/**
- * Created by jonathan on 27/08/16.
- */
 interface VersionScheme : Comparator<Version> {
+
     /**
      * Returns true if this [version1] is compatible with [version2]
      *
@@ -39,4 +37,5 @@ interface VersionScheme : Comparator<Version> {
      * @return True if this [version1] is compatible with [version2]
      */
     fun isCompatible(version1: Version, version2: Version): Boolean
+
 }

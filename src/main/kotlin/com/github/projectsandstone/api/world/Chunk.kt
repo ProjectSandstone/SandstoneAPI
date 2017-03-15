@@ -98,7 +98,13 @@ data class Chunk(val extent: Extent,
         return Selection(this.extent, this.selection.from.add(from), this.selection.to.add(to))
     }
 
-    override fun spawnEntity(type: EntityType, location: Location<*>): Entity =
+    override fun createEntity(type: EntityType, location: Vector3d): Entity? =
+            this.extent.spawnEntity(type, location.plus(selection.from))
+
+    override fun spawnEntity(entity: Entity): Entity =
+            this.extent.spawnEntity(entity)
+
+    override fun spawnEntity(type: EntityType, location: Vector3d): Entity =
             this.extent.spawnEntity(type, location.plus(selection.from))
 
     /**

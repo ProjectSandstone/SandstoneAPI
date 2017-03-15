@@ -30,7 +30,7 @@ package com.github.projectsandstone.api.world.extent
 import com.flowpowered.math.vector.Vector3d
 import com.github.projectsandstone.api.entity.Entity
 import com.github.projectsandstone.api.entity.EntityType
-import com.github.projectsandstone.api.world.Location
+import com.github.projectsandstone.api.inventory.ItemStack
 
 /**
  * Container of entities instance.
@@ -52,17 +52,44 @@ interface EntityUniverse {
         return this.entities.filter {
             val position = it.location.position
 
-            return@filter position >= min && position <= max
+            return@filter position in min..max
         }
     }
+
+    /**
+     * Creates an entity. (The entity will not be spawned).
+     *
+     * @param type Entity type.
+     * @param location Location of entity in the universe.
+     * @return Entity instance if the entity can be spawned in [location] or null if not.
+     */
+    fun createEntity(type: EntityType, location: Vector3d): Entity?
+
+
+    /**
+     * Spawn the entity in the universe.
+     *
+     * @param entity Entity instance.
+     * @return True if the entity spawned with success.
+     */
+    fun spawnEntity(entity: Entity): Boolean
 
     /**
      * Spawn the entity in the universe.
      *
      * @param type Type of the entity.
      * @param location Location of the entity in the universe.
-     * @return Instance of the new entity.
+     * @return True if the entity spawned with success.
      */
-    fun spawnEntity(type: EntityType, location: Location<*>): Entity
+    fun spawnEntity(type: EntityType, location: Vector3d): Boolean
+
+    /**
+     * Spawns a item stack in the universe.
+     *
+     * @param stack item stack.
+     * @param location Location to spawn item.
+     * @return True if the item spawned with success.
+     */
+    fun spawnItem(stack: ItemStack, location: Vector3d): Boolean
 
 }

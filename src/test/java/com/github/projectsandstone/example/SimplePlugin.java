@@ -38,18 +38,27 @@ import com.github.projectsandstone.api.event.block.BlockInteractEvent;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
 import com.github.projectsandstone.api.event.message.MessageEvent;
 import com.github.projectsandstone.api.event.player.PlayerEvent;
+import com.github.projectsandstone.api.inventory.CarriedInventory;
+import com.github.projectsandstone.api.inventory.Carrier;
+import com.github.projectsandstone.api.inventory.ItemStack;
+import com.github.projectsandstone.api.inventory.OperationResult;
+import com.github.projectsandstone.api.inventory.TransactionResult;
+import com.github.projectsandstone.api.item.ItemType;
+import com.github.projectsandstone.api.item.ItemTypes;
 import com.github.projectsandstone.api.logging.Logger;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.api.plugin.PluginDefinition;
 import com.github.projectsandstone.api.text.Text;
 import com.github.projectsandstone.api.util.version.Schemes;
+import com.github.projectsandstone.api.world.Location;
+import com.github.projectsandstone.api.world.World;
 import com.github.projectsandstone.eventsys.event.annotation.Listener;
 import com.github.projectsandstone.eventsys.event.annotation.Name;
 import com.github.projectsandstone.eventsys.event.property.GetterProperty;
 
-/**
- * Created by jonathan on 13/08/16.
- */
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 @Plugin(id = "com.github.projectsandstone.example", version = "1.0.0")
 public class SimplePlugin {
 
@@ -112,6 +121,58 @@ public class SimplePlugin {
 
         if (block.getType() == BlockTypes.LAVA) {
             player.sendMessage(Text.of("Wow, this is too hot!!!"));
+
+            OperationResult<List<ItemStack>> take = player.getInventory().take(10, ItemTypes.STRING);
+
+            if (take.isSuccess()) {
+                List<ItemStack> result = take.getResult();
+                // Do something
+            }
+
+        }
+
+        if (block.getType() == BlockTypes.CHEST) {
+            CarriedInventory<? extends Carrier> inventory = ((Carrier) block).getInventory();
+
+            List<ItemStack> all = inventory.peekAll();
+
+            TransactionResult<List<ItemStack>> listTransactionResult = player.getInventory().offerAll(all);
+
+            for (ItemStack itemStack : listTransactionResult.getRejected()) {
+                player.getLocation().getExtent().spawnItem(itemStack, player.getLocation().getPosition());
+            }
+        }
+
+        if (block.getType() == BlockTypes.TRAPPED_CHEST) {
+            CarriedInventory<? extends Carrier> inventory = ((Carrier) block).getInventory();
+
+            ThreadLocalRandom current = ThreadLocalRandom.current();
+
+            int i = current.nextInt(10) + 3;
+
+            List<ItemType> itemTypes = this.game.getRegistry().getAll(ItemType.class);
+
+            for (int x = 0; x < i; ++x) {
+
+                ItemType item = itemTypes.get(current.nextInt(itemTypes.size()));
+
+                ItemStack itemStack = ItemStack.Factory.of(item, current.nextInt(3) + 1);
+
+                TransactionResult<ItemStack> offer = player.getInventory().offer(itemStack);
+
+                ItemStack rejected = offer.getRejected();
+
+                if(rejected.getQuantity() > 0) {
+
+                    Location<World> location = player.getLocation();
+
+                    World extent = location.getExtent();
+
+                    extent.spawnItem(rejected, location.getPosition());
+                }
+
+            }
+
         }
     }
 }

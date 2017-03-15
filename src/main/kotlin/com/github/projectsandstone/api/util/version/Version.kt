@@ -29,6 +29,7 @@ package com.github.projectsandstone.api.util.version
 
 
 data class Version(val versionString: String, val versionScheme: VersionScheme) : Comparable<Version> {
+
     /**
      * Returns true if this [Version] is compatible with [version]
      *
@@ -72,4 +73,5 @@ data class Version(val versionString: String, val versionScheme: VersionScheme) 
     override fun compareTo(other: Version): Int {
         return this.versionScheme.compare(this, other)
     }
+
 }

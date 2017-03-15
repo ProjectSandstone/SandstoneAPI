@@ -25,27 +25,13 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.entity.living.player
+package com.github.projectsandstone.api.inventory
 
-import com.github.projectsandstone.api.entity.living.Human
-import com.github.projectsandstone.api.inventory.Carrier
-import com.github.projectsandstone.api.text.Text
-import com.github.projectsandstone.api.text.channel.MessageReceiver
+interface TransactionResult<out R> {
 
-/**
- * A Minecraft Player
- */
-interface Player : Human, MessageReceiver, User, Carrier {
+    val added: R
 
-    /**
-     * Kick the player
-     */
-    fun kick()
+    val rejected: R
 
-    /**
-     * Kick the player
-     *
-     * @param reason Reason of the kick
-     */
-    fun kick(reason: Text)
+    data class Impl<out R>(override val added: R, override val rejected: R) : TransactionResult<R>
 }

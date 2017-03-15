@@ -25,27 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.entity.living.player
+package com.github.projectsandstone.api
 
-import com.github.projectsandstone.api.entity.living.Human
-import com.github.projectsandstone.api.inventory.Carrier
-import com.github.projectsandstone.api.text.Text
-import com.github.projectsandstone.api.text.channel.MessageReceiver
+import com.github.projectsandstone.api.inventory.ItemStack
+import com.github.projectsandstone.api.item.ItemType
 
 /**
- * A Minecraft Player
+ * Create Sandstone objects.
  */
-interface Player : Human, MessageReceiver, User, Carrier {
+interface SandstoneObjectFactory {
 
     /**
-     * Kick the player
+     * Creates a [ItemStack] of [itemType]x[quantity].
      */
-    fun kick()
+    fun createItemStack(itemType: ItemType, quantity: Int): ItemStack
 
-    /**
-     * Kick the player
-     *
-     * @param reason Reason of the kick
-     */
-    fun kick(reason: Text)
 }

@@ -63,6 +63,11 @@ data class Selection(val extent: Extent,
         get() = this.extent.getBlocks(this.from.toInt(), this.to.toInt())
 
     /**
+     * Returns true if [position] is bound to this selection range.
+     */
+    fun isIn(position: Vector3d) = position in from..to
+
+    /**
      * Set all block states inside this selection to [blockState].
      */
     fun setBlocks(blockState: BlockState) =

@@ -25,27 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.entity.living.player
+package com.github.projectsandstone.api.inventory
 
-import com.github.projectsandstone.api.entity.living.Human
-import com.github.projectsandstone.api.inventory.Carrier
-import com.github.projectsandstone.api.text.Text
-import com.github.projectsandstone.api.text.channel.MessageReceiver
+import com.github.projectsandstone.api.Sandstone
+import com.github.projectsandstone.api.item.ItemType
 
 /**
- * A Minecraft Player
+ * Item Stack, all [ItemStacks][ItemStack] should be a copy of the original stack.
  */
-interface Player : Human, MessageReceiver, User, Carrier {
+interface ItemStack {
 
     /**
-     * Kick the player
+     * Item
      */
-    fun kick()
+    val item: ItemType
 
     /**
-     * Kick the player
-     *
-     * @param reason Reason of the kick
+     * Quantity
      */
-    fun kick(reason: Text)
+    var quantity: Int
+
+    /**
+     * Max stack quantity
+     */
+    val maxStackQuantity: Int
+
+    /**
+     * Creates a copy of current [ItemStack].
+     */
+    fun copy(item: ItemType = this.item, quantity: Int = this.quantity): ItemStack
+
+    companion object Factory {
+        fun of(item: ItemType, quantity: Int) = Sandstone.objectFactory.createItemStack(item, quantity)
+    }
+
 }
