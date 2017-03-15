@@ -34,6 +34,7 @@ import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
 import com.github.projectsandstone.api.entity.EntityType
 import com.github.projectsandstone.api.event.Source
+import com.github.projectsandstone.api.inventory.ItemStack
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageReceiver
 import com.github.projectsandstone.api.util.extension.flow.math.plus
@@ -99,13 +100,16 @@ data class Chunk(val extent: Extent,
     }
 
     override fun createEntity(type: EntityType, location: Vector3d): Entity? =
-            this.extent.spawnEntity(type, location.plus(selection.from))
+            this.extent.createEntity(type, location.plus(selection.from))
 
-    override fun spawnEntity(entity: Entity): Entity =
+    override fun spawnEntity(entity: Entity): Boolean =
             this.extent.spawnEntity(entity)
 
-    override fun spawnEntity(type: EntityType, location: Vector3d): Entity =
+    override fun spawnEntity(type: EntityType, location: Vector3d): Boolean =
             this.extent.spawnEntity(type, location.plus(selection.from))
+
+    override fun spawnItem(stack: ItemStack, location: Vector3d): Boolean =
+            this.extent.spawnItem(stack, location.plus(selection.from))
 
     /**
      * Gets the location of the [Chunk] in the [World].

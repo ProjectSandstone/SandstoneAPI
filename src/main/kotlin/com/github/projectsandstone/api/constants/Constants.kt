@@ -34,6 +34,7 @@ import com.github.projectsandstone.api.util.version.Version
  * *Sandstone* constants
  */
 object Constants {
+
     @JvmStatic
     val SANDSTONE_PLUGIN_ID = "sandstone"
 
@@ -45,4 +46,5 @@ object Constants {
 
     @JvmStatic
     val AUTHORS = arrayOf("ProjectSandstone Team.")
+
 }

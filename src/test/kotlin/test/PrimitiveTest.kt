@@ -37,6 +37,8 @@ import com.github.projectsandstone.api.block.BlockTypes
 import com.github.projectsandstone.api.entity.living.player.Player
 import com.github.projectsandstone.api.event.SandstoneEventFactory
 import com.github.projectsandstone.api.event.player.PlayerEvent
+import com.github.projectsandstone.api.inventory.CarriedInventory
+import com.github.projectsandstone.api.inventory.Carrier
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.util.SID
 import com.github.projectsandstone.api.world.Location
@@ -84,6 +86,9 @@ fun main(args: Array<String>) {
 }
 
 class TestPlayer : Player {
+
+    override val inventory: CarriedInventory<Carrier>
+        get() = TODO("not implemented")
 
     override val sandstoneId: SID
         get() = SID.UuidSid(UUID.randomUUID())
