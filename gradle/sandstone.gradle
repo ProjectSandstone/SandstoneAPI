@@ -45,7 +45,6 @@ dependencies {
     compile "com.flowpowered:flow-math:$flowmath_version"
     compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
     compile "com.github.JonathanxD:CodeAPI-BytecodeWriter:$codeapi_bytecode_version"
-    compile "com.github.JonathanxD:CodeAPI-Conversions:$codeapiconversions_version"
     compile "com.github.JonathanxD:AdapterHelper:$adapterhelper_version"
     compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
     compile "com.github.ProjectSandstone:EventSys:$eventsys_version"

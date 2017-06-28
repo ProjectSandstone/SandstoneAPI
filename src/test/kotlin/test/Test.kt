@@ -27,9 +27,8 @@
  */
 package test
 
-import com.github.jonathanxd.iutils.reflection.RClass
 import com.github.jonathanxd.iutils.reflection.Reflection
-import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
+import com.github.jonathanxd.iutils.type.AbstractTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.constants.SandstonePlugin
@@ -44,12 +43,12 @@ import java.nio.file.Paths
 
 fun main(args: Array<String>) {
 
-    val type = object : ConcreteTypeInfo<ChangeServiceProviderEvent<MyService>>() {}
+    val type = object : AbstractTypeInfo<ChangeServiceProviderEvent<MyService>>() {}
 
-    Reflection.changeFinalField(RClass.getRClass(Sandstone::class.java), "sandstonePath_", Paths.get("."))
+    Reflection.changeFinalField(Sandstone::class.java, null, "sandstonePath_", Paths.get("."))
 
     val gen = CommonEventGenerator().createFactory(MyFct::class.java)
-            .createProvider(TypeInfo.aEnd(MyService::class.java), null, MyProvider, "A")
+            .createProvider(TypeInfo.of(MyService::class.java), null, MyProvider, "A")
 
     println("Has int propertyV: ${gen.hasProperty(Int::class.java, "propertyV")}")
     println("Has String propertyV: ${gen.hasProperty(String::class.java, "propertyV")}")
@@ -71,8 +70,8 @@ object MyProvider : RegisteredProvider<MyService> {
 }
 
 interface MyFct {
-    fun <T: Any> createProvider(service: TypeInfo<T>,
-                                oldProvider: RegisteredProvider<T>?,
-                                newProvider: RegisteredProvider<T>,
-                                @Mutable propertyV: String): ChangeServiceProviderEvent<T>
+    fun <T : Any> createProvider(service: TypeInfo<T>,
+                                 oldProvider: RegisteredProvider<T>?,
+                                 newProvider: RegisteredProvider<T>,
+                                 @Mutable propertyV: String): ChangeServiceProviderEvent<T>
 }

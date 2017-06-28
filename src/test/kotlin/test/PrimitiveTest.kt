@@ -27,9 +27,8 @@
  */
 package test
 
-import com.github.jonathanxd.iutils.reflection.RClass
 import com.github.jonathanxd.iutils.reflection.Reflection
-import com.github.jonathanxd.iutils.type.ConcreteTypeInfo
+import com.github.jonathanxd.iutils.type.AbstractTypeInfo
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.block.BlockType
@@ -51,9 +50,9 @@ import java.util.*
 
 fun main(args: Array<String>) {
 
-    val type = object : ConcreteTypeInfo<MyEvt>() {}
+    val type = object : AbstractTypeInfo<MyEvt>() {}
 
-    Reflection.changeFinalField(RClass.getRClass(Sandstone::class.java), "sandstonePath_", Paths.get("."))
+    Reflection.changeFinalField(Sandstone::class.java, null, "sandstonePath_", Paths.get("."))
 
     val gen = CommonEventGenerator().createFactory(MyFactory::class.java).createMyEvt(
             9.toShort(),

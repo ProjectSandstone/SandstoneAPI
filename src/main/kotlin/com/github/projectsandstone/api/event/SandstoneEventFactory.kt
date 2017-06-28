@@ -87,7 +87,7 @@ interface SandstoneEventFactory {
     fun <T : Any> createChangeServiceProviderEvent(service: Class<T>,
                                                    oldProvider: RegisteredProvider<T>?,
                                                    newProvider: RegisteredProvider<T>): ChangeServiceProviderEvent<T> =
-            createChangeServiceProviderEvent(TypeInfo.aEnd(service), oldProvider, newProvider)
+            createChangeServiceProviderEvent(TypeInfo.of(service), oldProvider, newProvider)
 
     fun createEntityDamageEvent(damageCause: DamageCause, entities: List<Entity>, world: World): EntityDamageEvent
 
