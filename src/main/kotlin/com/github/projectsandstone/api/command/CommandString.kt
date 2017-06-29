@@ -25,49 +25,38 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
-
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
+package com.github.projectsandstone.api.command
 
 /**
- * Server instance.
+ * This support escape character `\` and will not split strings inside double quotes (`"`) or single quotes (`'`).
  */
-interface Server {
+fun String.toCommandStringList(): List<String> {
+    val chars = this.toCharArray()
+    val builder = StringBuilder()
+    val commands = mutableListOf<String>()
+    var lastIsEscape = false
+    var quotation = false
+    var singleQuotation = false
 
-    /**
-     * Server bound ip, or empty if not specified
-     */
-    val ip: String
+    for (char in chars) {
+        if(lastIsEscape) {
+            builder.append(char)
+        } else if(char == '\\') { // \ is the escape char
+            lastIsEscape = true
+        } else if(char == '"' && !singleQuotation) {
+            quotation = !quotation
+        } else if(char == '\'' && !quotation) {
+            singleQuotation = !singleQuotation
+        } else if(char.isWhitespace() && !quotation && !singleQuotation) {
+            commands += builder.toString()
+            builder.setLength(0)
+        } else {
+            builder.append(char)
+        }
+    }
 
-    /**
-     * Port of server
-     */
-    val port: Int
+    if(builder.isNotEmpty())
+        commands += builder.toString(); builder.setLength(0)
 
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
-
+    return commands
 }

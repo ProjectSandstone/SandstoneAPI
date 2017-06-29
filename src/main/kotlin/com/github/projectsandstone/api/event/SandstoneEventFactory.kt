@@ -94,7 +94,7 @@ interface SandstoneEventFactory {
     fun createBlockInteractEvent(block: BlockState): BlockInteractEvent
 
     @Extension(implement = PlayerEvent::class)
-    fun createPlayerBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent
+    fun createPlayerBlockInteractEvent(player: Player, block: BlockState): BlockInteractEvent // TODO: World parameter in cleaner way
 
     fun createMessageEvent(message: Text): MessageEvent
 

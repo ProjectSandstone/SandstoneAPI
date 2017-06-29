@@ -25,49 +25,7 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.service.permission
 
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
-
-/**
- * Server instance.
- */
-interface Server {
-
-    /**
-     * Server bound ip, or empty if not specified
-     */
-    val ip: String
-
-    /**
-     * Port of server
-     */
-    val port: Int
-
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
-
+interface Permission {
 }

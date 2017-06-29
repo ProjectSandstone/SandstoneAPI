@@ -25,49 +25,25 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+@file:JvmName("CommonRequirements")
+package com.github.projectsandstone.api.command
 
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
+import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.jonathanxd.kwcommands.information.Information
+import com.github.jonathanxd.kwcommands.requirement.Requirement
+import com.github.jonathanxd.kwcommands.requirement.RequirementTester
+import com.github.projectsandstone.api.service.permission.Subject
 
-/**
- * Server instance.
- */
-interface Server {
+fun permission(permission: String) = Requirement(
+        required = permission,
+        type = TypeInfo.of(String::class.java),
+        subject = PERMISSION_SUBJECT,
+        infoType = TypeInfo.of(Subject::class.java),
+        tester = PermissionTester
+)
 
-    /**
-     * Server bound ip, or empty if not specified
-     */
-    val ip: String
-
-    /**
-     * Port of server
-     */
-    val port: Int
-
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
-
+object PermissionTester : RequirementTester<Subject, String> {
+    override fun test(requirement: Requirement<Subject, String>, information: Information<Subject>): Boolean {
+        return information.value.hasPermission(requirement.required)
+    }
 }

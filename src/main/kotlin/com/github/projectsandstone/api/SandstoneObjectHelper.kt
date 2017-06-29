@@ -27,47 +27,15 @@
  */
 package com.github.projectsandstone.api
 
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
-
 /**
- * Server instance.
+ * Misc utilities and object helper.
  */
-interface Server {
+interface SandstoneObjectHelper {
 
     /**
-     * Server bound ip, or empty if not specified
+     * Creates a list which is a view of mapped elements of [from]. Changes in this list is not reflected on
+     * [from], but changes in [from] is reflected in this list.
      */
-    val ip: String
-
-    /**
-     * Port of server
-     */
-    val port: Int
-
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
+    fun <U, T> createLiveList(from: List<U>, mapper: (U) -> T): List<T>
 
 }

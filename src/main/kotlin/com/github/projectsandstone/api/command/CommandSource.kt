@@ -25,49 +25,19 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.command
 
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
+import com.github.projectsandstone.api.service.permission.Subject
+import com.github.projectsandstone.api.text.channel.MessageReceiver
 
 /**
- * Server instance.
+ * Source of a command execution.
  */
-interface Server {
+interface CommandSource : Subject, MessageReceiver {
 
     /**
-     * Server bound ip, or empty if not specified
+     * Name of command source.
      */
-    val ip: String
-
-    /**
-     * Port of server
-     */
-    val port: Int
-
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
+    val name: String
 
 }

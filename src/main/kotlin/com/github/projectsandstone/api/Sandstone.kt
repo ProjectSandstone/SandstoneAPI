@@ -138,6 +138,13 @@ object Sandstone {
         get() = this.game.objectFactory
 
     /**
+     * [SandstoneObjectHelper]: Helper of object conversion and misc utilities.
+     */
+    @JvmStatic
+    val objectHelper: SandstoneObjectHelper
+        get() = this.game.objectHelper
+
+    /**
      * *Sandstone* [EventManager]
      */
     @JvmStatic

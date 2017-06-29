@@ -27,6 +27,7 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.projectsandstone.api.command.CommandManager
 import com.github.projectsandstone.api.plugin.PluginManager
 import com.github.projectsandstone.api.registry.Registry
 import com.github.projectsandstone.api.scheduler.Scheduler
@@ -56,6 +57,11 @@ interface Game {
     val objectFactory: SandstoneObjectFactory
 
     /**
+     * Sandstone object helper.
+     */
+    val objectHelper: SandstoneObjectHelper
+
+    /**
      * Game Server
      */
     val server: Server
@@ -74,6 +80,11 @@ interface Game {
      * *Sandstone* event manager.
      */
     val eventManager: EventManager
+
+    /**
+     * *Sandstone* Command manager
+     */
+    val commandManager: CommandManager
 
     /**
      * *Sandstone* Scheduler

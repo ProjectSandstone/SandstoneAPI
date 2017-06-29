@@ -25,49 +25,34 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.api.command
 
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
+import com.github.jonathanxd.kwcommands.manager.InformationManager
+import com.github.jonathanxd.kwcommands.processor.CommandResult
 
 /**
- * Server instance.
+ * Dispatcher of commands.
  */
-interface Server {
+interface CommandDispatcher {
 
     /**
-     * Server bound ip, or empty if not specified
+     * Dispatches a command as plain string.
+     *
+     * The default implementation calls [toCommandStringList] to splits the [commandStr] to a
+     * [List] of [String] and calls [dispatch] with the list.
      */
-    val ip: String
+    fun dispatch(commandStr: String, informationManager: InformationManager): List<CommandResult> {
+        return this.dispatch(commandStr.toCommandStringList(), informationManager)
+    }
 
     /**
-     * Port of server
+     * Dispatches a command as a list of commands and arguments value.
      */
-    val port: Int
+    fun dispatch(commandList: List<String>, informationManager: InformationManager): List<CommandResult>
 
     /**
-     * Name of server
+     * Gets suggestion based on [input] and in [informationManager].
      */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
+    fun getSuggestions(input: String, informationManager: InformationManager)
 
 }

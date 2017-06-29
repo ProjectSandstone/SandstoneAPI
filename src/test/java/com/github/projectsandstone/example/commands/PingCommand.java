@@ -25,49 +25,20 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+package com.github.projectsandstone.example.commands;
 
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
+import com.github.jonathanxd.kwcommands.reflect.annotation.Cmd;
+import com.github.jonathanxd.kwcommands.reflect.annotation.CmdHandler;
+import com.github.jonathanxd.kwcommands.reflect.annotation.Info;
+import com.github.projectsandstone.api.entity.living.player.Player;
+import com.github.projectsandstone.api.text.Text;
 
-/**
- * Server instance.
- */
-interface Server {
+@Cmd(name = "ping", description = "Pong.")
+public class PingCommand {
 
-    /**
-     * Server bound ip, or empty if not specified
-     */
-    val ip: String
-
-    /**
-     * Port of server
-     */
-    val port: Int
-
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
+    @CmdHandler
+    public void onExecute(@Info Player player) {
+        player.sendMessage(Text.of("Pong"));
+    }
 
 }

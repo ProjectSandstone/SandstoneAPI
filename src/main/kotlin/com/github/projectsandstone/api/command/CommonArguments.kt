@@ -25,49 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
+@file:JvmName("CommonArguments")
 
+package com.github.projectsandstone.api.command
+
+import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.jonathanxd.kwcommands.argument.Argument
+import com.github.projectsandstone.api.Game
 import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
 
-/**
- * Server instance.
- */
-interface Server {
-
-    /**
-     * Server bound ip, or empty if not specified
-     */
-    val ip: String
-
-    /**
-     * Port of server
-     */
-    val port: Int
-
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
-
-}
+fun player(game: Game, id: Any) = Argument.builder<Player>()
+        .id(id)
+        .type(TypeInfo.of(Player::class.java))
+        .addPossibilities(game.objectHelper.createLiveList(game.server.players, { it.name }))
+        .validator { game.server.players.any { player -> player.name == it } }
+        .transformer { game.server.players.first { player -> player.name == it } }

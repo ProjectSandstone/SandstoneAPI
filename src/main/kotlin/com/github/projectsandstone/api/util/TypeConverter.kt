@@ -27,7 +27,6 @@
  */
 package com.github.projectsandstone.api.util
 
-import com.github.jonathanxd.codeapi.CodeAPI
 import com.github.jonathanxd.codeapi.type.CodeType
 import com.github.jonathanxd.codeapi.type.Generic
 import com.github.jonathanxd.iutils.type.TypeInfo
@@ -50,7 +49,7 @@ val <T : Any> KClass<T>.codeType: CodeType
 /**
  * Convert current java class to CodeAPI type.
  */
-fun <T> Class<T>.toType(): CodeType = CodeAPI.getJavaType(this)
+fun <T> Class<T>.toType(): CodeType = this.codeType
 
 /**
  * Convert current kotlin class to CodeAPI type.

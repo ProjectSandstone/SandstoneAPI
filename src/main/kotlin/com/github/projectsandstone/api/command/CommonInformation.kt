@@ -25,49 +25,18 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api
-
-import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.world.World
+@file:JvmName("CommonInformation")
 
 /**
- * Server instance.
+ * Common information ids, most of Sandstone information is provided instead of registered, this means that information
+ * is dynamically resolved.
  */
-interface Server {
+package com.github.projectsandstone.api.command
 
-    /**
-     * Server bound ip, or empty if not specified
-     */
-    val ip: String
+import com.github.jonathanxd.kwcommands.information.Information
+import com.github.projectsandstone.api.entity.living.player.Player
+import com.github.projectsandstone.api.service.permission.Subject
 
-    /**
-     * Port of server
-     */
-    val port: Int
-
-    /**
-     * Name of server
-     */
-    val serverName: String
-
-    /**
-     * Server motd
-     */
-    val motd: String
-
-    /**
-     * Max players allowed in [Server]
-     */
-    val maxPlayers: Int
-
-    /**
-     * Worlds in the [Server].
-     */
-    val worlds: List<World>
-
-    /**
-     * Players currently connected to [Server].
-     */
-    val players: List<Player>
-
-}
+val PERMISSION_SUBJECT = Information.Id(Subject::class.java, arrayOf("subject"))
+val COMMAND_SOURCE_SUBJECT = Information.Id(CommandSource::class.java, arrayOf("command_source"))
+val PLAYER_SUBJECT = Information.Id(Player::class.java, arrayOf("player"))

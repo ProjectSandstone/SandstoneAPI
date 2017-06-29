@@ -76,7 +76,6 @@ interface MessageReceiver {
      * @param channel Current message channel.
      */
     fun setMessageChannel(channel: MessageChannel?) {
-
     }
 
 }
