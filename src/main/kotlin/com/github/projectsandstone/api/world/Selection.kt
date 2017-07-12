@@ -32,7 +32,7 @@ import com.flowpowered.math.vector.Vector3d
 import com.flowpowered.math.vector.Vector3i
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
-import com.github.projectsandstone.api.event.Source
+import com.github.projectsandstone.api.util.Source
 import com.github.projectsandstone.api.world.extent.Extent
 
 /**

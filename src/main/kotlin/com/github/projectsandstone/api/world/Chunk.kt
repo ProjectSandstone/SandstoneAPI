@@ -33,7 +33,7 @@ import com.flowpowered.math.vector.Vector3i
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
 import com.github.projectsandstone.api.entity.EntityType
-import com.github.projectsandstone.api.event.Source
+import com.github.projectsandstone.api.util.Source
 import com.github.projectsandstone.api.inventory.ItemStack
 import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageReceiver

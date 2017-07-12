@@ -28,15 +28,16 @@
 package com.github.projectsandstone.api
 
 import com.github.projectsandstone.api.constants.SandstonePlugin
-import com.github.projectsandstone.eventsys.event.EventManager
 import com.github.projectsandstone.api.event.SandstoneEventFactory
-import com.github.projectsandstone.api.logging.Logger
+import com.github.projectsandstone.api.event.SandstoneEventFactoryCache
+import com.github.projectsandstone.eventsys.event.EventManager
 import com.github.projectsandstone.api.logging.LoggerFactory
 import com.github.projectsandstone.api.plugin.PluginManager
 import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import com.github.projectsandstone.api.util.version.Version
 import com.github.projectsandstone.api.world.World
+import org.slf4j.Logger
 import java.nio.file.Path
 
 /**
@@ -128,7 +129,7 @@ object Sandstone {
      */
     @JvmStatic
     val eventFactory: SandstoneEventFactory
-        get() = SandstoneEventFactory.instance
+        get() = SandstoneEventFactoryCache.getInstance()
 
     /**
      * [SandstoneObjectFactory]: Factory of sandstone objects.

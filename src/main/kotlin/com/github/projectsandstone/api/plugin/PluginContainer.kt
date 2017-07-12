@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.plugin
 
-import com.github.projectsandstone.api.logging.Logger
 import com.github.projectsandstone.api.util.version.Version
+import org.slf4j.Logger
 import java.nio.file.Path
 
 /**

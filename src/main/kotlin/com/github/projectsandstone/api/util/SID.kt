@@ -39,44 +39,44 @@ import java.util.*
  */
 sealed class SID : Comparable<SID> {
 
-    data class IntSid(val int: Int) : SID() {
+    data class IntSid(val value: Int) : SID() {
         override fun compareTo(other: SID): Int =
                 if (other is IntSid) {
-                    this.int.compareTo(other.int)
+                    this.value.compareTo(other.value)
                 } else {
                     -1
                 }
 
-        override fun hashCode(): Int = this.int.hashCode()
-        override fun equals(other: Any?): Boolean = other != null && other is IntSid && this.int == other.int
-        override fun toString(): String = this.int.toString()
+        override fun hashCode(): Int = this.value.hashCode()
+        override fun equals(other: Any?): Boolean = other != null && other is IntSid && this.value == other.value
+        override fun toString(): String = this.value.toString()
     }
 
-    data class LongSid(val long: Long) : SID() {
+    data class LongSid(val value: Long) : SID() {
         override fun compareTo(other: SID): Int =
                 if (other is LongSid) {
-                    this.long.compareTo(other.long)
+                    this.value.compareTo(other.value)
                 } else {
                     -1
                 }
 
 
-        override fun hashCode(): Int = this.long.hashCode()
-        override fun equals(other: Any?): Boolean = other != null && other is LongSid && this.long == other.long
-        override fun toString(): String = this.long.toString()
+        override fun hashCode(): Int = this.value.hashCode()
+        override fun equals(other: Any?): Boolean = other != null && other is LongSid && this.value == other.value
+        override fun toString(): String = this.value.toString()
     }
 
-    data class DoubleSid(val double: Double) : SID() {
+    data class DoubleSid(val value: Double) : SID() {
         override fun compareTo(other: SID): Int =
                 if (other is DoubleSid) {
-                    this.double.compareTo(other.double)
+                    this.value.compareTo(other.value)
                 } else {
                     -1
                 }
 
-        override fun hashCode(): Int = this.double.hashCode()
-        override fun equals(other: Any?): Boolean = other != null && other is DoubleSid && this.double == other.double
-        override fun toString(): String = this.double.toString()
+        override fun hashCode(): Int = this.value.hashCode()
+        override fun equals(other: Any?): Boolean = other != null && other is DoubleSid && this.value == other.value
+        override fun toString(): String = this.value.toString()
     }
 
     data class StringSid(val string: String) : SID() {

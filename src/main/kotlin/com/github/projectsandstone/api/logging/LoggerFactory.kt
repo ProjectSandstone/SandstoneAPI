@@ -28,6 +28,7 @@
 package com.github.projectsandstone.api.logging
 
 import com.github.projectsandstone.api.plugin.PluginContainer
+import org.slf4j.Logger
 
 /**
  * Create [Logger] for a [PluginContainer].

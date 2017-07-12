@@ -27,6 +27,7 @@
  */
 package test
 
+import com.flowpowered.math.vector.Vector3d
 import com.github.jonathanxd.iutils.reflection.Reflection
 import com.github.jonathanxd.iutils.type.AbstractTypeInfo
 import com.github.projectsandstone.api.Sandstone
@@ -44,6 +45,7 @@ import com.github.projectsandstone.api.world.Location
 import com.github.projectsandstone.api.world.World
 import com.github.projectsandstone.eventsys.event.Event
 import com.github.projectsandstone.eventsys.gen.event.CommonEventGenerator
+import com.github.projectsandstone.eventsys.impl.CommonLogger
 import org.junit.Assert
 import java.nio.file.Paths
 import java.util.*
@@ -54,7 +56,7 @@ fun main(args: Array<String>) {
 
     Reflection.changeFinalField(Sandstone::class.java, null, "sandstonePath_", Paths.get("."))
 
-    val gen = CommonEventGenerator().createFactory(MyFactory::class.java).createMyEvt(
+    val gen = CommonEventGenerator(CommonLogger()).createFactory(MyFactory::class.java).createMyEvt(
             9.toShort(),
             false,
             10.5F,
@@ -72,11 +74,12 @@ fun main(args: Array<String>) {
 
     val fakePlayer = TestPlayer()
 
-    val iter = CommonEventGenerator().createFactory(SandstoneEventFactory::class.java).createPlayerBlockInteractEvent(fakePlayer, object : BlockState {
-        override val type: BlockType
-            get() = BlockTypes.BEDROCK
+    val iter = CommonEventGenerator(CommonLogger()).createFactory(SandstoneEventFactory::class.java)
+            .createBlockInteractEvent(object : BlockState {
+                override val type: BlockType
+                    get() = BlockTypes.BEDROCK
 
-    })
+            }, Vector3d(0.0, 0.0, 0.0), fakePlayer)
 
     val player = iter.getGetterProperty(Player::class.java, "player")!!
 

@@ -27,8 +27,7 @@
  */
 package com.github.projectsandstone.api.entity
 
-import com.github.projectsandstone.api.event.entity.damage.DamageCause
-import com.github.projectsandstone.api.event.entity.damage.DamageCauses
+import com.github.projectsandstone.api.event.entity.EntityDamageEvent
 
 /**
  * A [Entity] that has health can take damage.
@@ -46,15 +45,15 @@ interface Damageable : Entity {
      * @param damage Damage
      */
     fun damage(damage: Double) {
-        this.damage(damage, DamageCauses.DEFAULT)
+        this.damage(damage, EntityDamageEvent.DamageType.ENTITY_ATTACK)
     }
 
     /**
      * Damage the entity.
      *
      * @param damage Damage
-     * @param cause Cause of the damage.
+     * @param damageType Cause of the damage.
      */
-    fun damage(damage: Double, cause: DamageCause)
+    fun damage(damage: Double, damageType: EntityDamageEvent.DamageType)
 
 }

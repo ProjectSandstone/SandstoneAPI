@@ -45,7 +45,6 @@ import com.github.projectsandstone.api.inventory.OperationResult;
 import com.github.projectsandstone.api.inventory.TransactionResult;
 import com.github.projectsandstone.api.item.ItemType;
 import com.github.projectsandstone.api.item.ItemTypes;
-import com.github.projectsandstone.api.logging.Logger;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.api.plugin.PluginDefinition;
 import com.github.projectsandstone.api.text.Text;
@@ -55,6 +54,12 @@ import com.github.projectsandstone.api.world.World;
 import com.github.projectsandstone.eventsys.event.annotation.Listener;
 import com.github.projectsandstone.eventsys.event.annotation.Name;
 import com.github.projectsandstone.eventsys.event.property.GetterProperty;
+import com.github.projectsandstone.example.myevent.MyEvent;
+import com.github.projectsandstone.example.myevent.MyFactory;
+import com.github.projectsandstone.example.myevent.MyObj;
+import com.github.projectsandstone.example.myevent.MyOwnEvent;
+
+import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
@@ -75,6 +80,20 @@ public class SimplePlugin {
     @Listener
     public void onInit(InitializationEvent initializationEvent) {
         logger.info("Simple plugin initialized!");
+
+    }
+
+    private void doEventThings() {
+        MyFactory factory = game.getEventManager().getEventGenerator().createFactory(MyFactory.class);
+
+        MyEvent myEvent = factory.createMyEvent(new MyObj());
+
+        game.getEventManager().registerListeners(this, new MyListener2());
+        game.getEventManager().registerListener(this, MessageEvent.class, new MyListener());
+
+        game.getEventManager().dispatch(new MyOwnEvent(new MyObj()), this);
+
+        game.getEventManager().dispatch(new MyOwnEvent(new MyObj()), this);
 
         game.getServiceManager().setProvider(this, MyService.class, new MyServiceImpl());
 
@@ -117,7 +136,7 @@ public class SimplePlugin {
     // Function parameter
     @Listener
     public void playerInteract(BlockInteractEvent event, @Name("player") Player player) {
-        BlockState block = event.getBlock();
+        BlockState block = event.getBlockState();
 
         if (block.getType() == BlockTypes.LAVA) {
             player.sendMessage(Text.of("Wow, this is too hot!!!"));

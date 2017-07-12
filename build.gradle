@@ -1,5 +1,4 @@
 buildscript {
-    ext.kotlin_version = '1.1.3'
     apply from: 'gradle/versions.gradle'
 
     repositories {
@@ -13,6 +12,7 @@ buildscript {
         classpath "org.jetbrains.dokka:dokka-gradle-plugin:$dokka_version"
         classpath "gradle.plugin.nl.javadude.gradle.plugins:license-gradle-plugin:$license_version"
         classpath "com.github.jengelman.gradle.plugins:shadow:$shadow_version"
+        classpath "net.ltgt.gradle:gradle-apt-plugin:$apt_version"
     }
 
 }
@@ -23,3 +23,7 @@ group 'com.github.projectsandstone'
 version '1.0-SNAPSHOT'
 
 apply from: 'gradle/sandstone.gradle'
+
+dokka {
+    enabled = false // Temporary
+}

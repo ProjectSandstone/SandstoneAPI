@@ -36,9 +36,10 @@ import com.github.projectsandstone.api.command.CommonArguments;
 import com.github.projectsandstone.api.command.CommonRequirements;
 import com.github.projectsandstone.api.entity.living.player.Player;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
-import com.github.projectsandstone.api.logging.Logger;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.eventsys.event.annotation.Listener;
+
+import org.slf4j.Logger;
 
 import kotlin.Unit;
 

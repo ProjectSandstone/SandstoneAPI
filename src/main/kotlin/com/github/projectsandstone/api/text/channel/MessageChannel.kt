@@ -33,13 +33,25 @@ import com.github.projectsandstone.api.text.Text
  * A message channel that send message to members.
  */
 interface MessageChannel {
+    /**
+     * Members of channel
+     */
     val members: MutableList<MessageReceiver>
 
+    /**
+     * Send message to all members.
+     *
+     * @param sender Message sender.
+     * @param text Message to send.
+     */
     fun send(sender: Any?, text: Text) {
         this.members.forEach {
             it.sendMessage(this.transform(sender, it, text))
         }
     }
 
+    /**
+     * Transforms message before sending.
+     */
     fun transform(sender: Any?, receiver: MessageReceiver, text: Text): Text = text
 }
