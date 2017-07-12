@@ -77,5 +77,12 @@ annotation class Plugin(
          *
          * If you set this property to true, *Sandstone* will not warn about internal class usages.
          */
-        val usePlatformInternals: Boolean = false
+        val usePlatformInternals: Boolean = false,
+
+        /**
+         * Set this property to true if this plugin is optional, this means that if required [dependencies] are not
+         * satisfied, then this plugin will be simple ignored and a info will be logged in console (instead
+         * of dependency exception).
+         */
+        val optional: Boolean = false
 )

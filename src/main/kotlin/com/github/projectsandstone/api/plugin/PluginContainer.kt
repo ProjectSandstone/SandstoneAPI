@@ -87,6 +87,13 @@ interface PluginContainer {
     val usePlatformInternals: Boolean
 
     /**
+     * True if this plugin is optional.
+     *
+     * @see [Plugin.optional]
+     */
+    val optional: Boolean
+
+    /**
      * Plugin file if present, null otherwise.
      */
     val file: Path?

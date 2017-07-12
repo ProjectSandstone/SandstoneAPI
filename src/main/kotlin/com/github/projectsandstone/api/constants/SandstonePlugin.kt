@@ -61,6 +61,9 @@ object SandstonePlugin : PluginContainer {
     override val usePlatformInternals: Boolean
         get() = true
 
+    override val optional: Boolean
+        get() = false
+
     override val file: Path?
         get() = try {
             Paths.get(this::class.java.protectionDomain.codeSource.location.toURI())
