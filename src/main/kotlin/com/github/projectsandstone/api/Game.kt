@@ -47,11 +47,6 @@ interface Game {
     val platform: Platform
 
     /**
-     * Implementation of SandstoneAPI
-     */
-    val implementation: Implementation
-
-    /**
      * Sandstone object factory.
      */
     val objectFactory: SandstoneObjectFactory

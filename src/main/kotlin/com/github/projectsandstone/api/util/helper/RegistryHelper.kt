@@ -50,7 +50,7 @@ fun initializeEntries(clasz: Class<*>) {
             val module = it.getDeclaredAnnotation(Module::class.java)?.value ?: defaultModule
             val id = "$module:$name"
 
-            it.set(null, requireNotNull(Sandstone.game.registry.getEntryGeneric(id, type), {
+            it.set(null, requireNotNull(Sandstone.getGame().registry.getEntryGeneric(id, type), {
                 "Cannot find RegistryEntry! id: $id, module: $module, name: $name, type: $type, location: $clasz, field: $it!"
             }))
         }

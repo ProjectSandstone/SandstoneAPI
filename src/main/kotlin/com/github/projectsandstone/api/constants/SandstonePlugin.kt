@@ -29,7 +29,6 @@ package com.github.projectsandstone.api.constants
 
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.plugin.*
-import com.github.projectsandstone.api.util.version.Schemes
 import com.github.projectsandstone.api.util.version.Version
 import org.slf4j.Logger
 import java.nio.file.Path
@@ -72,7 +71,7 @@ object SandstonePlugin : PluginContainer {
         }
 
     override val instance: Any?
-        get() = Sandstone
+        get() = Sandstone.INSTANCE
 
     override val name: String
         get() = super.name
@@ -81,7 +80,7 @@ object SandstonePlugin : PluginContainer {
         get() = PluginState.LOADED
 
     override val logger: Logger
-        get() = Sandstone.logger
+        get() = Sandstone.getLogger()
 
     override val classLoader: PluginClassLoader = SandstonePluginClassLoader
     override val mainClass: String = "com.github.projectsandstone.api.Sandstone"

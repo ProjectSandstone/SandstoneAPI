@@ -35,7 +35,7 @@ import com.github.projectsandstone.api.registry.RegistryEntry
 import com.github.projectsandstone.api.util.exception.EntryNotFoundException
 import com.github.projectsandstone.api.util.exception.EntryNotInitializedException
 
-private val UNINITIALIZED_HANDLER: InvocationHandler =
+inline val UNINITIALIZED_HANDLER: InvocationHandler get() =
         InvocationHandler { _, _, _, _ ->
             throw EntryNotInitializedException("Method invoked on a uninitialized entry!")
         }
@@ -45,13 +45,13 @@ inline fun <reified T : Any> uninitializedEntry(): T = uninitializedEntry(T::cla
 /**
  * Create a uninitialized [RegistryEntry], all methods invoke on this instance will throw [EntryNotInitializedException].
  */
-@Suppress("UNCHECKED_CAST")
-fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
+@Suppress("UNCHECKED_CAST", "NOTHING_TO_INLINE")
+inline fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
 
-    if (`class`.isInterface) {
-        return CodeProxy.newProxyInstance(`class`.classLoader, Any::class.java, arrayOf(`class`), UNINITIALIZED_HANDLER) as T
+    return if (`class`.isInterface) {
+        CodeProxy.newProxyInstance(`class`.classLoader, Any::class.java, arrayOf(`class`), UNINITIALIZED_HANDLER) as T
     } else {
-        return CodeProxy.newProxyInstance(`class`.classLoader, `class`, UNINITIALIZED_HANDLER)
+        CodeProxy.newProxyInstance(`class`.classLoader, `class`, UNINITIALIZED_HANDLER)
     }
 }
 
@@ -65,7 +65,7 @@ fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
  */
 @Throws(EntryNotFoundException::class)
 inline fun <reified T : RegistryEntry> getEntry(id: () -> String): T {
-    val entry = Sandstone.game.registry.getRegistryEntry<T>(id())
+    val entry = Sandstone.getGame().registry.getRegistryEntry<T>(id())
 
     return entry ?: throw EntryNotFoundException("Required entry: ${id()} not found!")
 }
@@ -77,9 +77,8 @@ inline fun <reified T : RegistryEntry> getEntry(id: () -> String): T {
  * @param T Type of registry entry.
  * @return Entry or null if cannot found.
  */
-inline fun <reified T : RegistryEntry> Registry.getRegistryEntry(id: String): T? {
-    return this.getEntry(id, T::class.java)
-}
+inline fun <reified T : RegistryEntry> Registry.getRegistryEntry(id: String): T? =
+        this.getEntry(id, T::class.java)
 
 /**
  * Register entry [T] with [id].
@@ -88,9 +87,8 @@ inline fun <reified T : RegistryEntry> Registry.getRegistryEntry(id: String): T?
  * @param T Type of entry.
  * @param entry Entry instance.
  */
-inline fun <reified T : RegistryEntry> Registry.registerEntry(id: String, entry: T) {
-    return this.registerEntry(id, T::class.java, entry)
-}
+inline fun <reified T : RegistryEntry> Registry.registerEntry(id: String, entry: T) =
+        this.registerEntry(id, T::class.java, entry)
 
 /**
  * Register entry [T] with [id].
@@ -99,9 +97,8 @@ inline fun <reified T : RegistryEntry> Registry.registerEntry(id: String, entry:
  * @param T Type of entry.
  * @param entry Entry instance.
  */
-inline operator fun <reified T : RegistryEntry> Registry.set(id: String, entry: T) {
-    return this.registerEntry(id, T::class.java, entry)
-}
+inline operator fun <reified T : RegistryEntry> Registry.set(id: String, entry: T) =
+        this.registerEntry(id, T::class.java, entry)
 
 /**
  * Gets a entry by [id] and [type].
@@ -111,6 +108,5 @@ inline operator fun <reified T : RegistryEntry> Registry.set(id: String, entry: 
  * @param T Expected entry type.
  */
 @Suppress("UNCHECKED_CAST")
-fun <T : RegistryEntry> Registry.getEntryGeneric(id: String, type: Class<*>): T? {
-    return this.getEntry(id, type as Class<T>)
-}
+fun <T : RegistryEntry> Registry.getEntryGeneric(id: String, type: Class<*>): T? =
+        this.getEntry(id, type as Class<T>)
