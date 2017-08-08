@@ -27,23 +27,43 @@
  */
 package test
 
+import com.github.jonathanxd.iutils.description.DescriptionUtil
+import com.github.projectsandstone.api.event.JavaEvent
 import com.github.projectsandstone.api.event.SandstoneEventFactory
+import com.github.projectsandstone.api.event.entity.EntityDamageEvent
+import com.github.projectsandstone.api.event.entity.EntityEvent
+import com.github.projectsandstone.api.event.player.PlayerEvent
+import com.github.projectsandstone.api.event.plugin.PluginEvent
+import com.github.projectsandstone.api.event.world.WorldEvent
 import com.github.projectsandstone.eventsys.event.Event
+import com.github.projectsandstone.eventsys.gen.check.SuppressCapableCheckHandler
 import com.github.projectsandstone.eventsys.gen.event.CommonEventGenerator
+import com.github.projectsandstone.eventsys.gen.event.EventGeneratorOptions
 import com.github.projectsandstone.eventsys.impl.CommonLogger
 import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner
 import org.junit.Test
 import java.lang.StringBuilder
 import java.lang.reflect.Modifier
+import java.util.function.DoubleUnaryOperator
 
 /**
  * Test used to validate event factory generation.
  */
 class FactoryTest {
 
+    var suppress = true
+
     @Test
     fun testFactory() {
-        CommonEventGenerator(CommonLogger()).createFactory(SandstoneEventFactory::class.java)
+        val gen = CommonEventGenerator(CommonLogger())
+
+        gen.options[EventGeneratorOptions.ENABLE_SUPPRESSION] = suppress
+
+        val suppressCapable = gen.checkHandler as SuppressCapableCheckHandler
+
+        addSuppress(suppressCapable)
+
+        gen.createFactory(SandstoneEventFactory::class.java)
 
         val implemented = SandstoneEventFactory::class.java.declaredMethods
                 .filter { !Modifier.isStatic(it.modifiers) }
@@ -67,6 +87,25 @@ class FactoryTest {
 
     }
 
+    /**
+     * These suppress are only for check, platforms or common may implement these methods through extension.
+     *
+     * The same test may be run on platform and/or common with [suppress] set to `false` to ensure that
+     * all methods are implemented correctly.
+     */
+    private fun addSuppress(suppressCapableCheckHandler: SuppressCapableCheckHandler) {
+
+        suppressCapableCheckHandler.addSuppression(DescriptionUtil.from(
+                EntityDamageEvent::class.java.getMethod("getDamage", EntityDamageEvent.DamageModifier::class.java)
+        ))
+        suppressCapableCheckHandler.addSuppression(DescriptionUtil.from(
+                EntityDamageEvent::class.java.getMethod("setDamage", EntityDamageEvent.DamageModifier::class.java, DoubleUnaryOperator::class.java)
+        ))
+        suppressCapableCheckHandler.addSuppression(DescriptionUtil.from(
+                EntityDamageEvent::class.java.getMethod("isApplicable", EntityDamageEvent.DamageModifier::class.java)
+        ))
+    }
+
     private fun Class<*>.name(): String {
         val builder = StringBuilder()
         var current = this
@@ -83,12 +122,16 @@ class FactoryTest {
     }
 
     private fun <T> List<T>.split(n: Int): List<List<T>> {
-        val list = (0..this.size step n).map { this.subList(it, minOf(it + n, this.size)) }
-
-        return list
+        return (0..size step n).map { subList(it, minOf(it + n, size)) }
     }
 
     companion object {
-        val excludedEvents = setOf<Class<*>>()
+        val excludedEvents = setOf<Class<*>>(
+                PlayerEvent::class.java, // Extension
+                JavaEvent::class.java, // Helper
+                EntityEvent::class.java, // Base
+                PluginEvent::class.java, // Base
+                WorldEvent::class.java // Base
+        )
     }
 }

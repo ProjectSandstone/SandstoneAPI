@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.event.entity;
 import com.github.projectsandstone.api.entity.living.LivingEntity;
 import com.github.projectsandstone.eventsys.ap.Factory;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static com.github.projectsandstone.api.event.Constants.FACTORY_CLASS;
@@ -51,5 +52,8 @@ public interface EntityDespawnEvent extends EntityEvent {
         @Nullable
         LivingEntity getKiller();
 
+        @NotNull
+        @Override
+        LivingEntity getEntity();
     }
 }

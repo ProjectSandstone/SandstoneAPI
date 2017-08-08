@@ -25,30 +25,8 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.achievement;
+package com.github.projectsandstone.api.advancement
 
-import com.github.projectsandstone.api.event.Constants;
-import com.github.projectsandstone.api.event.player.PlayerEvent;
-import com.github.projectsandstone.api.statistic.Achievement;
-import com.github.projectsandstone.eventsys.ap.Factory;
-import com.github.projectsandstone.eventsys.event.Event;
-import com.github.projectsandstone.eventsys.event.annotation.Extension;
-
-import org.jetbrains.annotations.NotNull;
-
-/**
- * Fired when an achievement is granted for a subject.
- */
-@Factory(Constants.FACTORY_CLASS)
-@Factory(value = Constants.FACTORY_CLASS, extensions = {@Extension(implement = PlayerEvent.class)})
-public interface GrantAchievementEvent extends Event {
-
-    /**
-     * Granted achievement.
-     *
-     * @return Granted achievement.
-     */
-    @NotNull
-    Achievement getAchievement();
-
+interface Criterion {
+    val instance: CriterionInstance
 }

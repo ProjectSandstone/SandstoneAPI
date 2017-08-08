@@ -25,32 +25,14 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.plugin;
+package com.github.projectsandstone.api.advancement
 
-import com.github.projectsandstone.api.plugin.PluginContainer;
-import com.github.projectsandstone.api.plugin.PluginManager;
-import com.github.projectsandstone.eventsys.event.Event;
+import com.github.projectsandstone.api.util.SID
 
-import org.jetbrains.annotations.NotNull;
-
-/**
- * Base event class of all plugin management related events.
- */
-public interface PluginEvent extends Event {
+interface CriterionInstance {
 
     /**
-     * Gets the plugin manager.
-     *
-     * @return Plugin manager.
+     * Id of criterion.
      */
-    @NotNull
-    PluginManager getPluginManager();
-
-    /**
-     * Gets plugin container of plugin.
-     *
-     * @return Plugin container of plugin.
-     */
-    @NotNull
-    PluginContainer getPluginContainer();
+    val id: SID.StringSid
 }

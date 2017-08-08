@@ -39,7 +39,7 @@ import static com.github.projectsandstone.api.event.Constants.FACTORY_CLASS;
  * Fired when a {@link LivingEntity} moves from a location to another.
  */
 @Factory(FACTORY_CLASS)
-public interface LivingEntityMoveEvent extends LivingEntity {
+public interface LivingEntityMoveEvent extends LivingEntityEvent {
 
     /**
      * Gets origin location.

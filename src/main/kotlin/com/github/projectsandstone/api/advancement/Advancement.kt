@@ -25,32 +25,32 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.plugin;
+package com.github.projectsandstone.api.advancement
 
-import com.github.projectsandstone.api.plugin.PluginContainer;
-import com.github.projectsandstone.api.plugin.PluginManager;
-import com.github.projectsandstone.eventsys.event.Event;
-
-import org.jetbrains.annotations.NotNull;
+import com.github.projectsandstone.api.registry.RegistryEntry
+import com.google.common.collect.ImmutableList
+import com.google.common.collect.ImmutableMap
 
 /**
- * Base event class of all plugin management related events.
+ * Game advancement.
  */
-public interface PluginEvent extends Event {
+interface Advancement : RegistryEntry {
+
+    // TODO?: val id: SID.StringSID
 
     /**
-     * Gets the plugin manager.
-     *
-     * @return Plugin manager.
+     * Parent advancement
      */
-    @NotNull
-    PluginManager getPluginManager();
+    val parent: Advancement?
 
     /**
-     * Gets plugin container of plugin.
-     *
-     * @return Plugin container of plugin.
+     * Immutable list of children advancements.
      */
-    @NotNull
-    PluginContainer getPluginContainer();
+    val children: ImmutableList<Advancement>
+
+    /**
+     * Criteria to advance
+     */
+    val criteria: ImmutableMap<String, Criterion>
+
 }

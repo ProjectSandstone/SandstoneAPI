@@ -25,32 +25,9 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.event.plugin;
-
-import com.github.projectsandstone.api.plugin.PluginContainer;
-import com.github.projectsandstone.api.plugin.PluginManager;
-import com.github.projectsandstone.eventsys.event.Event;
-
-import org.jetbrains.annotations.NotNull;
+package com.github.projectsandstone.api.advancement
 
 /**
- * Base event class of all plugin management related events.
+ * TODO: Update to advancements
  */
-public interface PluginEvent extends Event {
-
-    /**
-     * Gets the plugin manager.
-     *
-     * @return Plugin manager.
-     */
-    @NotNull
-    PluginManager getPluginManager();
-
-    /**
-     * Gets plugin container of plugin.
-     *
-     * @return Plugin container of plugin.
-     */
-    @NotNull
-    PluginContainer getPluginContainer();
-}
+object Advancements

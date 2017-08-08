@@ -29,6 +29,7 @@ package com.github.projectsandstone.api.event.command;
 
 import com.github.projectsandstone.api.event.player.PlayerEvent;
 import com.github.projectsandstone.eventsys.ap.Factory;
+import com.github.projectsandstone.eventsys.event.Event;
 import com.github.projectsandstone.eventsys.event.annotation.Extension;
 
 import org.jetbrains.annotations.NotNull;
@@ -40,7 +41,7 @@ import static com.github.projectsandstone.api.event.Constants.FACTORY_CLASS;
  */
 @Factory(FACTORY_CLASS)
 @Factory(value = FACTORY_CLASS, extensions = @Extension(implement = PlayerEvent.class))
-public interface CommandTabCompleteEvent {
+public interface CommandTabCompleteEvent extends Event {
 
     /**
      * Gets the command.

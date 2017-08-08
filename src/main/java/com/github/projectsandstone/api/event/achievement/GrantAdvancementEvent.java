@@ -25,32 +25,30 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.statistic
+package com.github.projectsandstone.api.event.achievement;
 
-import com.github.projectsandstone.api.registry.RegistryEntry
+import com.github.projectsandstone.api.advancement.Advancement;
+import com.github.projectsandstone.api.event.Constants;
+import com.github.projectsandstone.api.event.player.PlayerEvent;
+import com.github.projectsandstone.eventsys.ap.Factory;
+import com.github.projectsandstone.eventsys.event.Event;
+import com.github.projectsandstone.eventsys.event.annotation.Extension;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
- * Game achievement.
+ * Fired when an advancement is granted for a subject.
  */
-interface Achievement : RegistryEntry {
+@Factory(Constants.FACTORY_CLASS)
+@Factory(value = Constants.FACTORY_CLASS, extensions = {@Extension(implement = PlayerEvent.class)})
+public interface GrantAdvancementEvent extends Event {
 
     /**
-     * Parent achievements
+     * Granted advancement.
+     *
+     * @return Granted advancement.
      */
-    val parent: Achievement?
+    @NotNull
+    Advancement getAdvancement();
 
-    /**
-     * Immutable list of children Achievements.
-     */
-    val children: List<Achievement>
-
-    /**
-     * Statistic backed by this achievement
-     */
-    val statistic: Statistic
-
-    /**
-     * Value that must be reached.
-     */
-    val value: Long
 }

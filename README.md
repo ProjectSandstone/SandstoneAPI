@@ -39,11 +39,22 @@ Inconsistencies MUST be reported and fixed in the implementation and not in the 
 
 ## Debug parameters
 
+Sandstone provides debug parameters to save generated classes:
+
+| Project     | Parameter                           | Description                                   |
+|:----------- |:-----------------------------------:| ---------------------------------------------:|
+| EventSys    | `eventsys.debug.dir=/save/dir`      | Defines class save directory                  |
+| EventSys    | `eventsys.debug=true`               | Enables global generated class save           |
+| EventSys    | `eventsys.debug.factorygen=true`    | Enables save of factory generated class       |
+| EventSys    | `eventsys.debug.eventgen=true`      | Enables save of event generated class         |
+| EventSys    | `eventsys.debug.listenergen=true`   | Enables save of listener generated class      |
+| EventSys    | `eventsys.debug.directgen=true`     | Enables save of listener generated class      |
+| CodeProxy   | `codeproxy.saveproxies=true`        | Enables save of proxy generated classes       |
+
+
 Sandstone provides debug vm parameters to save all Sandstone generated classes: `-Dsandstone.debug=true`.
 
-If you want to save only `Event` implementation generated classes: `-Dsandstone.debug.eventgen=true`
-
-If you want to save only `@Listener` generated classes: `-Dsandstone.debug.listenergen=true`
+If you want to save only `Event` implementation generated classes: `-Deventsys.debug=true`
 
 __CodeProxy provides `-Dcodeproxy.saveproxies=true` to save Proxy classes__
 
