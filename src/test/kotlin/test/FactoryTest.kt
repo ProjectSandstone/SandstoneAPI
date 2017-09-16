@@ -121,9 +121,8 @@ class FactoryTest {
         return builder.toString()
     }
 
-    private fun <T> List<T>.split(n: Int): List<List<T>> {
-        return (0..size step n).map { subList(it, minOf(it + n, size)) }
-    }
+    private fun <T> List<T>.split(n: Int): List<List<T>> =
+            (0..size step n).map { subList(it, minOf(it + n, size)) }
 
     companion object {
         val excludedEvents = setOf<Class<*>>(

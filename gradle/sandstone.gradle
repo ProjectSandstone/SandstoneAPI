@@ -6,6 +6,7 @@ apply plugin: 'eclipse'
 
 // Programming Language
 apply plugin: 'kotlin'
+apply plugin: "org.jetbrains.kotlin.kapt"
 apply plugin: 'org.jetbrains.dokka'
 apply plugin: 'net.ltgt.apt'
 apply plugin: 'java'
@@ -62,6 +63,7 @@ dependencies {
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     apt "com.github.ProjectSandstone:EventSys:$eventsys_version"
+    kapt "com.github.ProjectSandstone:EventSys:$eventsys_version"
 
     // Test
     testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
@@ -97,6 +99,10 @@ dokka {
     outputFormat = 'javadoc'
     outputDirectory = javadoc.destinationDir
     includes = ['src/main/Module.md']
+}
+
+kapt {
+    correctErrorTypes = true
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
