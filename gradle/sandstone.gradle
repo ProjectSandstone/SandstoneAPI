@@ -48,7 +48,6 @@ dependencies {
     compile "com.flowpowered:flow-math:$flowmath_version"
     compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
     compile "com.github.JonathanxD:KWCommands:$kwcommands_version"
-    compile "com.github.JonathanxD:CodeAPI-BytecodeWriter:$codeapi_bytecode_version"
     compile "com.github.JonathanxD:AdapterHelper:$adapterhelper_version"
     compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
     compile "com.github.ProjectSandstone:EventSys:$eventsys_version"
@@ -78,6 +77,14 @@ compileJava {
     source += sourceSets.apt.java
 }
 */
+
+sourceSets {
+    main {
+        java {
+            srcDirs "build/generated/source/kapt/main"
+        }
+    }
+}
 
 test {
     useJUnit()
@@ -133,10 +140,9 @@ license {
     exclude "res/**"
     exclude "src/main/resources/**"
     exclude "src/test/resources/**"
+    exclude "**/SandstoneEventFactory.java"
 
     header rootProject.file('LICENSE_HEADER')
-
-    sourceSets = project.sourceSets
 
     ignoreFailures false
     strictCheck true
