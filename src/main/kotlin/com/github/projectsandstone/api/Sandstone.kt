@@ -30,6 +30,7 @@ package com.github.projectsandstone.api
 import com.github.projectsandstone.api.constants.SandstonePlugin
 import com.github.projectsandstone.api.event.SandstoneEventFactory
 import com.github.projectsandstone.api.event.SandstoneEventFactoryCache
+import com.github.projectsandstone.api.logging.LoggerFactory
 import com.github.projectsandstone.api.plugin.PluginManager
 import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
@@ -37,7 +38,6 @@ import com.github.projectsandstone.api.util.version.Version
 import com.github.projectsandstone.api.world.World
 import com.github.projectsandstone.eventsys.event.EventManager
 import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.nio.file.Path
 
 object Sandstone {
