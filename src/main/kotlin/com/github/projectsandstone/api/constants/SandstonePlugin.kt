@@ -48,14 +48,14 @@ object SandstonePlugin : PluginContainer {
     override val description: String?
         get() = Constants.SANDSTONE_PLUGIN_DESCRIPTION
 
-    override val authors: Array<String>
+    override val authors: List<String>
         get() = Constants.AUTHORS
 
-    override val dependencies: Array<DependencyContainer>
-        get() = emptyArray()
+    override val dependencies: List<DependencyContainer>
+        get() = emptyList()
 
-    override val dependenciesState: Array<DependencyState>
-        get() = emptyArray()
+    override val dependenciesState: List<DependencyState>
+        get() = emptyList()
 
     override val usePlatformInternals: Boolean
         get() = true
@@ -81,6 +81,9 @@ object SandstonePlugin : PluginContainer {
 
     override val logger: Logger
         get() = Sandstone.logger
+
+    override val targetPlatformNames: List<String>
+        get() = emptyList()
 
     override val classLoader: PluginClassLoader = SandstonePluginClassLoader
     override val mainClass: String = "com.github.projectsandstone.api.Sandstone"

@@ -29,6 +29,7 @@ package com.github.projectsandstone.api.constants
 
 import com.github.projectsandstone.api.util.version.Schemes
 import com.github.projectsandstone.api.util.version.Version
+import java.util.*
 
 /**
  * *Sandstone* constants
@@ -45,6 +46,6 @@ object Constants {
     val SANDSTONE_PLUGIN_DESCRIPTION = "Minecraft Server Modding API."
 
     @JvmStatic
-    val AUTHORS = arrayOf("ProjectSandstone Team.")
+    val AUTHORS = Collections.unmodifiableList(listOf("ProjectSandstone Team."))
 
 }

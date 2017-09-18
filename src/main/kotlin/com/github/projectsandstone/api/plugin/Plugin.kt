@@ -42,7 +42,7 @@ package com.github.projectsandstone.api.plugin
  * @property optional Set this property to true if this plugin is optional, this means that if required [dependencies] are not
  * satisfied, then this plugin will be simple ignored and a info will be logged in console (instead
  * of dependency exception).
- * @property targetPlatformName Used by platform dependent plugins, you should use
+ * @property targetPlatformNames Used by platform dependent plugins, you should use
  * [com.github.projectsandstone.api.Platform.platformBaseName] to specify which platforms your plugin loads.
  * This is commonly used to enable plugin modules or different implementations for each platform. You can also use
  * `:` prefix to specify the [Full name of platform][com.github.projectsandstone.api.Platform.platformFullName] instead
@@ -59,5 +59,5 @@ annotation class Plugin(
         val dependencies: Array<Dependency> = arrayOf(),
         val usePlatformInternals: Boolean = false,
         val optional: Boolean = false,
-        val targetPlatformName: Array<String> = emptyArray()
+        val targetPlatformNames: Array<String> = emptyArray()
 )

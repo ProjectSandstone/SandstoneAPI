@@ -126,8 +126,8 @@ interface PluginContainer {
     /**
      * Platforms which this plugins enables.
      *
-     * @see Plugin.targetPlatformName
+     * @see Plugin.targetPlatformNames
      */
-    val targetPlatformName: List<String>
+    val targetPlatformNames: List<String>
 
 }
