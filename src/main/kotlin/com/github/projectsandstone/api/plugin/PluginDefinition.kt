@@ -78,17 +78,17 @@ interface PluginDefinition {
     /**
      * Authors of plugin
      */
-    var authors: Array<String>
+    var authors: List<String>
 
     /**
      * Plugin dependencies.
      */
-    val dependencies: Array<DependencyContainer>?
+    val dependencies: List<DependencyContainer>
 
     /**
      * Plugin dependencies state.
      */
-    val dependenciesState: Array<DependencyState>
+    val dependenciesState: List<DependencyState>
 
     /**
      * True if this plugin uses platform dependant functions.

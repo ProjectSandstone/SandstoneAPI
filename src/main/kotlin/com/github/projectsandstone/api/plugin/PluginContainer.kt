@@ -69,17 +69,17 @@ interface PluginContainer {
     /**
      * Authors of plugin
      */
-    val authors: Array<String>
+    val authors: List<String>
 
     /**
      * Plugin dependencies.
      */
-    val dependencies: Array<DependencyContainer>
+    val dependencies: List<DependencyContainer>
 
     /**
      * State of dependencies of this [PluginContainer].
      */
-    val dependenciesState: Array<DependencyState>
+    val dependenciesState: List<DependencyState>
 
     /**
      * True if this plugin uses platform dependant functions.
