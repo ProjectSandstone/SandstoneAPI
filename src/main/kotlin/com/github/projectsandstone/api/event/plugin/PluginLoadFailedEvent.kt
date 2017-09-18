@@ -42,20 +42,20 @@ interface PluginLoadFailedEvent : PluginEvent {
     /**
      * Reason of failure.
      */
-    abstract class Reason internal constructor()
+    sealed class Reason {
+        /**
+         * Failed because of dependency resolution failed, because of a missing dependency or
+         * because an dependency plugin failed to load.
+         *
+         * Use [PluginContainer.dependenciesState] to get dependencies state.
+         */
+        object DependencyResolutionFailed : Reason()
 
-    /**
-     * Failed because of dependency resolution failed, because of a missing dependency or
-     * because an dependency plugin failed to load.
-     *
-     * Use [PluginContainer.dependenciesState] to get dependencies state.
-     */
-    object DependencyResolutionFailed : Reason()
-
-    /**
-     * Failed because an exception occurred during initialization.
-     *
-     * @property exception Exception occurred during plugin loading process.
-     */
-    class Exception(val exception: Throwable)
+        /**
+         * Failed because an exception occurred during initialization.
+         *
+         * @property exception Exception occurred during plugin loading process.
+         */
+        class Exception(val exception: Throwable) : Reason()
+    }
 }
