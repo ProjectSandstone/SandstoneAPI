@@ -87,7 +87,20 @@ interface CommandManager : CommandDispatcher {
     fun createInformationManager(): InformationManager
 
     /**
+     * Creates an instance of [InformationManager] with [pluginInstance] and some elements of
+     * [pluginInstance] as registered information.
+     */
+    fun createInformationManager(pluginInstance: Any): InformationManager
+
+    /**
+     * Creates an instance of [InformationManager] with [player],
+     * [pluginInstance] and some elements of [pluginInstance] as registered information.
+     */
+    fun createInformationManager(pluginInstance: Any, player: Player): InformationManager
+
+    /**
      * Creates an instance of [InformationManager] with [player] as registered information.
      */
     fun createInformationManager(player: Player): InformationManager
+
 }
