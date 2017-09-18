@@ -35,8 +35,12 @@ package com.github.projectsandstone.api.command
 
 import com.github.jonathanxd.kwcommands.information.Information
 import com.github.projectsandstone.api.entity.living.player.Player
+import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.service.permission.Subject
+import org.slf4j.Logger
 
 val PERMISSION_SUBJECT = Information.Id(Subject::class.java, arrayOf("subject"))
 val COMMAND_SOURCE_SUBJECT = Information.Id(CommandSource::class.java, arrayOf("command_source"))
 val PLAYER_SUBJECT = Information.Id(Player::class.java, arrayOf("player"))
+val LOGGER_SUBJECT = Information.Id(Logger::class.java, arrayOf("logger"))
+val PLUGIN_SUBJECT = Information.Id(PluginContainer::class.java, arrayOf("plugin"))
