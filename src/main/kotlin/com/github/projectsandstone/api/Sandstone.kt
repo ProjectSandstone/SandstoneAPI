@@ -181,6 +181,7 @@ object Sandstone {
      * Sandstone server worlds.
      */
     @JvmStatic
-    val worlds: List<World> = this.game.server.worlds
+    val worlds: List<World>
+        get() = this.game.server.worlds
 
 }
