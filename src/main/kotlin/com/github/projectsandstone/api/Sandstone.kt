@@ -44,26 +44,31 @@ object Sandstone {
     /**
      * Game instance
      */
+    @JvmStatic
     private lateinit var game_: Game
 
     /**
      * Logger
      */
+    @JvmStatic
     private lateinit var logger_: Logger
 
     /**
      * Logger factory
      */
+    @JvmStatic
     private lateinit var loggerFactory_: LoggerFactory
 
     /**
      * Sandstone path
      */
+    @JvmStatic
     private lateinit var sandstonePath_: Path
 
     /**
      * Sandstone API implementation
      */
+    @JvmStatic
     private lateinit var implementation_: Implementation
 
     /**
