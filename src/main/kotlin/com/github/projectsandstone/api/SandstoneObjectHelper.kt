@@ -36,6 +36,6 @@ interface SandstoneObjectHelper {
      * Creates a list which is a view of mapped elements of [from]. Changes in this list is not reflected on
      * [from], but changes in [from] is reflected in this list.
      */
-    fun <U, T> createLiveList(from: List<U>, mapper: (U) -> T): List<T>
+    fun <U, T> createLiveList(from: List<U>, mapper: (U) -> T, unmapper: (T) -> U): List<T>
 
 }
