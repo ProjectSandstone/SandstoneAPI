@@ -37,7 +37,6 @@ import com.github.projectsandstone.api.entity.living.player.Player
 fun player(game: Game, id: Any) = Argument.builder<Player>()
         .id(id)
         .type(TypeInfo.of(Player::class.java))
-        .addPossibilities(game.objectHelper.createLiveList(game.server.players, { it.name },
-                { p -> game.server.players.first { p == it.name } }))
+        .addPossibilities(game.objectHelper.createLiveList(game.server.players, { it.name }))
         .validator { game.server.players.any { player -> player.name == it } }
         .transformer { game.server.players.first { player -> player.name == it } }
