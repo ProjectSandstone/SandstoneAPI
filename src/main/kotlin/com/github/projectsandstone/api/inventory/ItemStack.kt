@@ -56,7 +56,7 @@ interface ItemStack {
     fun copy(item: ItemType = this.item, quantity: Int = this.quantity): ItemStack
 
     companion object Factory {
-        fun of(item: ItemType, quantity: Int) = Sandstone.getObjectFactory().createItemStack(item, quantity)
+        fun of(item: ItemType, quantity: Int) = Sandstone.objectFactory.createItemStack(item, quantity)
     }
 
 }

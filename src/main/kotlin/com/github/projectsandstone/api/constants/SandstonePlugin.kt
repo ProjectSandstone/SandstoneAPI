@@ -71,7 +71,7 @@ object SandstonePlugin : PluginContainer {
         }
 
     override val instance: Any?
-        get() = Sandstone.INSTANCE
+        get() = Sandstone
 
     override val name: String
         get() = super.name
@@ -80,7 +80,7 @@ object SandstonePlugin : PluginContainer {
         get() = PluginState.LOADED
 
     override val logger: Logger
-        get() = Sandstone.getLogger()
+        get() = Sandstone.logger
 
     override val classLoader: PluginClassLoader = SandstonePluginClassLoader
     override val mainClass: String = "com.github.projectsandstone.api.Sandstone"

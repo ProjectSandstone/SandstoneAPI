@@ -65,7 +65,7 @@ inline fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
  */
 @Throws(EntryNotFoundException::class)
 inline fun <reified T : RegistryEntry> getEntry(id: () -> String): T {
-    val entry = Sandstone.getGame().registry.getRegistryEntry<T>(id())
+    val entry = Sandstone.game.registry.getRegistryEntry<T>(id())
 
     return entry ?: throw EntryNotFoundException("Required entry: ${id()} not found!")
 }
