@@ -44,7 +44,7 @@ interface DependencyResolver {
      *
      * @return List of all dependency states of [pluginContainer].
      */
-    fun getDependenciesState(pluginContainer: PluginContainer): Array<DependencyState>
+    fun getDependenciesState(pluginContainer: PluginContainer): List<DependencyState>
 
     /**
      * Resolve dependencies of [pluginContainer].
