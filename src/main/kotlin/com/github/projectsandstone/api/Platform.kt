@@ -83,6 +83,4 @@ interface Platform {
      */
     fun isInternalClass(name: String?): Boolean
 
-
-
 }

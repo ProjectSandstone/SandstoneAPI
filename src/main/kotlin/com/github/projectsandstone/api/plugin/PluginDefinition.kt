@@ -98,7 +98,7 @@ interface PluginDefinition {
     /**
      * True if this plugin is optional.
      *
-     * @see [Plugin.optional]
+     * @see Plugin.optional
      */
     val optional: Boolean
 
@@ -127,4 +127,10 @@ interface PluginDefinition {
      */
     val classLoader: PluginClassLoader
 
+    /**
+     * Platforms which this plugins enables.
+     *
+     * @see Plugin.targetPlatformName
+     */
+    val targetPlatformName: List<String>
 }

@@ -29,60 +29,35 @@ package com.github.projectsandstone.api.plugin
 
 /**
  * Plugin definition annotation.
+ *
+ * @property id Plugin unique id, Recommended plugin id pattern is: 'groupId.artifactId', example:
+ * `com.mydomain.simpleplugin`, `com.github.myuser.simpleplugin`
+ * @property name Plugin name, used to identify the plugin.
+ * @property version Version of the plugin, there is not rule.
+ * @property description Plugin description.
+ * @property authors Names of plugin authors.
+ * @property dependencies Plugin dependencies
+ * @property usePlatformInternals Whether the plugin use platform internals or not, if set to `true`, the implementation
+ * allows use of platform internals, if set to `false`, implementation may warn about internals usage or fail with exception.
+ * @property optional Set this property to true if this plugin is optional, this means that if required [dependencies] are not
+ * satisfied, then this plugin will be simple ignored and a info will be logged in console (instead
+ * of dependency exception).
+ * @property targetPlatformName Used by platform dependent plugins, you should use
+ * [com.github.projectsandstone.api.Platform.platformBaseName] to specify which platforms your plugin loads.
+ * This is commonly used to enable plugin modules or different implementations for each platform. You can also use
+ * `:` prefix to specify the [Full name of platform][com.github.projectsandstone.api.Platform.platformFullName] instead
+ * of [Base name][com.github.projectsandstone.api.Platform.platformBaseName].
  */
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 annotation class Plugin(
-        /**
-         * Plugin unique id.
-         *
-         * *Recommended:* Recommended plugin id pattern is: 'groupId.artifactId', example:
-         * `com.mydomain.simpleplugin`, `com.github.myuser.simpleplugin`
-         */
         val id: String,
-
-        /**
-         * Plugin Name.
-         *
-         * This name will be used to log messages.
-         */
         val name: String = "",
-
-        /**
-         * Plugin version.
-         *
-         * There is no rule for version definition.
-         */
         val version: String,
-
-        /**
-         * Plugin description.
-         *
-         * Short description explaining plugin functionality.
-         */
         val description: String = "",
-
-        /**
-         * Authors of plugin
-         */
         val authors: Array<String> = arrayOf(),
-
-        /**
-         * Plugin dependencies.
-         */
         val dependencies: Array<Dependency> = arrayOf(),
-
-        /**
-         * Set this property to true if this plugin uses platform dependant functions.
-         *
-         * If you set this property to true, *Sandstone* will not warn about internal class usages.
-         */
         val usePlatformInternals: Boolean = false,
-
-        /**
-         * Set this property to true if this plugin is optional, this means that if required [dependencies] are not
-         * satisfied, then this plugin will be simple ignored and a info will be logged in console (instead
-         * of dependency exception).
-         */
-        val optional: Boolean = false
+        val optional: Boolean = false,
+        val targetPlatformName: Array<String> = emptyArray()
 )

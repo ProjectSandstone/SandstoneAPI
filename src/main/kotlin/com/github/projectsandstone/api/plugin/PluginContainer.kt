@@ -89,7 +89,7 @@ interface PluginContainer {
     /**
      * True if this plugin is optional.
      *
-     * @see [Plugin.optional]
+     * @see Plugin.optional
      */
     val optional: Boolean
 
@@ -122,5 +122,12 @@ interface PluginContainer {
      * Main class of this plugin.
      */
     val mainClass: String
+
+    /**
+     * Platforms which this plugins enables.
+     *
+     * @see Plugin.targetPlatformName
+     */
+    val targetPlatformName: List<String>
 
 }
