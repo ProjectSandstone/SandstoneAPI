@@ -63,11 +63,11 @@ interface Server {
     /**
      * Worlds in the [Server].
      */
-    val worlds: List<World>
+    val worlds: Collection<World>
 
     /**
      * Players currently connected to [Server].
      */
-    val players: List<Player>
+    val players: Collection<Player>
 
 }

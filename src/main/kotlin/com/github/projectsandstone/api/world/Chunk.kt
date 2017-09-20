@@ -53,7 +53,7 @@ data class Chunk(val extent: Extent,
                     Vector3d(position.x.toDouble(), 0.0, position.y.toDouble()),
                     Vector3d(position.x + 16.0, 0.0, position.y + 16.0))
 
-    override val loadedChunks: List<Chunk>
+    override val loadedChunks: Collection<Chunk>
         get() = listOf(this)
 
     override val entities: Collection<Entity>

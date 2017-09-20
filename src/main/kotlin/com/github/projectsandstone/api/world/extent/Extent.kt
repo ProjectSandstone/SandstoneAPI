@@ -54,7 +54,7 @@ interface Extent : EntityUniverse, MessageReceiver {
      * only current [Chunk]. If this [Extent] is a [World], the returned list will
      * contains all loaded chunks of this [World].
      */
-    val loadedChunks: List<Chunk>
+    val loadedChunks: Collection<Chunk>
 
     /**
      * World of this [Extent]
