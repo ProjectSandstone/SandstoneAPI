@@ -57,7 +57,7 @@ interface EntityUniverse {
     }
 
     /**
-     * Creates an entity. (The entity will not be spawned).
+     * Creates an entity (the entity may or may not be spawned at [location]).
      *
      * @param type Entity type.
      * @param location Location of entity in the universe.
@@ -67,7 +67,7 @@ interface EntityUniverse {
 
 
     /**
-     * Spawn the entity in the universe.
+     * Spawn the entity in the universe (if it is not already spawned).
      *
      * @param entity Entity instance.
      * @return True if the entity spawned with success.
