@@ -33,4 +33,9 @@ import com.github.projectsandstone.api.world.Locatable
 /**
  * Minecraft entity.
  */
-interface Entity : Identifiable, Locatable
+interface Entity : Identifiable, Locatable {
+    /**
+     * Type of the entity.
+     */
+    val type: EntityType
+}
