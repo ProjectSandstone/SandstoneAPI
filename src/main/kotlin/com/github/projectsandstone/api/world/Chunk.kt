@@ -32,6 +32,7 @@ import com.flowpowered.math.vector.Vector3d
 import com.flowpowered.math.vector.Vector3i
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
+import com.github.projectsandstone.api.entity.EntityBuilder
 import com.github.projectsandstone.api.entity.EntityType
 import com.github.projectsandstone.api.util.Source
 import com.github.projectsandstone.api.inventory.ItemStack
@@ -99,10 +100,10 @@ data class Chunk(val extent: Extent,
         return Selection(this.extent, this.selection.from.add(from), this.selection.to.add(to))
     }
 
-    override fun createEntity(type: EntityType, location: Vector3d): Entity? =
+    override fun createEntity(type: EntityType, location: Vector3d): EntityBuilder? =
             this.extent.createEntity(type, location.plus(selection.from))
 
-    override fun spawnEntity(entity: Entity): Boolean =
+    override fun spawnEntity(entity: EntityBuilder): Entity? =
             this.extent.spawnEntity(entity)
 
     override fun spawnEntity(type: EntityType, location: Vector3d): Boolean =
