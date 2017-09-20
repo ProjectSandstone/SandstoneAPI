@@ -36,7 +36,7 @@ interface MessageChannel {
     /**
      * Members of channel
      */
-    val members: MutableList<MessageReceiver>
+    val members: MutableCollection<MessageReceiver>
 
     /**
      * Send message to all members.
