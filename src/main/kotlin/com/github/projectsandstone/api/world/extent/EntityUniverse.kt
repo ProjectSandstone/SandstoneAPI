@@ -29,6 +29,7 @@ package com.github.projectsandstone.api.world.extent
 
 import com.flowpowered.math.vector.Vector3d
 import com.github.projectsandstone.api.entity.Entity
+import com.github.projectsandstone.api.entity.EntityBuilder
 import com.github.projectsandstone.api.entity.EntityType
 import com.github.projectsandstone.api.inventory.ItemStack
 
@@ -63,16 +64,16 @@ interface EntityUniverse {
      * @param location Location of entity in the universe.
      * @return Entity instance if the entity can be spawned in [location] or null if not.
      */
-    fun createEntity(type: EntityType, location: Vector3d): Entity?
+    fun createEntity(type: EntityType, location: Vector3d): EntityBuilder?
 
 
     /**
      * Spawn the entity in the universe (if it is not already spawned).
      *
-     * @param entity Entity instance.
-     * @return True if the entity spawned with success.
+     * @param entity Entity builder.
+     * @return [Entity] instance if spawned with success, `null` otherwise.
      */
-    fun spawnEntity(entity: Entity): Boolean
+    fun spawnEntity(entity: EntityBuilder): Entity?
 
     /**
      * Spawn the entity in the universe.
