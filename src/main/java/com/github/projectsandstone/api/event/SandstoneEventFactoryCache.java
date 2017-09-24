@@ -47,13 +47,14 @@ public class SandstoneEventFactoryCache {
             return SandstoneEventFactoryCache.instance;
         } else if (async != null) {
             try {
-                return async.get();
+                instance = async.get();
+                async = null;
             } catch (InterruptedException | ExecutionException e) {
-                throw new RethrowException(e);
+                throw RethrowException.rethrow(e);
             }
-        } else {
-            instance = Sandstone.getEventManager().getEventGenerator().createFactory(SandstoneEventFactory.class);
             return instance;
+        } else {
+            return instance = Sandstone.getEventManager().getEventGenerator().createFactory(SandstoneEventFactory.class);
         }
     }
 
@@ -67,15 +68,14 @@ public class SandstoneEventFactoryCache {
                 try {
                     instance = asc.get();
                 } catch (InterruptedException | ExecutionException e) {
-                    throw new RethrowException(e);
+                    throw RethrowException.rethrow(e);
                 }
                 async = null;
             }
 
             return asc;
         } else {
-            async = Sandstone.getEventManager().getEventGenerator().createFactoryAsync(SandstoneEventFactory.class);
-            return async;
+            return async = Sandstone.getEventManager().getEventGenerator().createFactoryAsync(SandstoneEventFactory.class);
         }
     }
 }

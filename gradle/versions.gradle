@@ -1,7 +1,7 @@
-ext.kotlin_version = '1.1.4-3'
+ext.kotlin_version = '1.1.50'
 ext.dokka_version = '0.9.15'
 
-ext.guava_version = '22.0'
+ext.guava_version = '21.0'
 ext.guice_version = '4.1.0'
 ext.flowmath_version = '1.0.3'
 
