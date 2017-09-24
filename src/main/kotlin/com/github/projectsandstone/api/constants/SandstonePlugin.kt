@@ -74,7 +74,7 @@ object SandstonePlugin : PluginContainer {
         get() = Sandstone
 
     override val name: String
-        get() = super.name
+        get() = Constants.SANDSTONE_PLUGIN_NAME
 
     override val state: PluginState
         get() = PluginState.LOADED

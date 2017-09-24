@@ -40,6 +40,9 @@ object Constants {
     val SANDSTONE_PLUGIN_ID = "sandstone"
 
     @JvmStatic
+    val SANDSTONE_PLUGIN_NAME = "Sandstone"
+
+    @JvmStatic
     val SANDSTONE_PLUGIN_VERSION = Version("0.0.0", Schemes.semVerScheme)
 
     @JvmStatic
