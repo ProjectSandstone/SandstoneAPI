@@ -29,8 +29,8 @@ package com.github.projectsandstone.example.commands;
 
 import com.google.inject.Inject;
 
+import com.github.jonathanxd.iutils.text.Text;
 import com.github.jonathanxd.kwcommands.command.Command;
-import com.github.jonathanxd.kwcommands.command.CommandName;
 import com.github.projectsandstone.api.Game;
 import com.github.projectsandstone.api.command.CommonArguments;
 import com.github.projectsandstone.api.command.CommonRequirements;
@@ -58,8 +58,8 @@ public class SimpleCommandPlugin {
     @Listener
     public void init(InitializationEvent event) {
         game.getCommandManager().registerCommand(Command.builder()
-                        .name(CommandName.name("tp"))
-                        .description("Teleport a player to another")
+                        .name("tp")
+                        .description(Text.of("Teleport a player to another"))
                         .addRequirements(CommonRequirements.permission("player.adm.tp"))
                         .addArgument(CommonArguments.player(this.game, "from").build())
                         .addArgument(CommonArguments.player(this.game, "target").build())

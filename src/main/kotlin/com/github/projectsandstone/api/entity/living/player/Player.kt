@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.entity.living.player
 
+import com.github.jonathanxd.iutils.text.Text
 import com.github.projectsandstone.api.entity.living.Human
 import com.github.projectsandstone.api.inventory.Carrier
-import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.text.channel.MessageReceiver
 
 /**

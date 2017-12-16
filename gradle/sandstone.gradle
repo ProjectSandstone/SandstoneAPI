@@ -48,7 +48,7 @@ dependencies {
     compile "com.flowpowered:flow-math:$flowmath_version"
     compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
     compile "com.github.JonathanxD:KWCommands:$kwcommands_version"
-    compile "com.github.JonathanxD:AdapterHelper:$adapterhelper_version"
+    //compile "com.github.JonathanxD:AdapterHelper:$adapterhelper_version"
     compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
     compile "com.github.ProjectSandstone:EventSys:$eventsys_version"
     compile "com.google.code.findbugs:jsr305:$jsr305_version"

@@ -29,6 +29,7 @@ package com.github.projectsandstone.example;
 
 import com.google.inject.Inject;
 
+import com.github.jonathanxd.iutils.text.Text;
 import com.github.projectsandstone.api.Game;
 import com.github.projectsandstone.api.Sandstone;
 import com.github.projectsandstone.api.block.BlockState;
@@ -47,7 +48,6 @@ import com.github.projectsandstone.api.item.ItemType;
 import com.github.projectsandstone.api.item.ItemTypes;
 import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.projectsandstone.api.plugin.PluginDefinition;
-import com.github.projectsandstone.api.text.Text;
 import com.github.projectsandstone.api.util.version.Schemes;
 import com.github.projectsandstone.api.world.Location;
 import com.github.projectsandstone.api.world.World;

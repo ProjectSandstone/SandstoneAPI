@@ -29,15 +29,11 @@
 
 package com.github.projectsandstone.api.command
 
-import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.kwcommands.argument.Argument
+import com.github.jonathanxd.kwcommands.parser.SingleInput
 import com.github.projectsandstone.api.Game
 import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.api.util.ListCollection
 
-fun player(game: Game, id: Any) = Argument.builder<Player>()
-        .id(id)
-        .type(TypeInfo.of(Player::class.java))
-        .addPossibilities(ListCollection(game.objectHelper.createLiveCollection(game.server.players, { it.name })))
-        .validator { game.server.players.any { player -> player.name == it } }
-        .transformer { game.server.players.first { player -> player.name == it } }
+fun player(game: Game, name: String) = Argument.builder<SingleInput, Player>()
+        .name(name)
+        .argumentType(playerArgumentType(game))

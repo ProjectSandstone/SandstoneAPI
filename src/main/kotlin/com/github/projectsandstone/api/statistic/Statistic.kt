@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.statistic
 
+import com.github.jonathanxd.iutils.text.Text
 import com.github.projectsandstone.api.registry.RegistryEntry
-import com.github.projectsandstone.api.text.Text
 
 /**
  * Game statistic

@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.text.channel
 
-import com.github.projectsandstone.api.text.Text
+import com.github.jonathanxd.iutils.text.Text
 
 /**
  * A message channel that send message to members.

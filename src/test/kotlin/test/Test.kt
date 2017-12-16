@@ -28,8 +28,8 @@
 package test
 
 import com.github.jonathanxd.iutils.reflection.Reflection
-import com.github.jonathanxd.iutils.type.AbstractTypeInfo
 import com.github.jonathanxd.iutils.type.TypeInfo
+import com.github.jonathanxd.jwiutils.kt.typeInfo
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.constants.SandstonePlugin
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
@@ -44,7 +44,7 @@ import java.nio.file.Paths
 
 fun main(args: Array<String>) {
 
-    val type = object : AbstractTypeInfo<ChangeServiceProviderEvent<MyService>>() {}
+    val type = typeInfo<ChangeServiceProviderEvent<MyService>>()
 
     Reflection.changeFinalField(Sandstone::class.java, null, "sandstonePath_", Paths.get("."))
 

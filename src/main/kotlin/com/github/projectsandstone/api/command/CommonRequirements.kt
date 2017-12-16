@@ -38,7 +38,6 @@ fun permission(permission: String) = Requirement(
         required = permission,
         type = TypeInfo.of(String::class.java),
         subject = PERMISSION_SUBJECT,
-        infoType = TypeInfo.of(Subject::class.java),
         tester = PermissionTester
 )
 

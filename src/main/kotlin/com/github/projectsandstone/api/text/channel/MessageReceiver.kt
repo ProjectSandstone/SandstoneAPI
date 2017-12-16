@@ -27,10 +27,10 @@
  */
 package com.github.projectsandstone.api.text.channel
 
-import com.github.projectsandstone.api.text.Text
+import com.github.jonathanxd.iutils.text.Text
 
 /**
- * Created by jonathan on 28/08/16.
+ * Receiver of [Text] messages.
  */
 interface MessageReceiver {
 

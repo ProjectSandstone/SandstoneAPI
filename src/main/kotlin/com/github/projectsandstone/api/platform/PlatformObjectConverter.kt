@@ -27,8 +27,6 @@
  */
 package com.github.projectsandstone.api.platform
 
-import com.github.jonathanxd.adapterhelper.AdapterBase
-
 /**
  * Converts a object of Sandstone to platform object.
  *
@@ -41,7 +39,7 @@ interface PlatformObjectConverter {
      *
      * @return Platform version of this object, or null if this object cannot be converted.
      */
-    fun <T> convertObject(sandstoneObject: T): Any? where T : Any, T : AdapterBase<*>
+    fun convertObject(sandstoneObject: Any): Any?
 
     /**
      * Converts [sandstoneObject] to a platform dependent version of this object.
@@ -49,7 +47,7 @@ interface PlatformObjectConverter {
      * @param expectedType Platform type that are expected to return.
      * @return Platform version of this object, or null if this object cannot be converted.
      */
-    fun <T, U : Any> convertObject(sandstoneObject: T, expectedType: Class<U>): U? where T : Any, T : AdapterBase<*>
+    fun <T, U : Any> convertObject(sandstoneObject: T, expectedType: Class<U>): U?
 
     /**
      * Returns true if [objectType] can be converted to a platform type.

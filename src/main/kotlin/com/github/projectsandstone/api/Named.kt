@@ -27,8 +27,11 @@
  */
 package com.github.projectsandstone.api
 
-import com.github.projectsandstone.api.text.Text
+import com.github.jonathanxd.iutils.text.Text
 
+/**
+ * Base class of all named objects.
+ */
 interface Named {
 
     val name: Text

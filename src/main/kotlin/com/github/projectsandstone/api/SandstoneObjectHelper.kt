@@ -43,4 +43,10 @@ interface SandstoneObjectHelper {
      * [from], but changes in [from] is reflected in this collection.
      */
     fun <U, T> createLiveCollection(from: Collection<U>, mapper: (U) -> T): Collection<T>
+
+    /**
+     * Creates a list which is a view of mapped elements of [from]. Changes in this list is not reflected on
+     * [from], but changes in [from] is reflected in this list.
+     */
+    fun <U, T> createLiveListFromColl(from: Collection<U>, mapper: (U) -> T): List<T>
 }

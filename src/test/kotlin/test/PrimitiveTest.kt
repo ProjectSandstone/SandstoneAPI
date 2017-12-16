@@ -29,17 +29,19 @@ package test
 
 import com.flowpowered.math.vector.Vector3d
 import com.github.jonathanxd.iutils.reflection.Reflection
-import com.github.jonathanxd.iutils.type.AbstractTypeInfo
+import com.github.jonathanxd.iutils.text.Text
+import com.github.jonathanxd.jwiutils.kt.typeInfo
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.block.BlockType
 import com.github.projectsandstone.api.block.BlockTypes
+import com.github.projectsandstone.api.entity.EntityType
+import com.github.projectsandstone.api.entity.EntityTypes
 import com.github.projectsandstone.api.entity.living.player.Player
 import com.github.projectsandstone.api.event.SandstoneEventFactory
 import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.inventory.CarriedInventory
 import com.github.projectsandstone.api.inventory.Carrier
-import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.api.util.SID
 import com.github.projectsandstone.api.world.Location
 import com.github.projectsandstone.api.world.World
@@ -52,7 +54,7 @@ import java.util.*
 
 fun main(args: Array<String>) {
 
-    val type = object : AbstractTypeInfo<MyEvt>() {}
+    val type = typeInfo<MyEvt>()
 
     Reflection.changeFinalField(Sandstone::class.java, null, "sandstonePath_", Paths.get("."))
 
@@ -88,6 +90,9 @@ fun main(args: Array<String>) {
 }
 
 class TestPlayer : Player {
+
+    override val type: EntityType
+        get() = EntityTypes.PLAYER
 
     override val inventory: CarriedInventory<Carrier>
         get() = TODO("not implemented")

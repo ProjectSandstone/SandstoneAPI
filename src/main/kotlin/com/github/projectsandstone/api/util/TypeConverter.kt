@@ -61,7 +61,7 @@ fun <T : Any> KClass<T>.toType(): CodeType = (this as ClassBasedDeclarationConta
  */
 fun <T> TypeInfo<T>.toGeneric(): Generic {
     val aClass = this.typeClass
-    val related = this.related
+    val related = this.typeParameters
 
     var generic = Generic.type(aClass.toType())
 

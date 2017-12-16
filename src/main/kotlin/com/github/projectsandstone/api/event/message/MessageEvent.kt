@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.event.message
 
+import com.github.jonathanxd.iutils.text.Text
 import com.github.projectsandstone.api.event.player.PlayerEvent
-import com.github.projectsandstone.api.text.Text
 import com.github.projectsandstone.eventsys.ap.Factory
 import com.github.projectsandstone.eventsys.event.Cancellable
 import com.github.projectsandstone.eventsys.event.Event
@@ -40,7 +40,7 @@ import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
  * Fired when server receives a message.
  */
 @Factory(FACTORY_CLASS)
-@Factory(value = FACTORY_CLASS, extensions = arrayOf(Extension(implement = PlayerEvent::class)))
+@Factory(value = FACTORY_CLASS, extensions = [Extension(implement = PlayerEvent::class)])
 interface MessageEvent : Event, Cancellable {
 
     /**

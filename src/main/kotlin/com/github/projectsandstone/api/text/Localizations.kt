@@ -25,29 +25,8 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.text.style
+package com.github.projectsandstone.api.text
 
-/**
- * Constant text formats.
- */
-object TextFormats {
+import com.github.jonathanxd.iutils.text.Text
 
-    @JvmField
-    val NORMAL = TextFormat()
-
-    @JvmField
-    val BOLD = TextFormat(bold = true)
-
-    @JvmField
-    val ITALIC = TextFormat(italic = true)
-
-    @JvmField
-    val UNDERLINE = TextFormat(underline = true)
-
-    @JvmField
-    val STRIKE_THROUGH = TextFormat(strikeThrough = true)
-
-    @JvmField
-    val OBFUSCATED = TextFormat(obfuscated = true)
-
-}
+val PLAYER_NOT_FOUND = Text.localizable("message.player.not_found")

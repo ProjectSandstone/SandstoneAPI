@@ -37,7 +37,7 @@ import com.github.projectsandstone.api.util.exception.EntryNotInitializedExcepti
 
 inline val UNINITIALIZED_HANDLER: InvocationHandler get() =
         InvocationHandler { _, _, _, _ ->
-            throw EntryNotInitializedException("Method invoked on a uninitialized entry!")
+            throw EntryNotInitializedException("Method invoked on an uninitialized entry!")
         }
 
 inline fun <reified T : Any> uninitializedEntry(): T = uninitializedEntry(T::class.java)

@@ -27,11 +27,11 @@
  */
 package com.github.projectsandstone.example.commands;
 
+import com.github.jonathanxd.iutils.text.Text;
 import com.github.jonathanxd.kwcommands.reflect.annotation.Cmd;
 import com.github.jonathanxd.kwcommands.reflect.annotation.CmdHandler;
 import com.github.jonathanxd.kwcommands.reflect.annotation.Info;
 import com.github.projectsandstone.api.entity.living.player.Player;
-import com.github.projectsandstone.api.text.Text;
 
 @Cmd(name = "ping", description = "Pong.")
 public class PingCommand {
