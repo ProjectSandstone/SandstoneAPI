@@ -27,6 +27,9 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.jonathanxd.kwcommands.printer.Printer
+import com.github.projectsandstone.api.text.channel.MessageReceiver
+
 /**
  * Misc utilities and object helper.
  */
@@ -49,4 +52,9 @@ interface SandstoneObjectHelper {
      * [from], but changes in [from] is reflected in this list.
      */
     fun <U, T> createLiveListFromColl(from: Collection<U>, mapper: (U) -> T): List<T>
+
+    /**
+     * Gets [printer][Printer] from [receiver].
+     */
+    fun getPrinter(receiver: MessageReceiver): Printer
 }
