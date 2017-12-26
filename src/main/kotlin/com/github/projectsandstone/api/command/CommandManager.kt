@@ -108,4 +108,8 @@ interface CommandManager : CommandDispatcher {
      */
     fun printCommandHelp(source: CommandSource, command: String)
 
+    /**
+     * Gets [command] completion suggestions.
+     */
+    fun getSuggestions(command: String, informationManager: InformationManager): List<String>
 }

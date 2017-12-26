@@ -40,9 +40,5 @@ interface CommandDispatcher {
      */
     fun dispatch(commandStr: String, informationManager: InformationManager): List<CommandResult>
 
-    /**
-     * Gets suggestion based on [input] and in [informationManager].
-     */
-    fun getSuggestions(input: String, informationManager: InformationManager)
 
 }
