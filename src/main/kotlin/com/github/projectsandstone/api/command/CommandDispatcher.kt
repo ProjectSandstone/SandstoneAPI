@@ -36,19 +36,9 @@ import com.github.jonathanxd.kwcommands.processor.CommandResult
 interface CommandDispatcher {
 
     /**
-     * Dispatches a command as plain string.
-     *
-     * The default implementation calls [toCommandStringList] to splits the [commandStr] to a
-     * [List] of [String] and calls [dispatch] with the list.
+     * Dispatches [command][commandStr] with [informationManager].
      */
-    fun dispatch(commandStr: String, informationManager: InformationManager): List<CommandResult> {
-        return this.dispatch(commandStr.toCommandStringList(), informationManager)
-    }
-
-    /**
-     * Dispatches a command as a list of commands and arguments value.
-     */
-    fun dispatch(commandList: List<String>, informationManager: InformationManager): List<CommandResult>
+    fun dispatch(commandStr: String, informationManager: InformationManager): List<CommandResult>
 
     /**
      * Gets suggestion based on [input] and in [informationManager].
