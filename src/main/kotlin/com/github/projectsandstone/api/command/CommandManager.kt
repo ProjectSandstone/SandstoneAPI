@@ -103,4 +103,9 @@ interface CommandManager : CommandDispatcher {
      */
     fun createInformationManager(player: Player): InformationManager
 
+    /**
+     * Prints [command] help for [source].
+     */
+    fun printCommandHelp(source: CommandSource, command: String)
+
 }
