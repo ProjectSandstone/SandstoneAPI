@@ -78,6 +78,11 @@ interface Server {
     fun getOnlinePlayer(uuid: UUID): Player?
 
     /**
+     * Gets online player by [name].
+     */
+    fun getOnlinePlayer(name: String): Player?
+
+    /**
      * Gets user by [uuid].
      */
     fun getUser(uuid: UUID): User?
