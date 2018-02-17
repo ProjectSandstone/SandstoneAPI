@@ -62,6 +62,11 @@ interface PluginManager {
     val pluginLoader: PluginLoader
 
     /**
+     * Plugins
+     */
+    val plugins: Set<PluginContainer>
+
+    /**
      * Load all plugins found in [classes].
      *
      * @param classes Classes of plugin.
@@ -87,11 +92,10 @@ interface PluginManager {
      * @return Loaded [PluginContainer]s, or empty list if cannot load any plugin in directory. (Errors will be logged to console).
      */
     @Throws(SecurityException::class, IOException::class, NotDirectoryException::class, DependencyException::class)
-    fun loadAll(directory: Path): List<PluginContainer> {
-        return Files.newDirectoryStream(directory).flatMap {
-            this.loadFile(it)
-        }.filterNotNull()
-    }
+    fun loadAll(directory: Path): List<PluginContainer> =
+            Files.newDirectoryStream(directory).flatMap {
+                this.loadFile(it)
+            }
 
     /**
      * Load all [pluginContainers]. You can create [PluginContainers][PluginContainer] using [createContainers] method.
@@ -120,9 +124,8 @@ interface PluginManager {
      * @param instance Plugin instance
      * @return [PluginContainer] if found, null otherwise
      */
-    fun getPlugin(instance: Any): PluginContainer? {
-        return this.getPlugins().find { it.instance != null && it.instance == instance }
-    }
+    fun getPlugin(instance: Any): PluginContainer? =
+            this.plugins.find { it.instance != null && it.instance == instance }
 
     /**
      * Gets a required [PluginContainer] from the instance.
@@ -131,11 +134,9 @@ interface PluginManager {
      * @throws IllegalArgumentException If the [instance] is not a plugin instance
      * @return [PluginContainer] of the plugin instance
      */
-    fun getRequiredPlugin(instance: Any): PluginContainer {
-        val plugin = this.getPlugin(instance = instance) ?: throw IllegalArgumentException("The provided instance is not a plugin!")
-
-        return plugin
-    }
+    fun getRequiredPlugin(instance: Any): PluginContainer =
+            this.getPlugin(instance = instance)
+                    ?: throw IllegalArgumentException("The provided instance is not a plugin!")
 
     /**
      * Get first plugin matching [predicate].
@@ -143,9 +144,8 @@ interface PluginManager {
      * @param predicate Plugin predicate
      * @return First found [PluginContainer], or null if no plugin was found.
      */
-    fun getPlugin(predicate: (PluginContainer) -> Boolean): PluginContainer? {
-        return this.getPlugins().find(predicate)
-    }
+    fun getPlugin(predicate: (PluginContainer) -> Boolean): PluginContainer? =
+        this.plugins.find(predicate)
 
     /**
      * Get all plugins matching [predicate].
@@ -153,16 +153,8 @@ interface PluginManager {
      * @param predicate Plugin predicate
      * @return All plugins that matched [predicate], or empty list if no plugin matches the predicate.
      */
-    fun getPlugins(predicate: (PluginContainer) -> Boolean): List<PluginContainer> {
-        return this.getPlugins().filter(predicate)
-    }
-
-    /**
-     * Get all loaded plugins.
-     *
-     * @return [Set] containing all loaded plugins.
-     */
-    fun getPlugins(): Set<PluginContainer>
+    fun getPlugins(predicate: (PluginContainer) -> Boolean): List<PluginContainer> =
+        this.plugins.filter(predicate)
 
     /**
      * Create [PluginContainers][PluginContainer] for all [Plugin] annotations found in [file].
@@ -180,11 +172,10 @@ interface PluginManager {
      * @return [PluginContainer] created from [Plugin] annotations found in all files in [path].
      */
     @Throws(PluginLoadException::class)
-    fun createContainersFromPath(path: Path): List<PluginContainer> {
-        return Files.newDirectoryStream(path).flatMap {
+    fun createContainersFromPath(path: Path): List<PluginContainer> =
+        Files.newDirectoryStream(path).flatMap {
             createContainers(it)
-        }.filterNotNull()
-    }
+        }
 
     /**
      * Create [PluginContainers][PluginContainer] for plugin classes.
