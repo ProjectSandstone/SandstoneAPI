@@ -45,8 +45,10 @@ import java.nio.file.Path
  *
  * Plugin File loading process:
  *
- * - Call [PluginLoader.createContainers], set state to [PluginState.ABOUT_TO_LOAD], add to a [List] of [PluginContainer].
- * - Loop plugin list, call [queue], [queue] will call [PluginLoader.load].
+ * - Call [PluginManager.loadFile], set state to [PluginState.ABOUT_TO_LOAD], add to a [List] of
+ * [PluginContainers][PluginContainer].
+ * - Loop plugin list and add them to a queue that sorts by dependency order.
+ * - Call [PluginLoader.load] with each plugin and update state.
  *
  */
 interface PluginManager {
