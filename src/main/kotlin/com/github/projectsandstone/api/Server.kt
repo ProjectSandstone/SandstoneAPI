@@ -28,7 +28,9 @@
 package com.github.projectsandstone.api
 
 import com.github.projectsandstone.api.entity.living.player.Player
+import com.github.projectsandstone.api.entity.living.player.User
 import com.github.projectsandstone.api.world.World
+import java.util.*
 
 /**
  * Server instance.
@@ -70,4 +72,23 @@ interface Server {
      */
     val players: Collection<Player>
 
+    /**
+     * Gets online player by [uuid].
+     */
+    fun getOnlinePlayer(uuid: UUID): Player?
+
+    /**
+     * Gets user by [uuid].
+     */
+    fun getUser(uuid: UUID): User?
+
+    /**
+     * Gets world by [uuid].
+     */
+    fun getWorld(uuid: UUID): World?
+
+    /**
+     * Gets worl by [name].
+     */
+    fun getWorld(name: String): World?
 }
