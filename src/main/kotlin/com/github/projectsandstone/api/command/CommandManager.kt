@@ -82,6 +82,17 @@ interface CommandManager : CommandDispatcher {
     fun unregisterCommands(klass: Class<*>, ownerPlugin: Any): Boolean
 
     /**
+     * Gets command by [name] and [ownerPlugin]. If [ownerPlugin] is null, the command
+     * will be only matched by [name].
+     */
+    fun getCommand(name: String, ownerPlugin: Any?): Command?
+
+    /**
+     * Gets sub command with [name] of [parent command][parent].
+     */
+    fun getSubCommand(parent: Command, name: String): Command?
+
+    /**
      * Gets all commands registered by [ownerPlugin].
      */
     fun getCommandsRegisteredBy(ownerPlugin: Any): Set<Command>
