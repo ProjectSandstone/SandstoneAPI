@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.command
 import com.github.jonathanxd.kwcommands.command.Command
 import com.github.jonathanxd.kwcommands.information.InformationProviders
 import com.github.jonathanxd.kwcommands.manager.InstanceProvider
+import com.github.projectsandstone.api.annotation.PluginInstance
 import com.github.projectsandstone.api.entity.living.player.Player
 
 /**
@@ -50,41 +51,41 @@ interface CommandManager : CommandDispatcher {
     /**
      * Registers [command] for [ownerPlugin] and returns true if [command] was registered with success.
      */
-    fun registerCommand(command: Command, ownerPlugin: Any): Boolean
+    fun registerCommand(command: Command, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Unregisters [command] registered by [ownerPlugin] and returns true if command was removed with success.
      */
-    fun unregisterCommand(command: Command, ownerPlugin: Any): Boolean
+    fun unregisterCommand(command: Command, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Register all commands available via annotations in [any] for [ownerPlugin].
      */
-    fun registerInstance(any: Any, ownerPlugin: Any): Boolean
+    fun registerInstance(any: Any, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Register all commands available via annotations in [klass] for [ownerPlugin].
      */
-    fun <T> registerInstance(klass: Class<T>, instance: T, ownerPlugin: Any): Boolean
+    fun <T> registerInstance(klass: Class<T>, instance: T, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Register all commands available via annotations in [klass] and inner classes for [ownerPlugin].
      *
      * @param instanceProvider Provider of type instances.
      */
-    fun <T> registerInstance(klass: Class<T>, instanceProvider: InstanceProvider, ownerPlugin: Any): Boolean
+    fun <T> registerInstance(klass: Class<T>, instanceProvider: InstanceProvider, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Unregister all commands available via annotations in [any] registered by [ownerPlugin] and returns true if all commands
      * was removed.
      */
-    fun unregisterInstance(any: Any, ownerPlugin: Any): Boolean
+    fun unregisterInstance(any: Any, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Unregister all commands available via annotations in [klass] registered by [ownerPlugin] and returns true if all commands
      * was removed.
      */
-    fun unregisterCommands(klass: Class<*>, ownerPlugin: Any): Boolean
+    fun unregisterCommands(klass: Class<*>, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Gets command by [name].
@@ -106,7 +107,7 @@ interface CommandManager : CommandDispatcher {
     /**
      * Gets all commands registered by [ownerPlugin].
      */
-    fun getCommandsRegisteredBy(ownerPlugin: Any): Set<Command>
+    fun getCommandsRegisteredBy(@PluginInstance ownerPlugin: Any): Set<Command>
 
     /**
      * Creates an instance of [InformationProviders]
@@ -117,13 +118,13 @@ interface CommandManager : CommandDispatcher {
      * Creates an instance of [InformationProviders] with [pluginInstance] and some elements of
      * [pluginInstance] as registered static information.
      */
-    fun createInformationProviders(pluginInstance: Any): InformationProviders
+    fun createInformationProviders(@PluginInstance pluginInstance: Any): InformationProviders
 
     /**
      * Creates an instance of [InformationProviders] with [player],
      * [pluginInstance] and some elements of [pluginInstance] as registered static information.
      */
-    fun createInformationProviders(pluginInstance: Any, player: Player): InformationProviders
+    fun createInformationProviders(@PluginInstance pluginInstance: Any, player: Player): InformationProviders
 
     /**
      * Creates an instance of [InformationProviders] with [player] as registered static information.

@@ -27,6 +27,8 @@
  */
 package com.github.projectsandstone.api.service
 
+import com.github.projectsandstone.api.annotation.PluginInstance
+
 /**
  * Manages all [RegisteredProviders][RegisteredProvider], services must be registered only during the post-initialization.
  *
@@ -43,7 +45,7 @@ interface ServiceManager {
      * @param service Service class
      * @param instance Service instance (aka service implementation)
      */
-    fun <T : Any> setProvider(plugin: Any, service: Class<T>, instance: T)
+    fun <T : Any> setProvider(@PluginInstance plugin: Any, service: Class<T>, instance: T)
 
     /**
      * Set provider of [service], is highly recommended to register services during post-initialization.
@@ -54,7 +56,7 @@ interface ServiceManager {
      * @param service Service class
      * @param instance Service instance (aka service implementation)
      */
-    operator fun <T : Any> set(plugin: Any, service: Class<T>, instance: T) =
+    operator fun <T : Any> set(@PluginInstance plugin: Any, service: Class<T>, instance: T) =
             this.setProvider(plugin, service, instance)
 
     /**

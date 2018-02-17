@@ -27,6 +27,7 @@
  */
 package com.github.projectsandstone.api.plugin
 
+import com.github.projectsandstone.api.annotation.PluginInstance
 import com.github.projectsandstone.api.util.exception.CircularDependencyException
 import com.github.projectsandstone.api.util.exception.DependencyException
 import com.github.projectsandstone.api.util.exception.MissingDependencyException
@@ -126,7 +127,7 @@ interface PluginManager {
      * @param instance Plugin instance
      * @return [PluginContainer] if found, null otherwise
      */
-    fun getPlugin(instance: Any): PluginContainer? =
+    fun getPlugin(@PluginInstance instance: Any): PluginContainer? =
             this.plugins.find { it.instance != null && it.instance == instance }
 
     /**
@@ -136,9 +137,9 @@ interface PluginManager {
      * @throws IllegalArgumentException If the [instance] is not a plugin instance
      * @return [PluginContainer] of the plugin instance
      */
-    fun getRequiredPlugin(instance: Any): PluginContainer =
+    fun getRequiredPlugin(@PluginInstance instance: Any): PluginContainer =
             this.getPlugin(instance = instance)
-                    ?: throw IllegalArgumentException("The provided instance is not a plugin!")
+                    ?: throw IllegalArgumentException("The provided instance '$instance' is not a plugin!")
 
     /**
      * Get first plugin matching [predicate].
