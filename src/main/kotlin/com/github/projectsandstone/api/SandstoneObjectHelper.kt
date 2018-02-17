@@ -29,6 +29,7 @@ package com.github.projectsandstone.api
 
 import com.github.jonathanxd.kwcommands.printer.Printer
 import com.github.projectsandstone.api.text.channel.MessageReceiver
+import org.slf4j.Logger
 
 /**
  * Misc utilities and object helper.
@@ -54,7 +55,12 @@ interface SandstoneObjectHelper {
     fun <U, T> createLiveListFromColl(from: Collection<U>, mapper: (U) -> T): List<T>
 
     /**
-     * Gets [printer][Printer] from [receiver].
+     * Creates or returns (if cached) a [printer][Printer] backed to [receiver].
      */
-    fun getPrinter(receiver: MessageReceiver): Printer
+    fun createPrinter(receiver: MessageReceiver): Printer
+
+    /**
+     * Creates or returns (if cached) a [printer][Printer] backed to [logger].
+     */
+    fun createPrinter(logger: Logger): Printer
 }
