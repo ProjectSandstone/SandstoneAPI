@@ -30,6 +30,7 @@ package com.github.projectsandstone.api.command
 
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.jonathanxd.kwcommands.information.Information
+import com.github.jonathanxd.kwcommands.requirement.InformationRequirementSubject
 import com.github.jonathanxd.kwcommands.requirement.Requirement
 import com.github.jonathanxd.kwcommands.requirement.RequirementTester
 import com.github.projectsandstone.api.service.permission.Subject
@@ -37,12 +38,12 @@ import com.github.projectsandstone.api.service.permission.Subject
 fun permission(permission: String) = Requirement(
         required = permission,
         type = TypeInfo.of(String::class.java),
-        subject = PERMISSION_SUBJECT,
+        subject = InformationRequirementSubject(PERMISSION_SUBJECT_INFO),
         tester = PermissionTester
 )
 
 object PermissionTester : RequirementTester<Subject, String> {
-    override fun test(requirement: Requirement<Subject, String>, information: Information<Subject>): Boolean {
-        return information.value.hasPermission(requirement.required)
+    override fun test(requirement: Requirement<Subject, String>, value: Subject): Boolean {
+        return value.hasPermission(requirement.required)
     }
 }

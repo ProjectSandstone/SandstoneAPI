@@ -40,8 +40,8 @@ import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.service.permission.Subject
 import org.slf4j.Logger
 
-val PERMISSION_SUBJECT = Information.Id(TypeInfo.of(Subject::class.java), arrayOf("subject"))
-val COMMAND_SOURCE_SUBJECT = Information.Id(TypeInfo.of(CommandSource::class.java), arrayOf("command_source"))
-val PLAYER_SUBJECT = Information.Id(TypeInfo.of(Player::class.java), arrayOf("player"))
-val LOGGER_SUBJECT = Information.Id(TypeInfo.of(Logger::class.java), arrayOf("logger"))
-val PLUGIN_SUBJECT = Information.Id(TypeInfo.of(PluginContainer::class.java), arrayOf("plugin"))
+val PERMISSION_SUBJECT_INFO = Information.Id(TypeInfo.of(Subject::class.java), arrayOf("subject"))
+val COMMAND_SOURCE_INFO = Information.Id(TypeInfo.of(CommandSource::class.java), arrayOf("command_source"))
+val PLAYER_INFO = Information.Id(TypeInfo.of(Player::class.java), arrayOf("player"))
+val LOGGER_INFO = Information.Id(TypeInfo.of(Logger::class.java), arrayOf("logger"))
+val PLUGIN_INFO = Information.Id(TypeInfo.of(PluginContainer::class.java), arrayOf("plugin"))

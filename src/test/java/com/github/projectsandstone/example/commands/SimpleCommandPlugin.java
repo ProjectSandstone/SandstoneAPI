@@ -29,10 +29,13 @@ package com.github.projectsandstone.example.commands;
 
 import com.google.inject.Inject;
 
+import com.github.jonathanxd.iutils.collection.Collections3;
 import com.github.jonathanxd.iutils.text.Text;
+import com.github.jonathanxd.kwcommands.argument.StaticListArguments;
 import com.github.jonathanxd.kwcommands.command.Command;
 import com.github.projectsandstone.api.Game;
-import com.github.projectsandstone.api.command.CommonArguments;
+import com.github.projectsandstone.api.command.ArgumentTypes;
+import com.github.projectsandstone.api.command.ArgumentsHelper;
 import com.github.projectsandstone.api.command.CommonRequirements;
 import com.github.projectsandstone.api.entity.living.player.Player;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
@@ -48,11 +51,13 @@ public class SimpleCommandPlugin {
 
     private final Game game;
     private final Logger logger;
+    private final ArgumentTypes types;
 
     @Inject
-    public SimpleCommandPlugin(Game game, Logger logger) {
+    public SimpleCommandPlugin(Game game, Logger logger, ArgumentTypes types) {
         this.game = game;
         this.logger = logger;
+        this.types = types;
     }
 
     @Listener
@@ -61,9 +66,11 @@ public class SimpleCommandPlugin {
                         .name("tp")
                         .description(Text.of("Teleport a player to another"))
                         .addRequirements(CommonRequirements.permission("player.adm.tp"))
-                        .addArgument(CommonArguments.player(this.game, "from").build())
-                        .addArgument(CommonArguments.player(this.game, "target").build())
-                        .handler((commandContainer, informationManager, resultHandler) -> {
+                        .arguments(new StaticListArguments(Collections3.listOf(
+                                ArgumentsHelper.argument(types.player(), "from").build(),
+                                ArgumentsHelper.argument(types.player(), "target").build()
+                        )))
+                        .handler((commandContainer, informationProviders, resultHandler) -> {
                             Player from = commandContainer.getArgumentValue("from");
                             Player target = commandContainer.getArgumentValue("target");
 

@@ -27,6 +27,7 @@
  */
 package com.github.projectsandstone.api.constants
 
+import com.github.projectsandstone.api.Platform
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.plugin.*
 import com.github.projectsandstone.api.util.version.Version
@@ -84,6 +85,9 @@ object SandstonePlugin : PluginContainer {
 
     override val targetPlatformNames: List<String>
         get() = emptyList()
+
+    override val platform: Platform
+        get() = SandstonePlatform
 
     override val classLoader: PluginClassLoader = SandstonePluginClassLoader
     override val mainClass: String = "com.github.projectsandstone.api.Sandstone"

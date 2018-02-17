@@ -45,6 +45,12 @@ object Constants {
     @JvmStatic
     val SANDSTONE_PLUGIN_VERSION = Version("0.0.0", Schemes.semVerScheme)
 
+    /**
+     * This is the version that SandstoneAPI is built to.
+     */
+    @JvmStatic
+    val SANDSTONE_MC_VERSION = Version("1.12.2", Schemes.semVerScheme)
+
     @JvmStatic
     val SANDSTONE_PLUGIN_DESCRIPTION = "Minecraft Server Modding API."
 

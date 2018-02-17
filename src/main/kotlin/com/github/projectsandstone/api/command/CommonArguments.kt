@@ -25,15 +25,17 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-@file:JvmName("CommonArguments")
+@file:JvmName("ArgumentsHelper")
 
 package com.github.projectsandstone.api.command
 
 import com.github.jonathanxd.kwcommands.argument.Argument
-import com.github.jonathanxd.kwcommands.parser.SingleInput
+import com.github.jonathanxd.kwcommands.argument.ArgumentType
+import com.github.jonathanxd.kwcommands.parser.Input
 import com.github.projectsandstone.api.Game
 import com.github.projectsandstone.api.entity.living.player.Player
 
-fun player(game: Game, name: String) = Argument.builder<SingleInput, Player>()
-        .name(name)
-        .argumentType(playerArgumentType(game))
+fun <S : Input, T> argument(type: ArgumentType<S, T>, name: String) =
+        Argument.builder<T>()
+                .name(name)
+                .argumentType(type)

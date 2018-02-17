@@ -27,6 +27,7 @@
  */
 package com.github.projectsandstone.api.plugin
 
+import com.github.projectsandstone.api.Platform
 import com.github.projectsandstone.api.util.version.Version
 import org.slf4j.Logger
 import java.nio.file.Path
@@ -130,4 +131,8 @@ interface PluginContainer {
      */
     val targetPlatformNames: List<String>
 
+    /**
+     * Which platform this plugin belongs to. Sandstone plugins always belongs to `Sandstone Platform`.
+     */
+    val platform: Platform
 }

@@ -27,48 +27,38 @@
  */
 package com.github.projectsandstone.api.util.version
 
+import javax.inject.Inject
+import javax.inject.Named
+
 /**
  * Version schemes
  */
 object Schemes {
-    @JvmStatic
-    internal lateinit var semVerScheme_: VersionScheme
-
     /**
      * Semantic versioning scheme.
      */
-    @JvmStatic
-    val semVerScheme: VersionScheme
-        get() = this.semVerScheme_
-
+    @Inject
+    @Named("semVerScheme")
+    lateinit var semVerScheme: VersionScheme
+        private set
+        @JvmStatic get
 
     /**
      * Default version scheme, always returns false for [VersionScheme.isCompatible].
      */
-    @JvmStatic
-    val commonVersionScheme: VersionScheme = CommonVersionScheme
+    @Inject
+    @Named("commonVersionScheme")
+    lateinit var commonVersionScheme: VersionScheme
+        private set
+        @JvmStatic get
 
     /**
      * Alphabetic ordered version scheme.
      */
-    @JvmStatic
-    val alphabeticScheme: VersionScheme = AlphabeticVersionScheme
-
-    internal object CommonVersionScheme : VersionScheme {
-        override fun compare(o1: Version?, o2: Version?): Int = -1
-
-        override fun isCompatible(version1: Version, version2: Version): Boolean = false
-    }
-
-    internal object AlphabeticVersionScheme : VersionScheme {
-
-        override fun isCompatible(version1: Version, version2: Version): Boolean =
-                version1.versionScheme == version2.versionScheme && version1.versionString == version2.versionString
-
-        override fun compare(o1: Version, o2: Version): Int =
-                if (o1.versionScheme != o2.versionScheme) -1
-                else o1.versionString.compareTo(o2.versionString)
-
-    }
+    @Inject
+    @Named("alphabeticScheme")
+    lateinit var alphabeticScheme: VersionScheme
+        private set
+        @JvmStatic get
 
 }

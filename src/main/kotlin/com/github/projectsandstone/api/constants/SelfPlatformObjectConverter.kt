@@ -25,39 +25,23 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util
+package com.github.projectsandstone.api.constants
 
-import com.github.jonathanxd.iutils.iterator.IteratorUtil
+import com.github.projectsandstone.api.platform.PlatformObjectConverter
 
+object SelfPlatformObjectConverter : PlatformObjectConverter {
+    override fun convertObject(sandstoneObject: Any): Any? = sandstoneObject
 
-class ListCollection<E>(val collection: Collection<E>) : List<E> {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T, U : Any> convertObject(sandstoneObject: T, expectedType: Class<U>): U? =
+            if (expectedType.isInstance(sandstoneObject))
+                sandstoneObject as U
+            else
+                null
 
-    override val size: Int
-        get() = this.collection.size
+    override fun isConvertible(objectType: Class<*>): Boolean = true
 
-    override fun contains(element: E): Boolean = this.collection.contains(element)
+    override fun isConvertible(objectType: Class<*>, platformType: Class<*>): Boolean =
+            objectType == platformType
 
-    override fun containsAll(elements: Collection<E>): Boolean = this.collection.containsAll(elements)
-
-    override fun get(index: Int): E = TODO("not implemented")
-
-    override fun indexOf(element: E): Int = TODO("not implemented")
-
-    override fun isEmpty(): Boolean = this.collection.isEmpty()
-
-    override fun iterator(): Iterator<E> = this.collection.iterator()
-
-    override fun lastIndexOf(element: E): Int = TODO("not implemented")
-
-    override fun listIterator(): ListIterator<E> = IteratorUtil.listIterator(this.iterator())
-
-    override fun listIterator(index: Int): ListIterator<E> = IteratorUtil.listIterator(this.iterator()).also {
-        var i = 0
-        while (i < index) {
-            it.next()
-            ++i
-        }
-    }
-
-    override fun subList(fromIndex: Int, toIndex: Int): List<E> = TODO("not implemented")
 }

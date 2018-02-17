@@ -28,9 +28,10 @@
 package test
 
 import com.flowpowered.math.vector.Vector3d
+import com.github.jonathanxd.iutils.kt.classOf
+import com.github.jonathanxd.iutils.kt.typeInfo
 import com.github.jonathanxd.iutils.reflection.Reflection
 import com.github.jonathanxd.iutils.text.Text
-import com.github.jonathanxd.jwiutils.kt.typeInfo
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.block.BlockType
@@ -55,8 +56,7 @@ import java.util.*
 fun main(args: Array<String>) {
 
     val type = typeInfo<MyEvt>()
-
-    Reflection.changeFinalField(Sandstone::class.java, null, "sandstonePath_", Paths.get("."))
+    Reflection.changeFinalField(classOf<Sandstone>(), null, "sandstonePath_", Paths.get("."))
 
     val gen = CommonEventGenerator(CommonLogger()).createFactory(MyFactory::class.java).createMyEvt(
             9.toShort(),

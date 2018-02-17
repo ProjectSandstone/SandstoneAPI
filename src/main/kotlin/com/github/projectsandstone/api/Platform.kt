@@ -31,7 +31,7 @@ import com.github.projectsandstone.api.platform.PlatformObjectConverter
 import com.github.projectsandstone.api.util.version.Version
 
 /**
- * Represents the Platform that the API is implemented.
+ * Represents a Platform.
  */
 interface Platform {
 

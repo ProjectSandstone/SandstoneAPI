@@ -39,65 +39,42 @@ import com.github.projectsandstone.api.world.World
 import com.github.projectsandstone.eventsys.event.EventManager
 import org.slf4j.Logger
 import java.nio.file.Path
+import javax.inject.Inject
+import javax.inject.Named
 
 object Sandstone {
     /**
      * Game instance
      */
-    @JvmStatic
-    private lateinit var game_: Game
+    @Inject
+    lateinit var game: Game
+        private set
+        @JvmStatic get
 
     /**
      * Logger
      */
-    @JvmStatic
-    private lateinit var logger_: Logger
+    @Inject
+    lateinit var logger: Logger
+        private set
+        @JvmStatic get
 
     /**
      * Logger factory
      */
     @JvmStatic
-    private lateinit var loggerFactory_: LoggerFactory
+    lateinit var loggerFactory: LoggerFactory
+        private set
+        @JvmStatic get
 
     /**
      * Sandstone path
      */
     @JvmStatic
-    private lateinit var sandstonePath_: Path
-
-    /**
-     * Sandstone API implementation
-     */
-    @JvmStatic
-    private lateinit var implementation_: Implementation
-
-    /**
-     * Game instance
-     */
-    @JvmStatic
-    val game: Game
-        get() = this.game_
-
-    /**
-     * Logger
-     */
-    @JvmStatic
-    val logger: Logger
-        get() = this.logger_
-
-    /**
-     * Logger factory
-     */
-    @JvmStatic
-    val loggerFactory: LoggerFactory
-        get() = this.loggerFactory_
-
-    /**
-     * Sandstone path
-     */
-    @JvmStatic
-    val sandstonePath: Path
-        get() = this.sandstonePath_
+    @Named("sandstonePath")
+    lateinit var sandstonePath: Path
+        private set
+        @JvmStatic get
 
     /**
      * Sandstone plugin version. Generally the API version, for platform version uses: [Platform.platformVersion],
@@ -132,8 +109,9 @@ object Sandstone {
      * Sandstone API Implementation.
      */
     @JvmStatic
-    val implementation: Implementation
-        get() = this.implementation_
+    lateinit var implementation: Implementation
+        private set
+        @JvmStatic get
 
     /**
      * Sandstone event manager.

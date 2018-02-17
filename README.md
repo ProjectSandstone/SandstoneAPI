@@ -4,6 +4,10 @@ Server Modding API for Minecraft.
 Sandstone is very inspired by [SpongePowered](https://www.spongepowered.org/) (Some API characteristics is very similar (likely identical) to SpongePowered),
 and [Bukkit API](https://bukkit.org/), but the Sandstone purpose is a bit different, Sandstone API aims to support all Minecraft Editions Platforms.
 
+- Mc Version: `1.12.2`
+- SandstoneAPI Version: `1.0.0-SNAPSHOT` (WIP)
+- 
+
 ## What is Sandstone
 
 Sandstone is a Server Modding API for Minecraft that aims to provide a common API to develop mods that works in multiple Minecraft Editions, Sandstone is designed to support Minecraft PE and Minecraft PC Edition.

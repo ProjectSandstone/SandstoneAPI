@@ -1,15 +1,15 @@
-ext.kotlin_version = '1.2.10'
+ext.kotlin_version = '1.2.21'
 ext.dokka_version = '0.9.15'
 
 ext.guava_version = '21.0'
 ext.guice_version = '4.1.0'
 ext.flowmath_version = '1.0.3'
 
-ext.jwiutils_version = '4.10.1'
-ext.kwcommands_version = '1.4.1'
+ext.jwiutils_version = '4.15.1'
+ext.kwcommands_version = '1.6.2'
 //ext.adapterhelper_version = '1.9.0'
-ext.codeproxy_version = '2.3.2'
-ext.eventsys_version = '1.4.2'
+ext.koresproxy_version = '2.5.3'
+ext.eventsys_version = '1.5.5'
 ext.jsr305_version = '3.0.2'
 ext.fastclasspathscanner_version = '2.4.0'
 

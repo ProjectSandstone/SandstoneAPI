@@ -27,9 +27,10 @@
  */
 package test
 
+import com.github.jonathanxd.iutils.kt.classOf
 import com.github.jonathanxd.iutils.reflection.Reflection
 import com.github.jonathanxd.iutils.type.TypeInfo
-import com.github.jonathanxd.jwiutils.kt.typeInfo
+import com.github.jonathanxd.iutils.kt.typeInfo
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.constants.SandstonePlugin
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
@@ -46,7 +47,7 @@ fun main(args: Array<String>) {
 
     val type = typeInfo<ChangeServiceProviderEvent<MyService>>()
 
-    Reflection.changeFinalField(Sandstone::class.java, null, "sandstonePath_", Paths.get("."))
+    Reflection.changeFinalField(classOf<Sandstone>(), null, "sandstonePath_", Paths.get("."))
 
     val gen = CommonEventGenerator(CommonLogger()).createFactory(MyFct::class.java)
             .createProvider(TypeInfo.of(MyService::class.java), null, MyProvider, "A")

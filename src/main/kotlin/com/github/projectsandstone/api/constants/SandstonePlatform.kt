@@ -25,49 +25,31 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util
+package com.github.projectsandstone.api.constants
 
-import com.github.jonathanxd.codeapi.type.CodeType
-import com.github.jonathanxd.codeapi.type.Generic
-import com.github.jonathanxd.iutils.type.TypeInfo
-import kotlin.jvm.internal.ClassBasedDeclarationContainer
-import kotlin.reflect.KClass
+import com.github.projectsandstone.api.Platform
+import com.github.projectsandstone.api.platform.PlatformObjectConverter
+import com.github.projectsandstone.api.util.version.Version
 
-/**
- * CodeAPI CodeType of current type
- */
-val <T> Class<T>.codeType: CodeType
-    get() = this.toType()
+object SandstonePlatform : Platform {
+    override val platformName: String
+        get() = "SandstoneAPI"
 
-/**
- * CodeAPI CodeType of current type
- */
-val <T : Any> KClass<T>.codeType: CodeType
-    get() = this.toType()
+    override val platformBaseName: String
+        get() = "Sandstone"
 
+    override val platformVersion: Version
+        get() = Constants.SANDSTONE_PLUGIN_VERSION
 
-/**
- * Convert current java class to CodeAPI type.
- */
-fun <T> Class<T>.toType(): CodeType = this.codeType
+    override val platformFullName: String
+        get() = "SandstoneAPI"
 
-/**
- * Convert current kotlin class to CodeAPI type.
- */
-fun <T : Any> KClass<T>.toType(): CodeType = (this as ClassBasedDeclarationContainer).jClass.toType()
+    override val minecraftVersion: Version
+        get() = Constants.SANDSTONE_MC_VERSION
 
-/**
- * Convert type info to CodeAPI [Generic].
- */
-fun <T> TypeInfo<T>.toGeneric(): Generic {
-    val aClass = this.typeClass
-    val related = this.typeParameters
+    override val platformObjectConverter: PlatformObjectConverter
+        get() = SelfPlatformObjectConverter
 
-    var generic = Generic.type(aClass.toType())
-
-    if (related.isNotEmpty()) {
-        generic = generic.of(*related.map { it.toGeneric() }.toTypedArray())
-    }
-
-    return generic
+    override fun isInternalClass(name: String?): Boolean =
+            name?.startsWith("com.github.projectsandstone") == true
 }

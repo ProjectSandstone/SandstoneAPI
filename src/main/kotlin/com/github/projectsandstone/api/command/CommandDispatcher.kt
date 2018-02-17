@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.command
 
-import com.github.jonathanxd.kwcommands.manager.InformationManager
+import com.github.jonathanxd.kwcommands.information.InformationProviders
 import com.github.jonathanxd.kwcommands.processor.CommandResult
 
 /**
@@ -36,9 +36,9 @@ import com.github.jonathanxd.kwcommands.processor.CommandResult
 interface CommandDispatcher {
 
     /**
-     * Dispatches [command][commandStr] with [informationManager].
+     * Dispatches [command][commandStr] with [informationProviders].
      */
-    fun dispatch(commandStr: String, informationManager: InformationManager): List<CommandResult>
+    fun dispatch(commandStr: String, informationProviders: InformationProviders): List<CommandResult>
 
 
 }

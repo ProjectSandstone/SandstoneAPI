@@ -48,8 +48,7 @@ dependencies {
     compile "com.flowpowered:flow-math:$flowmath_version"
     compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
     compile "com.github.JonathanxD:KWCommands:$kwcommands_version"
-    //compile "com.github.JonathanxD:AdapterHelper:$adapterhelper_version"
-    compile "com.github.JonathanxD:CodeProxy:$codeproxy_version"
+    compile "com.github.JonathanxD:KoresProxy:$koresproxy_version"
     compile "com.github.ProjectSandstone:EventSys:$eventsys_version"
     compile "com.google.code.findbugs:jsr305:$jsr305_version"
     compile "io.github.lukehutch:fast-classpath-scanner:$fastclasspathscanner_version"
@@ -58,7 +57,7 @@ dependencies {
     compile "org.slf4j:slf4j-api:1.7.9"
 
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlin_version"
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     apt "com.github.ProjectSandstone:EventSys:$eventsys_version"

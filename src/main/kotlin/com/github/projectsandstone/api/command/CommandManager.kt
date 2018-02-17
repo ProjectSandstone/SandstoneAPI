@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.command
 
 import com.github.jonathanxd.kwcommands.command.Command
-import com.github.jonathanxd.kwcommands.manager.InformationManager
+import com.github.jonathanxd.kwcommands.information.InformationProviders
 import com.github.jonathanxd.kwcommands.manager.InstanceProvider
 import com.github.projectsandstone.api.entity.living.player.Player
 
@@ -36,6 +36,11 @@ import com.github.projectsandstone.api.entity.living.player.Player
  * Command Manager interface.
  */
 interface CommandManager : CommandDispatcher {
+
+    /**
+     * Gets argument types.
+     */
+    val argumentTypes: ArgumentTypes
 
     /**
      * Registers [command] for [ownerPlugin] and returns true if [command] was registered with success.
@@ -82,26 +87,26 @@ interface CommandManager : CommandDispatcher {
     fun getCommandsRegisteredBy(ownerPlugin: Any): Set<Command>
 
     /**
-     * Creates an instance of [InformationManager]
+     * Creates an instance of [InformationProviders]
      */
-    fun createInformationManager(): InformationManager
+    fun createInformationProviders(): InformationProviders
 
     /**
-     * Creates an instance of [InformationManager] with [pluginInstance] and some elements of
-     * [pluginInstance] as registered information.
+     * Creates an instance of [InformationProviders] with [pluginInstance] and some elements of
+     * [pluginInstance] as registered static information.
      */
-    fun createInformationManager(pluginInstance: Any): InformationManager
+    fun createInformationProviders(pluginInstance: Any): InformationProviders
 
     /**
-     * Creates an instance of [InformationManager] with [player],
-     * [pluginInstance] and some elements of [pluginInstance] as registered information.
+     * Creates an instance of [InformationProviders] with [player],
+     * [pluginInstance] and some elements of [pluginInstance] as registered static information.
      */
-    fun createInformationManager(pluginInstance: Any, player: Player): InformationManager
+    fun createInformationProviders(pluginInstance: Any, player: Player): InformationProviders
 
     /**
-     * Creates an instance of [InformationManager] with [player] as registered information.
+     * Creates an instance of [InformationProviders] with [player] as registered static information.
      */
-    fun createInformationManager(player: Player): InformationManager
+    fun createInformationProviders(player: Player): InformationProviders
 
     /**
      * Prints [command] help for [source].
@@ -111,5 +116,5 @@ interface CommandManager : CommandDispatcher {
     /**
      * Gets [command] completion suggestions.
      */
-    fun getSuggestions(command: String, informationManager: InformationManager): List<String>
+    fun getSuggestions(command: String, informationProviders: InformationProviders): List<String>
 }

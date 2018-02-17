@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.util.extension.registry
 
-import com.github.jonathanxd.codeproxy.CodeProxy
-import com.github.jonathanxd.codeproxy.handler.InvocationHandler
+import com.github.jonathanxd.koresproxy.KoresProxy
+import com.github.jonathanxd.koresproxy.handler.InvocationHandler
 import com.github.projectsandstone.api.Sandstone
 import com.github.projectsandstone.api.registry.Registry
 import com.github.projectsandstone.api.registry.RegistryEntry
@@ -49,9 +49,9 @@ inline fun <reified T : Any> uninitializedEntry(): T = uninitializedEntry(T::cla
 inline fun <T : Any> uninitializedEntry(`class`: Class<out T>): T {
 
     return if (`class`.isInterface) {
-        CodeProxy.newProxyInstance(`class`.classLoader, Any::class.java, arrayOf(`class`), UNINITIALIZED_HANDLER) as T
+        KoresProxy.newProxyInstance(`class`.classLoader, Any::class.java, arrayOf(`class`), UNINITIALIZED_HANDLER) as T
     } else {
-        CodeProxy.newProxyInstance(`class`.classLoader, `class`, UNINITIALIZED_HANDLER)
+        KoresProxy.newProxyInstance(`class`.classLoader, `class`, UNINITIALIZED_HANDLER)
     }
 }
 

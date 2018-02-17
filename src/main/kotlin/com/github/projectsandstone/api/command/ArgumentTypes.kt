@@ -25,30 +25,48 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util
+package com.github.projectsandstone.api.command
 
-import com.github.jonathanxd.codeapi.type.CodeType
-
-inline fun succeed(func: () -> Unit): Boolean {
-    try {
-        func()
-        return true
-    } catch (t: Throwable) {
-        return false
-    }
-}
-
-inline fun <reified R> succeedReturn(func: () -> R): R? {
-    try {
-        return func()
-    } catch (t: Throwable) {
-        return null
-    }
-}
+import com.github.jonathanxd.kwcommands.argument.ArgumentType
+import com.github.jonathanxd.kwcommands.command.Command
+import com.github.jonathanxd.kwcommands.parser.SingleInput
+import com.github.projectsandstone.api.block.BlockType
+import com.github.projectsandstone.api.entity.EntityType
+import com.github.projectsandstone.api.entity.living.player.Player
+import com.github.projectsandstone.api.item.ItemType
+import com.github.projectsandstone.api.plugin.PluginContainer
 
 /**
- * If primitiveType != null, returns primitiveType, if primitiveType == null, returns [codeType]
+ * Provider of argument types
  */
-fun fixType(codeType: CodeType): CodeType {
-    return codeType.primitiveType ?: codeType
+interface ArgumentTypes {
+    /**
+     * [Player] argument type.
+     */
+    fun player(): ArgumentType<SingleInput, Player>
+
+    /**
+     * [Plugin] argument type.
+     */
+    fun plugin(): ArgumentType<SingleInput, PluginContainer>
+
+    /**
+     * [Command] argument type.
+     */
+    fun command(): ArgumentType<SingleInput, Command>
+
+    /**
+     * [EntityType] argument type.
+     */
+    fun entityType(): ArgumentType<SingleInput, EntityType>
+
+    /**
+     * [ItemType] argument type.
+     */
+    fun itemType(): ArgumentType<SingleInput, ItemType>
+
+    /**
+     * [BlockType] argument type.
+     */
+    fun blockType(): ArgumentType<SingleInput, BlockType>
 }

@@ -32,12 +32,13 @@ import com.google.common.util.concurrent.Futures;
 import com.github.jonathanxd.iutils.exception.RethrowException;
 import com.github.projectsandstone.api.Sandstone;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class SandstoneEventFactoryCache {
     private static SandstoneEventFactory instance = null;
-    private static Future<SandstoneEventFactory> async = null;
+    private static CompletableFuture<? extends SandstoneEventFactory> async = null;
 
     public static SandstoneEventFactory getInstance() {
         if (instance != null) {
@@ -58,11 +59,11 @@ public class SandstoneEventFactoryCache {
         }
     }
 
-    public static Future<SandstoneEventFactory> getAsync() {
+    public static CompletableFuture<? extends SandstoneEventFactory> getAsync() {
         if (instance != null) {
-            return Futures.immediateFuture(SandstoneEventFactoryCache.instance);
+            return CompletableFuture.completedFuture(SandstoneEventFactoryCache.instance);
         } else if (async != null) {
-            Future<SandstoneEventFactory> asc = async;
+            CompletableFuture<? extends SandstoneEventFactory> asc = async;
 
             if (asc.isDone()) {
                 try {
