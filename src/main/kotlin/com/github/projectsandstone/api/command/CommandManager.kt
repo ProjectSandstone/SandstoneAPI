@@ -82,6 +82,12 @@ interface CommandManager : CommandDispatcher {
     fun unregisterCommands(klass: Class<*>, ownerPlugin: Any): Boolean
 
     /**
+     * Gets command by [name].
+     */
+    fun getCommand(name: String): Command? =
+            this.getCommand(name, null)
+
+    /**
      * Gets command by [name] and [ownerPlugin]. If [ownerPlugin] is null, the command
      * will be only matched by [name].
      */
