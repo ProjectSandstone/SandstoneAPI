@@ -38,7 +38,7 @@ object Schemes {
      * Semantic versioning scheme.
      */
     @Inject
-    @Named("semVerScheme")
+    @field:Named("semVerScheme")
     lateinit var semVerScheme: VersionScheme
         private set
         @JvmStatic get
@@ -47,7 +47,7 @@ object Schemes {
      * Default version scheme, always returns false for [VersionScheme.isCompatible].
      */
     @Inject
-    @Named("commonVersionScheme")
+    @field:Named("commonVersionScheme")
     lateinit var commonVersionScheme: VersionScheme
         private set
         @JvmStatic get
@@ -56,7 +56,7 @@ object Schemes {
      * Alphabetic ordered version scheme.
      */
     @Inject
-    @Named("alphabeticScheme")
+    @field:Named("alphabeticScheme")
     lateinit var alphabeticScheme: VersionScheme
         private set
         @JvmStatic get
