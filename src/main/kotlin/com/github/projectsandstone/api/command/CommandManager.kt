@@ -45,7 +45,7 @@ interface CommandManager : CommandDispatcher {
     /**
      * All registered commands
      */
-    val commands: List<RegisteredCommand>
+    val commands: Set<RegisteredCommand>
 
     /**
      * Registers [command] for [ownerPlugin] and returns true if [command] was registered with success.
