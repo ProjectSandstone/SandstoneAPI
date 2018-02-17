@@ -46,7 +46,7 @@ interface ArgumentTypes {
     fun player(): ArgumentType<SingleInput, Player>
 
     /**
-     * [Plugin] argument type.
+     * [PluginContainer] argument type.
      */
     fun plugin(): ArgumentType<SingleInput, PluginContainer>
 
