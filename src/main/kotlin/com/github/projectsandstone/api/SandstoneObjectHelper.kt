@@ -37,14 +37,20 @@ import org.slf4j.Logger
 interface SandstoneObjectHelper {
 
     /**
-     * Creates a list which is a view of mapped elements of [from]. Changes in this list is not reflected on
-     * [from], but changes in [from] is reflected in this list.
+     * Creates a list which is a view of mapped elements of [from]. Changes in this list throws exceptions,
+     * but changes in [from] is reflected in this list.
      */
     fun <U, T> createLiveList(from: List<U>, mapper: (U) -> T): List<T>
 
     /**
-     * Creates a collection which is a view of mapped elements of [from]. Changes in this collection is not reflected on
-     * [from], but changes in [from] is reflected in this collection.
+     * Creates a set which is a view of mapped elements of [from]. Changes in this set throws exceptions,
+     * but changes in [from] is reflected in this set.
+     */
+    fun <U, T> createLiveSet(from: Set<U>, mapper: (U) -> T): Set<T>
+
+    /**
+     * Creates a collection which is a view of mapped elements of [from]. Changes in this collection throws exceptions,
+     * but changes in [from] is reflected in this collection.
      */
     fun <U, T> createLiveCollection(from: Collection<U>, mapper: (U) -> T): Collection<T>
 
