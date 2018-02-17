@@ -43,6 +43,11 @@ interface CommandManager : CommandDispatcher {
     val argumentTypes: ArgumentTypes
 
     /**
+     * All registered commands
+     */
+    val commands: List<RegisteredCommand>
+
+    /**
      * Registers [command] for [ownerPlugin] and returns true if [command] was registered with success.
      */
     fun registerCommand(command: Command, ownerPlugin: Any): Boolean
