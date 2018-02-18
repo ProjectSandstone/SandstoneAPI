@@ -71,7 +71,7 @@ object Sandstone {
      * Sandstone path
      */
     @Inject
-    @Named("sandstonePath")
+    @field:Named("sandstonePath")
     lateinit var sandstonePath: Path
         private set
         @JvmStatic get
