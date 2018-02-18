@@ -62,7 +62,7 @@ object Sandstone {
     /**
      * Logger factory
      */
-    @JvmStatic
+    @Inject
     lateinit var loggerFactory: LoggerFactory
         private set
         @JvmStatic get
@@ -70,7 +70,7 @@ object Sandstone {
     /**
      * Sandstone path
      */
-    @JvmStatic
+    @Inject
     @Named("sandstonePath")
     lateinit var sandstonePath: Path
         private set
@@ -108,7 +108,7 @@ object Sandstone {
     /**
      * Sandstone API Implementation.
      */
-    @JvmStatic
+    @Inject
     lateinit var implementation: Implementation
         private set
         @JvmStatic get
