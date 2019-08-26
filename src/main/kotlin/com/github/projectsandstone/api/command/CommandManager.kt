@@ -66,14 +66,14 @@ interface CommandManager : CommandDispatcher {
     /**
      * Register all commands available via annotations in [klass] for [ownerPlugin].
      */
-    fun <T> registerInstance(klass: Class<T>, instance: T, @PluginInstance ownerPlugin: Any): Boolean
+    fun <T: Any> registerInstance(klass: Class<T>, instance: T, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Register all commands available via annotations in [klass] and inner classes for [ownerPlugin].
      *
      * @param instanceProvider Provider of type instances.
      */
-    fun <T> registerInstance(klass: Class<T>, instanceProvider: InstanceProvider, @PluginInstance ownerPlugin: Any): Boolean
+    fun <T: Any> registerInstance(klass: Class<T>, instanceProvider: InstanceProvider, @PluginInstance ownerPlugin: Any): Boolean
 
     /**
      * Unregister all commands available via annotations in [any] registered by [ownerPlugin] and returns true if all commands
