@@ -91,7 +91,7 @@ interface Inventory : Iterable<Inventory>, Named {
     /**
      * Offers [itemStacks] to inventory.
      *
-     * @return AA transaction holding added and rejected stacks.
+     * @return A transaction holding added and rejected stacks.
      */
     fun offerAll(itemStacks: List<ItemStack>): TransactionResult<List<ItemStack>>
 

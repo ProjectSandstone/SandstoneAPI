@@ -36,7 +36,7 @@ import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import com.github.projectsandstone.api.util.version.Version
 import com.github.projectsandstone.api.world.World
-import com.github.projectsandstone.eventsys.event.EventManager
+import com.github.koresframework.eventsys.event.EventManager
 import org.slf4j.Logger
 import java.nio.file.Path
 import javax.inject.Inject

@@ -31,9 +31,9 @@ import com.github.jonathanxd.iutils.text.Text;
 import com.github.projectsandstone.api.entity.living.player.Player;
 import com.github.projectsandstone.api.event.message.MessageEvent;
 import com.github.projectsandstone.api.event.player.PlayerEvent;
-import com.github.projectsandstone.eventsys.event.annotation.Listener;
-import com.github.projectsandstone.eventsys.event.annotation.Name;
-import com.github.projectsandstone.eventsys.event.property.GetterProperty;
+import com.github.koresframework.eventsys.event.annotation.Listener;
+import com.github.koresframework.eventsys.event.annotation.Name;
+import com.github.koresframework.eventsys.event.property.GetterProperty;
 
 public class MyListener2 {
 

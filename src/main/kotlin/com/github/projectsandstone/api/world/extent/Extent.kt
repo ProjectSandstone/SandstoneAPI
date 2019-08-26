@@ -27,13 +27,13 @@
  */
 package com.github.projectsandstone.api.world.extent
 
-import com.flowpowered.math.vector.Vector2i
-import com.flowpowered.math.vector.Vector3d
-import com.flowpowered.math.vector.Vector3i
+import org.spongepowered.math.vector.Vector2i
+import org.spongepowered.math.vector.Vector3d
+import org.spongepowered.math.vector.Vector3i
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.util.Source
 import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.extension.flow.math.rangeTo
+import com.github.projectsandstone.api.util.extension.sponge.math.rangeTo
 import com.github.projectsandstone.api.world.Chunk
 import com.github.projectsandstone.api.world.Location
 import com.github.projectsandstone.api.world.Selection

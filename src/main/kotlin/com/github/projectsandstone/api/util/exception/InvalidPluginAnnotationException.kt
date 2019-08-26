@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.util.exception
 
 /**
- * Indicates a missing required dependency,
+ * Indicates a exception in plugin definition annotation,
  * this exception will be thrown and the plugin will not be loaded.
  */
 class InvalidPluginAnnotationException : PluginLoadException {

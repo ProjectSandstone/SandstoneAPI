@@ -25,9 +25,9 @@
  *      OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *      THE SOFTWARE.
  */
-package com.github.projectsandstone.api.util.extension.flow.math
+package com.github.projectsandstone.api.util.extension.sponge.math
 
-import com.flowpowered.math.vector.*
+import org.spongepowered.math.vector.*
 
 // Vector 2
 operator fun Vector2i.rangeTo(vector2i: Vector2i): Vector2iRange =

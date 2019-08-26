@@ -40,7 +40,7 @@ import com.github.projectsandstone.api.command.CommonRequirements;
 import com.github.projectsandstone.api.entity.living.player.Player;
 import com.github.projectsandstone.api.event.init.InitializationEvent;
 import com.github.projectsandstone.api.plugin.Plugin;
-import com.github.projectsandstone.eventsys.event.annotation.Listener;
+import com.github.koresframework.eventsys.event.annotation.Listener;
 
 import org.slf4j.Logger;
 

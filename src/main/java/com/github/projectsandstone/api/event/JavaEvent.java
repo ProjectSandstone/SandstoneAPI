@@ -28,31 +28,32 @@
 package com.github.projectsandstone.api.event;
 
 import com.github.jonathanxd.iutils.type.TypeInfo;
-import com.github.projectsandstone.eventsys.event.Event;
-import com.github.projectsandstone.eventsys.event.property.GSProperty;
-import com.github.projectsandstone.eventsys.event.property.GetterProperty;
-import com.github.projectsandstone.eventsys.event.property.Property;
-import com.github.projectsandstone.eventsys.event.property.SetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.BooleanGSProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.BooleanGetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.BooleanProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.BooleanSetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.DoubleGSProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.DoubleGetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.DoubleProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.DoubleSetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.IntGSProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.IntGetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.IntProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.IntSetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.LongGSProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.LongGetterProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.LongProperty;
-import com.github.projectsandstone.eventsys.event.property.primitive.LongSetterProperty;
+import com.github.koresframework.eventsys.event.Event;
+import com.github.koresframework.eventsys.event.property.GSProperty;
+import com.github.koresframework.eventsys.event.property.GetterProperty;
+import com.github.koresframework.eventsys.event.property.Property;
+import com.github.koresframework.eventsys.event.property.SetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.BooleanGSProperty;
+import com.github.koresframework.eventsys.event.property.primitive.BooleanGetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.BooleanProperty;
+import com.github.koresframework.eventsys.event.property.primitive.BooleanSetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.DoubleGSProperty;
+import com.github.koresframework.eventsys.event.property.primitive.DoubleGetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.DoubleProperty;
+import com.github.koresframework.eventsys.event.property.primitive.DoubleSetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.IntGSProperty;
+import com.github.koresframework.eventsys.event.property.primitive.IntGetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.IntProperty;
+import com.github.koresframework.eventsys.event.property.primitive.IntSetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.LongGSProperty;
+import com.github.koresframework.eventsys.event.property.primitive.LongGetterProperty;
+import com.github.koresframework.eventsys.event.property.primitive.LongProperty;
+import com.github.koresframework.eventsys.event.property.primitive.LongSetterProperty;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -67,7 +68,7 @@ public interface JavaEvent extends Event {
      */
     @NotNull
     @Override
-    TypeInfo<? extends Event> getEventTypeInfo();
+    Type getEventType();
 
     @NotNull
     @Override

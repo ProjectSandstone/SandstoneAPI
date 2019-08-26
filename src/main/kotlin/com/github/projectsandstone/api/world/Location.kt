@@ -27,11 +27,11 @@
  */
 package com.github.projectsandstone.api.world
 
-import com.flowpowered.math.vector.Vector3d
-import com.flowpowered.math.vector.Vector3i
+import org.spongepowered.math.vector.Vector3d
+import org.spongepowered.math.vector.Vector3i
 import com.github.projectsandstone.api.block.BlockState
-import com.github.projectsandstone.api.util.extension.flow.math.minus
-import com.github.projectsandstone.api.util.extension.flow.math.plus
+import com.github.projectsandstone.api.util.extension.sponge.math.minus
+import com.github.projectsandstone.api.util.extension.sponge.math.plus
 import com.github.projectsandstone.api.world.extent.Extent
 import java.lang.ref.WeakReference
 

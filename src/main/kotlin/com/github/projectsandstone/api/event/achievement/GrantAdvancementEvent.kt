@@ -30,15 +30,15 @@ package com.github.projectsandstone.api.event.achievement
 import com.github.projectsandstone.api.advancement.Advancement
 import com.github.projectsandstone.api.event.Constants
 import com.github.projectsandstone.api.event.player.PlayerEvent
-import com.github.projectsandstone.eventsys.ap.Factory
-import com.github.projectsandstone.eventsys.event.Event
-import com.github.projectsandstone.eventsys.event.annotation.Extension
+import com.github.koresframework.eventsys.ap.Factory
+import com.github.koresframework.eventsys.event.Event
+import com.github.koresframework.eventsys.event.annotation.Extension
 
 /**
  * Fired when an advancement is granted for a subject.
  */
 @Factory(Constants.FACTORY_CLASS)
-@Factory(value = Constants.FACTORY_CLASS, extensions = arrayOf(Extension(implement = PlayerEvent::class)))
+@Factory(value = Constants.FACTORY_CLASS, extensions = [Extension(implement = PlayerEvent::class)])
 interface GrantAdvancementEvent : Event {
 
     /**

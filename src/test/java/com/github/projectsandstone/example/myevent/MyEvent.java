@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.example.myevent;
 
-import com.github.projectsandstone.eventsys.event.Event;
-import com.github.projectsandstone.eventsys.event.annotation.NotNullValue;
+import com.github.koresframework.eventsys.event.Event;
+import com.github.koresframework.eventsys.event.annotation.NotNullValue;
 
 public interface MyEvent extends Event {
 

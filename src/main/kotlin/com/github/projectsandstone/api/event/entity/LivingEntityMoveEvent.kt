@@ -27,11 +27,10 @@
  */
 package com.github.projectsandstone.api.event.entity
 
-import com.flowpowered.math.vector.Vector3d
 import com.github.projectsandstone.api.entity.living.LivingEntity
-import com.github.projectsandstone.eventsys.ap.Factory
-
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
+import com.github.koresframework.eventsys.ap.Factory
+import org.spongepowered.math.vector.Vector3d
 
 /**
  * Fired when a [LivingEntity] moves from a location to another.

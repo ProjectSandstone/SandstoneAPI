@@ -51,9 +51,9 @@ import com.github.projectsandstone.api.plugin.PluginDefinition;
 import com.github.projectsandstone.api.util.version.Schemes;
 import com.github.projectsandstone.api.world.Location;
 import com.github.projectsandstone.api.world.World;
-import com.github.projectsandstone.eventsys.event.annotation.Listener;
-import com.github.projectsandstone.eventsys.event.annotation.Name;
-import com.github.projectsandstone.eventsys.event.property.GetterProperty;
+import com.github.koresframework.eventsys.event.annotation.Listener;
+import com.github.koresframework.eventsys.event.annotation.Name;
+import com.github.koresframework.eventsys.event.property.GetterProperty;
 import com.github.projectsandstone.example.myevent.MyEvent;
 import com.github.projectsandstone.example.myevent.MyFactory;
 import com.github.projectsandstone.example.myevent.MyObj;
@@ -84,7 +84,7 @@ public class SimplePlugin {
     }
 
     private void doEventThings() {
-        MyFactory factory = game.getEventManager().getEventGenerator().createFactory(MyFactory.class);
+        MyFactory factory = game.getEventManager().getEventGenerator().<MyFactory>createFactory(MyFactory.class).resolve();
 
         MyEvent myEvent = factory.createMyEvent(new MyObj());
 

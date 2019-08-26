@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.event.entity
 
 import com.github.projectsandstone.api.entity.living.LivingEntity
-import com.github.projectsandstone.eventsys.ap.Factory
+import com.github.koresframework.eventsys.ap.Factory
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 

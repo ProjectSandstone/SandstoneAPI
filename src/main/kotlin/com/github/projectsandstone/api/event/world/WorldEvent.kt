@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.event.world
 
 import com.github.projectsandstone.api.world.World
-import com.github.projectsandstone.eventsys.event.Event
+import com.github.koresframework.eventsys.event.Event
 
 /**
  * Base class of all events related to world.

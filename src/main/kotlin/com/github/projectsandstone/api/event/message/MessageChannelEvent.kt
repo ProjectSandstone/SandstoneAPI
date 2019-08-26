@@ -29,8 +29,8 @@ package com.github.projectsandstone.api.event.message
 
 import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.text.channel.MessageChannel
-import com.github.projectsandstone.eventsys.ap.Factory
-import com.github.projectsandstone.eventsys.event.annotation.Extension
+import com.github.koresframework.eventsys.ap.Factory
+import com.github.koresframework.eventsys.event.annotation.Extension
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 
@@ -38,7 +38,7 @@ import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
  * Fired when a message is sent through an `channel`.
  */
 @Factory(FACTORY_CLASS)
-@Factory(value = FACTORY_CLASS, extensions = arrayOf(Extension(implement = PlayerEvent::class)))
+@Factory(value = FACTORY_CLASS, extensions = [Extension(implement = PlayerEvent::class)])
 interface MessageChannelEvent : MessageEvent {
 
     /**

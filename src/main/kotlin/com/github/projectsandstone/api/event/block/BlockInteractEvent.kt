@@ -28,7 +28,7 @@
 package com.github.projectsandstone.api.event.block
 
 import com.github.projectsandstone.api.event.action.InteractEvent
-import com.github.projectsandstone.eventsys.ap.Factory
+import com.github.koresframework.eventsys.ap.Factory
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 

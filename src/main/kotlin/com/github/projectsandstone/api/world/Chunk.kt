@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.world
 
-import com.flowpowered.math.vector.Vector2i
-import com.flowpowered.math.vector.Vector3d
-import com.flowpowered.math.vector.Vector3i
+import org.spongepowered.math.vector.Vector2i
+import org.spongepowered.math.vector.Vector3d
+import org.spongepowered.math.vector.Vector3i
 import com.github.jonathanxd.iutils.text.Text
 import com.github.projectsandstone.api.block.BlockState
 import com.github.projectsandstone.api.entity.Entity
@@ -38,7 +38,7 @@ import com.github.projectsandstone.api.entity.EntityType
 import com.github.projectsandstone.api.util.Source
 import com.github.projectsandstone.api.inventory.ItemStack
 import com.github.projectsandstone.api.text.channel.MessageReceiver
-import com.github.projectsandstone.api.util.extension.flow.math.plus
+import com.github.projectsandstone.api.util.extension.sponge.math.plus
 import com.github.projectsandstone.api.world.extent.Extent
 
 /**

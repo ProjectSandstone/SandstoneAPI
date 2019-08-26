@@ -29,8 +29,8 @@ package com.github.projectsandstone.api.event.init
 
 import com.github.jonathanxd.iutils.annotation.Immutable
 import com.github.projectsandstone.api.world.World
-import com.github.projectsandstone.eventsys.ap.Factory
-import com.github.projectsandstone.eventsys.event.Event
+import com.github.koresframework.eventsys.ap.Factory
+import com.github.koresframework.eventsys.event.Event
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 

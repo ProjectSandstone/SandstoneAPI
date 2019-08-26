@@ -30,7 +30,7 @@ package com.github.projectsandstone.api.event.entity
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableMap
 
-import com.github.projectsandstone.eventsys.ap.Factory
+import com.github.koresframework.eventsys.ap.Factory
 import java.util.function.DoubleUnaryOperator
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS

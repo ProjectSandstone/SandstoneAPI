@@ -27,9 +27,9 @@
  */
 package com.github.projectsandstone.api.event;
 
-import com.github.projectsandstone.eventsys.event.Event;
-import com.github.projectsandstone.eventsys.event.EventListener;
-import com.github.projectsandstone.eventsys.event.EventPriority;
+import com.github.koresframework.eventsys.event.Event;
+import com.github.koresframework.eventsys.event.EventListener;
+import com.github.koresframework.eventsys.event.EventPriority;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -45,7 +45,7 @@ public interface JavaEventListener<T extends Event> extends EventListener<T> {
     }
 
     @Override
-    default int getChannel() {
+    default String getChannel() {
         return EventListener.DefaultImpls.getChannel(this);
     }
 

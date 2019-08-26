@@ -29,10 +29,10 @@ package com.github.projectsandstone.api.event.message
 
 import com.github.jonathanxd.iutils.text.Text
 import com.github.projectsandstone.api.event.player.PlayerEvent
-import com.github.projectsandstone.eventsys.ap.Factory
-import com.github.projectsandstone.eventsys.event.Cancellable
-import com.github.projectsandstone.eventsys.event.Event
-import com.github.projectsandstone.eventsys.event.annotation.Extension
+import com.github.koresframework.eventsys.ap.Factory
+import com.github.koresframework.eventsys.event.Cancellable
+import com.github.koresframework.eventsys.event.Event
+import com.github.koresframework.eventsys.event.annotation.Extension
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 

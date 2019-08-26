@@ -35,12 +35,12 @@ import com.github.projectsandstone.api.event.entity.EntityEvent
 import com.github.projectsandstone.api.event.player.PlayerEvent
 import com.github.projectsandstone.api.event.plugin.PluginEvent
 import com.github.projectsandstone.api.event.world.WorldEvent
-import com.github.projectsandstone.eventsys.event.Event
-import com.github.projectsandstone.eventsys.gen.check.SuppressCapableCheckHandler
-import com.github.projectsandstone.eventsys.gen.event.CommonEventGenerator
-import com.github.projectsandstone.eventsys.gen.event.EventGeneratorOptions
-import com.github.projectsandstone.eventsys.impl.CommonLogger
-import io.github.lukehutch.fastclasspathscanner.FastClasspathScanner
+import com.github.koresframework.eventsys.event.Event
+import com.github.koresframework.eventsys.gen.check.SuppressCapableCheckHandler
+import com.github.koresframework.eventsys.gen.event.CommonEventGenerator
+import com.github.koresframework.eventsys.gen.event.EventGeneratorOptions
+import com.github.koresframework.eventsys.impl.CommonLogger
+import io.github.classgraph.ClassGraph
 import org.junit.Test
 import java.lang.StringBuilder
 import java.lang.reflect.Modifier
@@ -63,7 +63,7 @@ class FactoryTest {
 
         addSuppress(suppressCapable)
 
-        gen.createFactory(SandstoneEventFactory::class.java)
+        gen.createFactory<SandstoneEventFactory>(SandstoneEventFactory::class.java)
 
         val implemented = SandstoneEventFactory::class.java.declaredMethods
                 .filter { !Modifier.isStatic(it.modifiers) }
@@ -71,11 +71,13 @@ class FactoryTest {
                 .toSet()
 
         val missing = mutableListOf<Class<*>>()
-        FastClasspathScanner("com.github.projectsandstone.api.event")
-                .matchSubinterfacesOf(Event::class.java, {
-                    if (!excludedEvents.contains(it) && !implemented.contains(it))
-                        missing.add(it)
-                }).scan()
+        val scan = ClassGraph().enableClassInfo().whitelistPackages("com.github.projectsandstone.api.event").scan()
+
+        scan.getClassesImplementing(Event::class.java.canonicalName).forEach {
+            val it = it.loadClass()
+            if (!excludedEvents.contains(it) && !implemented.contains(it))
+                missing.add(it)
+        }
 
         if (missing.isNotEmpty()) {
             println("Factory function missing for following events: ")

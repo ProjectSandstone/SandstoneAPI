@@ -29,12 +29,13 @@ package com.github.projectsandstone.example.myevent;
 
 import com.github.jonathanxd.iutils.type.TypeInfo;
 import com.github.projectsandstone.api.event.JavaEvent;
-import com.github.projectsandstone.eventsys.event.Event;
-import com.github.projectsandstone.eventsys.event.property.GetterProperty;
-import com.github.projectsandstone.eventsys.event.property.Property;
+import com.github.koresframework.eventsys.event.Event;
+import com.github.koresframework.eventsys.event.property.GetterProperty;
+import com.github.koresframework.eventsys.event.property.Property;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,8 +57,8 @@ public class MyOwnEvent implements JavaEvent {
 
     @NotNull
     @Override
-    public TypeInfo<? extends Event> getEventTypeInfo() {
-        return TypeInfo.of(MyOwnEvent.class);
+    public Type getEventType() {
+        return MyOwnEvent.class;
     }
 
     @NotNull

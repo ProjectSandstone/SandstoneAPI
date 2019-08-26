@@ -36,31 +36,32 @@ jar {
 repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
+    maven { url 'https://repo.spongepowered.org/maven/' }
 }
 
 dependencies {
 
     // Dependency injection
-    compile "com.google.inject:guice:$guice_version"
-    compile "com.google.guava:guava:$guava_version"
+    implementation "com.google.inject:guice:$guice_version"
+    implementation "com.google.guava:guava:$guava_version"
 
     // Utilities
-    compile "com.flowpowered:flow-math:$flowmath_version"
-    compile "com.github.JonathanxD:JwIUtils:$jwiutils_version"
-    compile "com.github.JonathanxD:KWCommands:$kwcommands_version"
-    compile "com.github.JonathanxD:KoresProxy:$koresproxy_version"
-    compile "com.github.ProjectSandstone:EventSys:$eventsys_version"
-    compile "com.google.code.findbugs:jsr305:$jsr305_version"
-    compile "io.github.lukehutch:fast-classpath-scanner:$fastclasspathscanner_version"
+    implementation "com.github.JonathanxD:JwIUtils:$jwiutils_version"
+    implementation "com.github.JonathanxD:KWCommands:$kwcommands_version"
+    implementation "com.github.JonathanxD:KoresProxy:$koresproxy_version"
+    implementation "com.github.koresframework:EventSys:$eventsys_version"
+    implementation "com.google.code.findbugs:jsr305:$jsr305_version"
+    implementation "io.github.lukehutch:fast-classpath-scanner:$fastclasspathscanner_version"
 
     // Logging
-    compile "org.slf4j:slf4j-api:1.7.9"
+    implementation "org.slf4j:slf4j-api:1.7.9"
 
     // Kotlin
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
+    implementation "org.spongepowered:math:$spongemath_version"
 
-    apt "com.github.ProjectSandstone:EventSys:$eventsys_version"
+    //apt "com.github.ProjectSandstone:EventSys:$eventsys_version"
     kapt "com.github.ProjectSandstone:EventSys:$eventsys_version"
 
     // Test
@@ -68,7 +69,13 @@ dependencies {
     testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     // JUnit
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
+}
+
+sourceSets.configureEach { sourceSet ->
+    tasks.named(sourceSet.compileJavaTaskName).configure {
+        options.annotationProcessorGeneratedSourcesDirectory = file("$buildDir/generated/sources/annotationProcessor/java/${sourceSet.name}")
+    }
 }
 
 /*

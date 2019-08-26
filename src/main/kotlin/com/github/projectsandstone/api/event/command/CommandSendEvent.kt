@@ -28,9 +28,9 @@
 package com.github.projectsandstone.api.event.command
 
 import com.github.projectsandstone.api.event.player.PlayerEvent
-import com.github.projectsandstone.eventsys.ap.Factory
-import com.github.projectsandstone.eventsys.event.Event
-import com.github.projectsandstone.eventsys.event.annotation.Extension
+import com.github.koresframework.eventsys.ap.Factory
+import com.github.koresframework.eventsys.event.Event
+import com.github.koresframework.eventsys.event.annotation.Extension
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 
@@ -38,7 +38,7 @@ import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
  * Fired when a command is sent.
  */
 @Factory(FACTORY_CLASS)
-@Factory(value = FACTORY_CLASS, extensions = arrayOf(Extension(implement = PlayerEvent::class)))
+@Factory(value = FACTORY_CLASS, extensions = [Extension(implement = PlayerEvent::class)])
 interface CommandSendEvent : Event {
 
     /**

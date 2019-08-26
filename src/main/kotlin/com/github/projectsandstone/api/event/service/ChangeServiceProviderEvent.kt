@@ -29,8 +29,8 @@ package com.github.projectsandstone.api.event.service
 
 import com.github.jonathanxd.iutils.type.TypeInfo
 import com.github.projectsandstone.api.service.RegisteredProvider
-import com.github.projectsandstone.eventsys.ap.Factory
-import com.github.projectsandstone.eventsys.event.Event
+import com.github.koresframework.eventsys.ap.Factory
+import com.github.koresframework.eventsys.event.Event
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 

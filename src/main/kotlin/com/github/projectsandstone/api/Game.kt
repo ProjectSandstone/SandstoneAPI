@@ -33,7 +33,7 @@ import com.github.projectsandstone.api.registry.Registry
 import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import com.github.projectsandstone.api.util.edition.GameEdition
-import com.github.projectsandstone.eventsys.event.EventManager
+import com.github.koresframework.eventsys.event.EventManager
 import java.nio.file.Path
 
 /**

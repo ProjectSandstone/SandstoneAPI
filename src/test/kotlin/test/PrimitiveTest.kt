@@ -27,7 +27,6 @@
  */
 package test
 
-import com.flowpowered.math.vector.Vector3d
 import com.github.jonathanxd.iutils.kt.classOf
 import com.github.jonathanxd.iutils.kt.typeInfo
 import com.github.jonathanxd.iutils.reflection.Reflection
@@ -46,10 +45,11 @@ import com.github.projectsandstone.api.inventory.Carrier
 import com.github.projectsandstone.api.util.SID
 import com.github.projectsandstone.api.world.Location
 import com.github.projectsandstone.api.world.World
-import com.github.projectsandstone.eventsys.event.Event
-import com.github.projectsandstone.eventsys.gen.event.CommonEventGenerator
-import com.github.projectsandstone.eventsys.impl.CommonLogger
+import com.github.koresframework.eventsys.event.Event
+import com.github.koresframework.eventsys.gen.event.CommonEventGenerator
+import com.github.koresframework.eventsys.impl.CommonLogger
 import org.junit.Assert
+import org.spongepowered.math.vector.Vector3d
 import java.nio.file.Paths
 import java.util.*
 
@@ -58,7 +58,7 @@ fun main(args: Array<String>) {
     val type = typeInfo<MyEvt>()
     Reflection.changeFinalField(classOf<Sandstone>(), null, "sandstonePath_", Paths.get("."))
 
-    val gen = CommonEventGenerator(CommonLogger()).createFactory(MyFactory::class.java).createMyEvt(
+    val gen = CommonEventGenerator(CommonLogger()).createFactory<MyFactory>(MyFactory::class.java).resolve().createMyEvt(
             9.toShort(),
             false,
             10.5F,
@@ -76,7 +76,7 @@ fun main(args: Array<String>) {
 
     val fakePlayer = TestPlayer()
 
-    val iter = CommonEventGenerator(CommonLogger()).createFactory(SandstoneEventFactory::class.java)
+    val iter = CommonEventGenerator(CommonLogger()).createFactory<SandstoneEventFactory>(SandstoneEventFactory::class.java).resolve()
             .createBlockInteractEvent(object : BlockState {
                 override val type: BlockType
                     get() = BlockTypes.BEDROCK

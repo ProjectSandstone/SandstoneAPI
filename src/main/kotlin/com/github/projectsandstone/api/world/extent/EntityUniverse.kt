@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.api.world.extent
 
-import com.flowpowered.math.vector.Vector3d
+import org.spongepowered.math.vector.Vector3d
 import com.github.projectsandstone.api.entity.Entity
 import com.github.projectsandstone.api.entity.EntityBuilder
 import com.github.projectsandstone.api.entity.EntityType

@@ -27,7 +27,7 @@
  */
 package com.github.projectsandstone.example.myevent;
 
-import com.github.projectsandstone.eventsys.event.annotation.Name;
+import com.github.koresframework.eventsys.event.annotation.Name;
 
 public interface MyFactory {
 

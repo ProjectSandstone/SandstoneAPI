@@ -28,13 +28,13 @@
 package com.github.projectsandstone.api.event.player
 
 import com.github.projectsandstone.api.entity.living.player.Player
-import com.github.projectsandstone.eventsys.event.Event
+import com.github.koresframework.eventsys.event.Event
 
 /**
  * Base extension of all events which has a related player.
  *
- * Please note that no one event extend this interface. This interface is dynamically extended at
- * runtime, during event generation.
+ * Please note that no one event extend this interface. This interface is dynamically extended
+ * with [Event extension][com.github.koresframework.eventsys.ap.EventExtension].
  */
 interface PlayerEvent : Event {
 

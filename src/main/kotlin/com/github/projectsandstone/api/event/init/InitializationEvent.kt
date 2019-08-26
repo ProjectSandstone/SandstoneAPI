@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.event.init
 
-import com.github.projectsandstone.eventsys.ap.Factory
-import com.github.projectsandstone.eventsys.event.Event
+import com.github.koresframework.eventsys.ap.Factory
+import com.github.koresframework.eventsys.event.Event
 
 import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
 
@@ -36,7 +36,7 @@ import com.github.projectsandstone.api.event.Constants.FACTORY_CLASS
  * Plugin initialization start, some features is functional, managers is working. In this phase is
  * recommended to:
  *
- * - Register [EventListeners][com.github.projectsandstone.eventsys.event.EventListener].
+ * - Register [EventListeners][com.github.koresframework.eventsys.event.EventListener].
  *
  * - Register Commands
  *

@@ -31,6 +31,7 @@ import com.google.common.util.concurrent.Futures;
 
 import com.github.jonathanxd.iutils.exception.RethrowException;
 import com.github.projectsandstone.api.Sandstone;
+import com.github.koresframework.eventsys.gen.ResolvableDeclaration;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -55,7 +56,7 @@ public class SandstoneEventFactoryCache {
             }
             return instance;
         } else {
-            return instance = Sandstone.getEventManager().getEventGenerator().createFactory(SandstoneEventFactory.class);
+            return instance = Sandstone.getEventManager().getEventGenerator().<SandstoneEventFactory>createFactory(SandstoneEventFactory.class).resolve();
         }
     }
 
@@ -76,7 +77,7 @@ public class SandstoneEventFactoryCache {
 
             return asc;
         } else {
-            return async = Sandstone.getEventManager().getEventGenerator().createFactoryAsync(SandstoneEventFactory.class);
+            return async = Sandstone.getEventManager().getEventGenerator().<SandstoneEventFactory>createFactoryAsync(SandstoneEventFactory.class).thenApply(ResolvableDeclaration::resolve);
         }
     }
 }

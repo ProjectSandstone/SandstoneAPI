@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.util
 
-import com.github.projectsandstone.eventsys.event.property.Property
-import com.github.projectsandstone.eventsys.event.Event
+import com.github.koresframework.eventsys.event.property.Property
+import com.github.koresframework.eventsys.event.Event
 
 /**
  * Event source, the [source] may be a player, a plugin, or a object of any type, events that

@@ -27,8 +27,8 @@
  */
 package com.github.projectsandstone.api.world
 
-import com.flowpowered.math.vector.Vector3d
-import com.flowpowered.math.vector.Vector3i
+import org.spongepowered.math.vector.Vector3d
+import org.spongepowered.math.vector.Vector3i
 import com.github.projectsandstone.api.text.channel.MessageReceiver
 import com.github.projectsandstone.api.util.Identifiable
 import com.github.projectsandstone.api.world.extent.Extent

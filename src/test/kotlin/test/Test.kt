@@ -36,9 +36,9 @@ import com.github.projectsandstone.api.constants.SandstonePlugin
 import com.github.projectsandstone.api.event.service.ChangeServiceProviderEvent
 import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.service.RegisteredProvider
-import com.github.projectsandstone.eventsys.event.annotation.Mutable
-import com.github.projectsandstone.eventsys.gen.event.CommonEventGenerator
-import com.github.projectsandstone.eventsys.impl.CommonLogger
+import com.github.koresframework.eventsys.event.annotation.Mutable
+import com.github.koresframework.eventsys.gen.event.CommonEventGenerator
+import com.github.koresframework.eventsys.impl.CommonLogger
 import com.github.projectsandstone.example.MyService
 import com.github.projectsandstone.example.MyServiceImpl
 import java.nio.file.Paths
@@ -49,7 +49,7 @@ fun main(args: Array<String>) {
 
     Reflection.changeFinalField(classOf<Sandstone>(), null, "sandstonePath_", Paths.get("."))
 
-    val gen = CommonEventGenerator(CommonLogger()).createFactory(MyFct::class.java)
+    val gen = CommonEventGenerator(CommonLogger()).createFactory<MyFct>(MyFct::class.java).resolve()
             .createProvider(TypeInfo.of(MyService::class.java), null, MyProvider, "A")
 
     println("Has int propertyV: ${gen.hasProperty(Int::class.java, "propertyV")}")

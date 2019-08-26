@@ -27,10 +27,10 @@
  */
 package test
 
-import com.flowpowered.math.vector.Vector2i
-import com.github.projectsandstone.api.util.extension.flow.math.rangeTo
+import com.github.projectsandstone.api.util.extension.sponge.math.rangeTo
 import org.junit.Assert
 import org.junit.Test
+import org.spongepowered.math.vector.Vector2i
 
 class RangeTest {
     @Test

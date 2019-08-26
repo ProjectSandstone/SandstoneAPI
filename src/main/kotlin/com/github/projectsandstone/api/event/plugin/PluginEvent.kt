@@ -29,7 +29,7 @@ package com.github.projectsandstone.api.event.plugin
 
 import com.github.projectsandstone.api.plugin.PluginContainer
 import com.github.projectsandstone.api.plugin.PluginManager
-import com.github.projectsandstone.eventsys.event.Event
+import com.github.koresframework.eventsys.event.Event
 
 /**
  * Base event class of all plugin management related events.
