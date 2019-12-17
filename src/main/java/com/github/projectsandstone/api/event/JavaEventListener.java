@@ -30,13 +30,14 @@ package com.github.projectsandstone.api.event;
 import com.github.koresframework.eventsys.event.Event;
 import com.github.koresframework.eventsys.event.EventListener;
 import com.github.koresframework.eventsys.event.EventPriority;
+import com.github.koresframework.eventsys.result.ListenResult;
 
 import org.jetbrains.annotations.NotNull;
 
 public interface JavaEventListener<T extends Event> extends EventListener<T> {
 
     @Override
-    void onEvent(T t, Object owner);
+    ListenResult onEvent(T t, Object owner);
 
     @NotNull
     @Override
@@ -54,4 +55,8 @@ public interface JavaEventListener<T extends Event> extends EventListener<T> {
         return EventListener.DefaultImpls.getIgnoreCancelled(this);
     }
 
+    @Override
+    default boolean getCancelAffected() {
+        return EventListener.DefaultImpls.getCancelAffected(this);
+    }
 }

@@ -56,7 +56,7 @@ public class SandstoneEventFactoryCache {
             }
             return instance;
         } else {
-            return instance = Sandstone.getEventManager().getEventGenerator().<SandstoneEventFactory>createFactory(SandstoneEventFactory.class).resolve();
+            return instance = Sandstone.getEventGenerator().<SandstoneEventFactory>createFactory(SandstoneEventFactory.class).resolve();
         }
     }
 
@@ -77,7 +77,7 @@ public class SandstoneEventFactoryCache {
 
             return asc;
         } else {
-            return async = Sandstone.getEventManager().getEventGenerator().<SandstoneEventFactory>createFactoryAsync(SandstoneEventFactory.class).thenApply(ResolvableDeclaration::resolve);
+            return async = Sandstone.getEventGenerator().<SandstoneEventFactory>createFactoryAsync(SandstoneEventFactory.class).thenApply(ResolvableDeclaration::resolve);
         }
     }
 }

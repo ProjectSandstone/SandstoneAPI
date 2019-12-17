@@ -27,13 +27,15 @@
  */
 package com.github.projectsandstone.api
 
+import com.github.koresframework.eventsys.event.EventListenerRegistry
+import com.github.koresframework.eventsys.event.EventManager
+import com.github.koresframework.eventsys.gen.event.EventGenerator
 import com.github.projectsandstone.api.command.CommandManager
 import com.github.projectsandstone.api.plugin.PluginManager
 import com.github.projectsandstone.api.registry.Registry
 import com.github.projectsandstone.api.scheduler.Scheduler
 import com.github.projectsandstone.api.service.ServiceManager
 import com.github.projectsandstone.api.util.edition.GameEdition
-import com.github.koresframework.eventsys.event.EventManager
 import java.nio.file.Path
 
 /**
@@ -75,6 +77,16 @@ interface Game {
      * *Sandstone* event manager.
      */
     val eventManager: EventManager
+
+    /**
+     * *Sandstone* event class generator.
+     */
+    val eventGenerator: EventGenerator
+
+    /**
+     * *Sandstone* event listener registry.
+     */
+    val eventListenerRegistry: EventListenerRegistry
 
     /**
      * *Sandstone* Command manager

@@ -27,14 +27,17 @@
  */
 package com.github.projectsandstone.example;
 
+import com.github.koresframework.eventsys.result.ListenResult;
 import com.github.projectsandstone.api.event.JavaEventListener;
 import com.github.projectsandstone.api.event.message.MessageEvent;
+
+import kotlin.Unit;
 
 public class MyListener implements JavaEventListener<MessageEvent> {
 
     @Override
-    public void onEvent(MessageEvent messageEvent, Object owner) {
-
+    public ListenResult onEvent(MessageEvent messageEvent, Object owner) {
+        return new ListenResult.Value(Unit.INSTANCE);
     }
 
 

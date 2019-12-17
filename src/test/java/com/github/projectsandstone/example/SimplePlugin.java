@@ -84,12 +84,12 @@ public class SimplePlugin {
     }
 
     private void doEventThings() {
-        MyFactory factory = game.getEventManager().getEventGenerator().<MyFactory>createFactory(MyFactory.class).resolve();
+        MyFactory factory = game.getEventGenerator().<MyFactory>createFactory(MyFactory.class).resolve();
 
         MyEvent myEvent = factory.createMyEvent(new MyObj());
 
-        game.getEventManager().registerListeners(this, new MyListener2());
-        game.getEventManager().registerListener(this, MessageEvent.class, new MyListener());
+        game.getEventListenerRegistry().registerListeners(this, new MyListener2());
+        game.getEventListenerRegistry().registerListener(this, MessageEvent.class, new MyListener());
 
         game.getEventManager().dispatch(new MyOwnEvent(new MyObj()), this);
 
