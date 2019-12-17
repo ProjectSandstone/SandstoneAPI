@@ -37,6 +37,7 @@ repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
     maven { url 'https://repo.spongepowered.org/maven/' }
+    maven { url 'https://dl.bintray.com/kotlin/dokka' }
 }
 
 dependencies {
@@ -65,8 +66,8 @@ dependencies {
     kapt "com.github.ProjectSandstone:EventSys:$eventsys_version"
 
     // Test
-    testCompile "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
-    testCompile "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test:$kotlin_version"
+    testImplementation "org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version"
 
     // JUnit
     testImplementation group: 'junit', name: 'junit', version: '4.12'
@@ -111,7 +112,9 @@ shadowJar {
 dokka {
     outputFormat = 'javadoc'
     outputDirectory = javadoc.destinationDir
-    includes = ['src/main/Module.md']
+    configuration {
+        includes = ['src/main/Module.md']
+    }
 }
 
 kapt {

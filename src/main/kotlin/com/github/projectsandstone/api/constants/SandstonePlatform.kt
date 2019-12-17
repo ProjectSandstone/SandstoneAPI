@@ -28,7 +28,10 @@
 package com.github.projectsandstone.api.constants
 
 import com.github.projectsandstone.api.Platform
+import com.github.projectsandstone.api.feature.Feature
+import com.github.projectsandstone.api.feature.FeatureManager
 import com.github.projectsandstone.api.platform.PlatformObjectConverter
+import com.github.projectsandstone.api.util.dummy
 import com.github.projectsandstone.api.util.version.Version
 
 object SandstonePlatform : Platform {
@@ -50,6 +53,11 @@ object SandstonePlatform : Platform {
     override val platformObjectConverter: PlatformObjectConverter
         get() = SelfPlatformObjectConverter
 
+    override val featureManager: FeatureManager = dummy()
+
     override fun isInternalClass(name: String?): Boolean =
             name?.startsWith("com.github.projectsandstone") == true
+
+    override fun <T : Feature<T>> getFeature(type: Class<T>): Feature<T> =
+            this.featureManager[type]
 }

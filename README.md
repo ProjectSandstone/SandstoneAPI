@@ -45,15 +45,15 @@ Inconsistencies MUST be reported and fixed in the implementation and not in the 
 
 Sandstone provides debug parameters to save generated classes:
 
-| Project     | Parameter                           | Description                                   |
-|:----------- |:-----------------------------------:| ---------------------------------------------:|
-| EventSys    | `eventsys.debug.dir=/save/dir`      | Defines class save directory                  |
-| EventSys    | `eventsys.debug=true`               | Enables global generated class save           |
-| EventSys    | `eventsys.debug.factorygen=true`    | Enables save of factory generated class       |
-| EventSys    | `eventsys.debug.eventgen=true`      | Enables save of event generated class         |
-| EventSys    | `eventsys.debug.listenergen=true`   | Enables save of listener generated class      |
-| EventSys    | `eventsys.debug.directgen=true`     | Enables save of listener generated class      |
-| CodeProxy   | `codeproxy.saveproxies=true`        | Enables save of proxy generated classes       |
+| Project     | Parameter                                           | Description                                   |
+|:----------- |:---------------------------------------------------:| ---------------------------------------------:|
+| EventSys    | `kores.generation.dir.eventsys=/save/dir`           | Defines class save directory                  |
+| EventSys    | `kores.generation.save.eventsys=true`               | Enables global generated class save           |
+| EventSys    | `kores.generation.save.eventsys.factorygen=true`    | Enables save of factory generated class       |
+| EventSys    | `kores.generation.save.eventsys.eventgen=true`      | Enables save of event generated class         |
+| EventSys    | `kores.generation.save.eventsys.listenergen=true`   | Enables save of listener generated class      |
+| EventSys    | `kores.generation.save.eventsys.directgen=true`     | Enables save of listener generated class      |
+| KoresProxy  | `koresproxy.saveproxies=true`                       | Enables save of proxy generated classes       |
 
 
 Sandstone provides debug vm parameters to save all Sandstone generated classes: `-Dsandstone.debug=true`.

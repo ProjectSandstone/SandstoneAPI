@@ -19,5 +19,5 @@ interface FeatureManager {
     /**
      * Gets a provided feature of [type] [T].
      */
-    fun <T: Feature<T>> get(type: Class<T>): Feature<T>
+    operator fun <T: Feature<T>> get(type: Class<T>): Feature<T>
 }
