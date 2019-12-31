@@ -44,7 +44,6 @@ dependencies {
 
     // Dependency injection
     implementation "com.github.JonathanxD:Redin:$redin_version"
-    implementation "com.google.inject:guice:$guice_version"
     implementation "com.google.guava:guava:$guava_version"
 
     // Utilities
