@@ -27,8 +27,6 @@
  */
 package com.github.projectsandstone.example;
 
-import com.google.inject.Inject;
-
 import com.github.jonathanxd.iutils.text.Text;
 import com.github.projectsandstone.api.Game;
 import com.github.projectsandstone.api.Sandstone;
@@ -63,6 +61,8 @@ import org.slf4j.Logger;
 
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+import javax.inject.Inject;
 
 @Plugin(id = "com.github.projectsandstone.example", version = "1.0.0")
 public class SimplePlugin {

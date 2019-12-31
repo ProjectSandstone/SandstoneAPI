@@ -27,8 +27,6 @@
  */
 package com.github.projectsandstone.example.commands;
 
-import com.google.inject.Inject;
-
 import com.github.jonathanxd.iutils.collection.Collections3;
 import com.github.jonathanxd.iutils.text.Text;
 import com.github.jonathanxd.kwcommands.argument.StaticListArguments;
@@ -43,6 +41,8 @@ import com.github.projectsandstone.api.plugin.Plugin;
 import com.github.koresframework.eventsys.event.annotation.Listener;
 
 import org.slf4j.Logger;
+
+import javax.inject.Inject;
 
 import kotlin.Unit;
 

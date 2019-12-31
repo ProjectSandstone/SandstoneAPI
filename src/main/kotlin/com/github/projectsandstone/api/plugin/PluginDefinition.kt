@@ -28,14 +28,13 @@
 package com.github.projectsandstone.api.plugin
 
 import com.github.projectsandstone.api.util.version.Version
-import com.google.inject.Injector
 import org.slf4j.Logger
 import java.nio.file.Path
 
 /**
  * Mutable [PluginContainer], changes of this instance will be reflected in [PluginContainer],
  *
- * These changes is only reflected during instance definition ([Injector.getInstance]).
+ * These changes is only reflected during instance definition.
  */
 interface PluginDefinition {
 
